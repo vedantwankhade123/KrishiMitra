@@ -44,10 +44,10 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-secondary/20">
       <Header />
       <main className="flex-1 flex flex-col container mx-auto w-full max-w-4xl py-8">
-        <div className="flex-1 pb-24">
+        <div className="flex-1 pb-40">
           <CropResults
             loading={loading}
             error={error}
@@ -55,8 +55,8 @@ export default function Home() {
             formInputs={formInputs}
           />
         </div>
-        <div className="fixed bottom-0 left-0 right-0 bg-background/80 backdrop-blur-sm">
-          <div className="container mx-auto max-w-4xl px-4 py-4">
+        <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-background via-background/90 to-transparent">
+          <div className="container mx-auto max-w-4xl px-4 pt-8 pb-4">
             <PromptForm
               onSubmit={handleGetRecommendations}
               disabled={loading}

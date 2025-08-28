@@ -18,32 +18,37 @@ type CropResultsProps = {
 
 function LoadingSkeleton() {
   return (
-    <div className="space-y-8">
+    <div className="space-y-8 animate-pulse">
       <Card>
         <CardHeader>
-          <Skeleton className="h-6 w-1/4" />
+          <Skeleton className="h-7 w-1/3" />
         </CardHeader>
-        <CardContent className="space-y-2">
+        <CardContent className="space-y-3">
           <Skeleton className="h-4 w-full" />
           <Skeleton className="h-4 w-full" />
-          <Skeleton className="h-4 w-3/4" />
+          <Skeleton className="h-4 w-5/6" />
         </CardContent>
       </Card>
-      <Skeleton className="h-64 w-full" />
+      <Skeleton className="h-80 w-full rounded-lg" />
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {[...Array(3)].map((_, i) => (
           <Card key={i}>
             <CardHeader>
-              <Skeleton className="h-6 w-1/2" />
-              <Skeleton className="h-4 w-1/4" />
+              <div className="flex items-center gap-4">
+                <Skeleton className="h-16 w-16 rounded-full" />
+                <div className="space-y-2">
+                  <Skeleton className="h-6 w-32" />
+                  <Skeleton className="h-4 w-24" />
+                </div>
+              </div>
             </CardHeader>
-            <CardContent className="space-y-3">
-              <Skeleton className="h-4 w-3/4" />
-              <Skeleton className="h-4 w-3/4" />
-              <Skeleton className="h-4 w-3/4" />
+            <CardContent className="space-y-4">
+              <Skeleton className="h-5 w-3/4" />
+              <Skeleton className="h-5 w-3/4" />
+              <Skeleton className="h-5 w-3/4" />
             </CardContent>
             <CardFooter>
-              <Skeleton className="h-9 w-full" />
+              <Skeleton className="h-10 w-full" />
             </CardFooter>
           </Card>
         ))}
@@ -59,8 +64,8 @@ export function CropResults({ loading, error, result, formInputs }: CropResultsP
 
   if (error) {
     return (
-      <Alert variant="destructive" className="bg-destructive/10">
-        <AlertTitle className="font-headline">Error</AlertTitle>
+      <Alert variant="destructive" className="bg-destructive/10 border-destructive/30">
+        <AlertTitle className="font-headline text-lg">Error</AlertTitle>
         <AlertDescription>{error}</AlertDescription>
       </Alert>
     );
@@ -68,31 +73,31 @@ export function CropResults({ loading, error, result, formInputs }: CropResultsP
 
   if (!result) {
     return (
-      <div className="flex h-[60vh] flex-col items-center justify-center rounded-lg border border-dashed text-center">
-        <Sprout className="h-16 w-16 text-muted-foreground/50 mb-4" />
-        <h3 className="font-headline text-2xl font-semibold">Ready to grow?</h3>
-        <p className="text-muted-foreground">
-          Fill out your farm's data to get personalized crop recommendations.
+      <div className="flex h-[65vh] flex-col items-center justify-center rounded-lg border-2 border-dashed text-center p-8">
+        <Sprout className="h-20 w-20 text-muted-foreground/30 mb-6" />
+        <h3 className="font-headline text-3xl font-bold tracking-tight">Ready to grow?</h3>
+        <p className="text-muted-foreground mt-2 max-w-md">
+          Describe your farm's conditions and goals below, or select a suggestion to get personalized crop recommendations from our AI.
         </p>
       </div>
     );
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-10">
       <div>
-        <h2 className="font-headline text-3xl font-bold mb-2 text-primary">
+        <h2 className="font-headline text-4xl font-bold mb-2 text-primary tracking-tight">
           AI Recommendations
         </h2>
-        <p className="text-muted-foreground">Based on the data you provided, here are the top crop suggestions.</p>
+        <p className="text-lg text-muted-foreground">Based on the data you provided, here are your top crop suggestions.</p>
       </div>
 
-      <Card className="bg-primary/5 border-primary/20">
+      <Card className="bg-primary/5 border-primary/20 shadow-sm">
         <CardHeader>
-          <CardTitle className="font-headline text-primary">AI Summary</CardTitle>
+          <CardTitle className="font-headline text-xl text-primary">AI Summary</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-primary/90">{result.summary}</p>
+          <p className="text-primary/90 leading-relaxed">{result.summary}</p>
         </CardContent>
       </Card>
 
@@ -100,7 +105,7 @@ export function CropResults({ loading, error, result, formInputs }: CropResultsP
         <ResultsChart data={result.crops} />
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
+      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
         {result.crops.length > 0 ? (
           result.crops.map(crop => (
             <CropCard key={crop.name} crop={crop} formInputs={formInputs} />

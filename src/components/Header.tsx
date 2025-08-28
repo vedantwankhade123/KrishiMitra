@@ -11,18 +11,18 @@ import {
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center">
         <div className="mr-4 flex items-center">
           <Leaf className="h-8 w-8 text-primary" />
-          <span className="ml-2 font-headline text-2xl font-bold">
+          <span className="ml-2 font-headline text-2xl font-bold tracking-tight">
             AgriAssist AI
           </span>
         </div>
         <div className="flex flex-1 items-center justify-end space-x-2">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon">
+              <Button variant="ghost" size="icon" aria-label="Select language">
                 <Globe className="h-[1.2rem] w-[1.2rem]" />
                 <span className="sr-only">Select language</span>
               </Button>
