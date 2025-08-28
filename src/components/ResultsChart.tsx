@@ -25,14 +25,14 @@ const chartConfig = {
   },
 } satisfies ChartConfig;
 
-const axisConfig = {
-    yield: { label: "Yield", unit: (data[0]?.yieldUnit || 'units') },
-    profit: { label: "Profit", unit: `$` },
-    sustainability: { label: "Score", unit: "/10" },
-}
-
 export function ResultsChart({ data }: ResultsChartProps) {
   const [metric, setMetric] = useState<ChartMetric>('yield');
+
+  const axisConfig = {
+      yield: { label: "Yield", unit: (data[0]?.yieldUnit || 'units') },
+      profit: { label: "Profit", unit: `$` },
+      sustainability: { label: "Score", unit: "/10" },
+  }
 
   if (data.length === 0) {
     return null;
