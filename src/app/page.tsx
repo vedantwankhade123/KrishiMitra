@@ -14,6 +14,8 @@ export default function Home() {
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<RecommendationResult | null>(null);
   const [formInputs, setFormInputs] = useState<OptimalCropsInput | null>(null);
+  const [lastPrompt, setLastPrompt] = useState<string>('');
+
   const { toast } = useToast();
 
   const handleGetRecommendations = async (prompt: string) => {
@@ -21,6 +23,7 @@ export default function Home() {
     setError(null);
     setResult(null);
     setFormInputs(null);
+    setLastPrompt(prompt);
     try {
       const { recommendation, parsedInput } = await getRecommendationsFromPrompt(prompt);
       setFormInputs(parsedInput);
@@ -44,19 +47,21 @@ export default function Home() {
   };
 
   return (
-    <div className="flex flex-col min-h-screen bg-secondary/20">
+    <div className="flex flex-col min-h-screen">
       <Header />
-      <main className="flex-1 flex flex-col container mx-auto w-full max-w-4xl py-8">
+      <main className="flex-1 flex flex-col container mx-auto w-full max-w-2xl py-8">
         <div className="flex-1 pb-40">
           <CropResults
             loading={loading}
             error={error}
             result={result}
             formInputs={formInputs}
+            lastPrompt={lastPrompt}
+            onSuggestionClick={handleGetRecommendations}
           />
         </div>
-        <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-background via-background/90 to-transparent">
-          <div className="container mx-auto max-w-4xl px-4 pt-8 pb-4">
+        <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-background via-background/80 to-transparent">
+          <div className="container mx-auto max-w-2xl px-4 pt-8 pb-4">
             <PromptForm
               onSubmit={handleGetRecommendations}
               disabled={loading}

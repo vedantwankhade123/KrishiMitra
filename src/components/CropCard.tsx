@@ -11,7 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Sprout, DollarSign, BarChart, Info, Leaf } from "lucide-react";
+import { Sprout, DollarSign, BarChart, Info, Leaf, TrendingUp } from "lucide-react";
 import { RecommendationExplainer } from "@/components/RecommendationExplainer";
 
 type CropCardProps = {
@@ -21,35 +21,34 @@ type CropCardProps = {
 
 export function CropCard({ crop, formInputs }: CropCardProps) {
   return (
-    <Card className="flex flex-col transition-all duration-300 hover:shadow-lg hover:-translate-y-1 focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2">
+    <Card className="flex flex-col transition-all duration-300 bg-card/50 backdrop-blur-sm border-primary/10 hover:border-primary/30">
       <CardHeader>
-        <div className="flex items-center gap-4">
-          <div className="bg-primary/10 p-4 rounded-full">
-            <Sprout className="h-8 w-8 text-primary" />
+        <div className="flex items-center gap-3">
+          <div className="bg-primary/10 p-3 rounded-lg">
+            <Sprout className="h-6 w-6 text-primary" />
           </div>
           <div>
-            <CardTitle className="font-headline text-2xl tracking-tight">{crop.name}</CardTitle>
-            <CardDescription>Predicted Performance</CardDescription>
+            <CardTitle className="font-bold text-lg">{crop.name}</CardTitle>
           </div>
         </div>
       </CardHeader>
-      <CardContent className="flex-grow space-y-4">
+      <CardContent className="flex-grow space-y-3 text-sm">
         <div className="flex items-start">
-          <BarChart className="h-5 w-5 mr-3 mt-0.5 text-accent flex-shrink-0" />
+          <TrendingUp className="h-4 w-4 mr-3 mt-0.5 text-accent flex-shrink-0" />
           <div>
             <span className="font-semibold mr-2">Yield:</span>
             <span>{crop.yield.toFixed(1)} {crop.yieldUnit}</span>
           </div>
         </div>
         <div className="flex items-start">
-          <DollarSign className="h-5 w-5 mr-3 mt-0.5 text-accent flex-shrink-0" />
+          <DollarSign className="h-4 w-4 mr-3 mt-0.5 text-accent flex-shrink-0" />
           <div>
             <span className="font-semibold mr-2">Profit Margin:</span>
             <span>~${crop.profit.toFixed(0)} / {crop.profitUnit.split('/')[1] || 'acre'}</span>
           </div>
         </div>
         <div className="flex items-start">
-          <Leaf className="h-5 w-5 mr-3 mt-0.5 text-accent flex-shrink-0" />
+          <Leaf className="h-4 w-4 mr-3 mt-0.5 text-accent flex-shrink-0" />
           <div>
             <span className="font-semibold mr-2">Sustainability:</span>
             <span className="font-bold">{crop.sustainability}/10</span>
@@ -58,9 +57,9 @@ export function CropCard({ crop, formInputs }: CropCardProps) {
       </CardContent>
       <CardFooter>
         <RecommendationExplainer cropName={crop.name} formInputs={formInputs}>
-          <Button variant="outline" className="w-full">
+          <Button variant="ghost" size="sm" className="w-full text-muted-foreground hover:bg-primary/10 hover:text-primary">
             <Info className="mr-2 h-4 w-4" />
-            See Why
+            Why was this recommended?
           </Button>
         </RecommendationExplainer>
       </CardFooter>

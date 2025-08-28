@@ -63,14 +63,14 @@ export function RecommendationExplainer({
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="sm:max-w-[525px]">
+      <DialogContent className="sm:max-w-[525px] bg-card border-primary/20">
         <DialogHeader>
-          <DialogTitle className="font-headline text-2xl">Why {cropName}?</DialogTitle>
+          <DialogTitle className="font-bold text-2xl">Why {cropName}?</DialogTitle>
           <DialogDescription>
             An AI-generated summary of the key factors behind this recommendation.
           </DialogDescription>
         </DialogHeader>
-        <div className="py-4">
+        <div className="py-4 text-sm max-h-[60vh] overflow-y-auto">
           {loading && (
             <div className="space-y-2">
               <Skeleton className="h-4 w-full" />
@@ -84,7 +84,7 @@ export function RecommendationExplainer({
               <AlertDescription>{error}</AlertDescription>
             </Alert>
           )}
-          {explanation && <p className="text-sm text-muted-foreground">{explanation}</p>}
+          {explanation && <p className="text-muted-foreground leading-relaxed">{explanation}</p>}
         </div>
         <DialogFooter>
             <DialogClose asChild>
