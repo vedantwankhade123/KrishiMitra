@@ -1,13 +1,14 @@
 'use client';
 
-import type { OptimalCropsInput } from '@/ai/flows/optimal-crop-recommendation';
 import { useState } from 'react';
 import { Header } from '@/components/Header';
-import { CropRecommendationForm } from '@/components/CropRecommendationForm';
+import { PromptForm } from '@/components/PromptForm';
 import { CropResults } from '@/components/CropResults';
 import type { RecommendationResult } from '@/lib/types';
-import { getRecommendations } from '@/app/actions';
+import { getRecommendationsFromPrompt } from '@/app/actions';
 import { useToast } from '@/hooks/use-toast';
+import type { OptimalCropsInput } from '@/ai/schemas';
+
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
@@ -16,15 +17,16 @@ export default function Home() {
   const [formInputs, setFormInputs] = useState<OptimalCropsInput | null>(null);
   const { toast } = useToast();
 
-  const handleGetRecommendations = async (data: OptimalCropsInput) => {
+  const handleGetRecommendations = async (prompt: string) => {
     setLoading(true);
     setError(null);
     setResult(null);
-    setFormInputs(data);
+    setFormInputs(null); 
     try {
-      const recommendation = await getRecommendations(data);
+      const { recommendation, parsedInput } = await getRecommendationsFromPrompt(prompt);
+      setFormInputs(parsedInput);
       if (recommendation.crops.length === 0) {
-        setError("The AI couldn't find any suitable crops based on the provided data. Please try adjusting the inputs.");
+        setError("The AI couldn't find any suitable crops based on your prompt. Please try adjusting the inputs.");
       } else {
         setResult(recommendation);
       }
@@ -49,9 +51,9 @@ export default function Home() {
           <aside className="lg:col-span-1">
             <div className="sticky top-20">
               <h1 className="font-headline text-3xl font-bold mb-6 text-primary">
-                Your Farm Data
+                Get Crop Recommendations
               </h1>
-              <CropRecommendationForm
+              <PromptForm
                 onSubmit={handleGetRecommendations}
                 disabled={loading}
               />

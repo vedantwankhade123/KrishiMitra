@@ -1,6 +1,6 @@
 'use client';
 
-import type { OptimalCropsInput } from "@/ai/flows/optimal-crop-recommendation";
+import type { OptimalCropsInput } from "@/ai/schemas";
 import type { CropData } from "@/lib/types";
 import { Button } from "@/components/ui/button";
 import {

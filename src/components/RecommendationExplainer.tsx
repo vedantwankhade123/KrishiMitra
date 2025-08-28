@@ -1,6 +1,6 @@
 'use client';
 
-import type { OptimalCropsInput } from '@/ai/flows/optimal-crop-recommendation';
+import type { OptimalCropsInput } from '@/ai/schemas';
 import { useState, type ReactNode } from 'react';
 import { Button } from '@/components/ui/button';
 import {

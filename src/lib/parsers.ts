@@ -1,4 +1,4 @@
-import type { OptimalCropsOutput } from "@/ai/flows/optimal-crop-recommendation";
+import type { OptimalCropsOutput } from "@/ai/schemas";
 import type { CropData, RecommendationResult } from "@/lib/types";
 
 // These regex patterns are designed to be flexible with the AI's output format.

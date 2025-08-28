@@ -1,14 +1,12 @@
 'use client';
 
-import type { OptimalCropsInput } from "@/ai/flows/optimal-crop-recommendation";
+import type { OptimalCropsInput } from "@/ai/schemas";
 import type { RecommendationResult } from "@/lib/types";
-import { useState, useMemo } from 'react';
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { CropCard } from "@/components/CropCard";
 import { ResultsChart } from "@/components/ResultsChart";
-import { FilterControls } from "@/components/FilterControls";
 import { Sprout } from "lucide-react";
 
 type CropResultsProps = {
@@ -31,7 +29,6 @@ function LoadingSkeleton() {
           <Skeleton className="h-4 w-3/4" />
         </CardContent>
       </Card>
-      <Skeleton className="h-40 w-full" />
       <Skeleton className="h-64 w-full" />
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {[...Array(3)].map((_, i) => (
@@ -56,26 +53,6 @@ function LoadingSkeleton() {
 }
 
 export function CropResults({ loading, error, result, formInputs }: CropResultsProps) {
-  const [filters, setFilters] = useState({ yield: 0, profit: 0, sustainability: 0 });
-
-  const maxValues = useMemo(() => {
-    if (!result || result.crops.length === 0) return { yield: 10, profit: 1000, sustainability: 10 };
-    return {
-      yield: Math.max(...result.crops.map(c => c.yield), 0),
-      profit: Math.max(...result.crops.map(c => c.profit), 0),
-      sustainability: 10,
-    };
-  }, [result]);
-
-  const filteredCrops = useMemo(() => {
-    if (!result) return [];
-    return result.crops.filter(crop =>
-      crop.yield >= filters.yield &&
-      crop.profit >= filters.profit &&
-      crop.sustainability >= filters.sustainability
-    );
-  }, [result, filters]);
-
   if (loading) {
     return <LoadingSkeleton />;
   }
@@ -120,18 +97,17 @@ export function CropResults({ loading, error, result, formInputs }: CropResultsP
       </Card>
 
       <div className="space-y-8">
-        <FilterControls filters={filters} setFilters={setFilters} maxValues={maxValues} />
-        <ResultsChart data={filteredCrops} />
+        <ResultsChart data={result.crops} />
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
-        {filteredCrops.length > 0 ? (
-          filteredCrops.map(crop => (
+        {result.crops.length > 0 ? (
+          result.crops.map(crop => (
             <CropCard key={crop.name} crop={crop} formInputs={formInputs} />
           ))
         ) : (
           <p className="text-muted-foreground md:col-span-2 lg:col-span-3 text-center py-8">
-            No crops match the current filter settings.
+            No crops were recommended. Try adjusting your prompt.
           </p>
         )}
       </div>
