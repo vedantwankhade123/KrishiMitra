@@ -12,14 +12,20 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
-import { Card, CardContent, CardFooter, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Loader2 } from 'lucide-react';
+import { Loader2, ArrowUp } from 'lucide-react';
 
 const formSchema = z.object({
-  prompt: z.string().min(20, "Please provide a more detailed description."),
+  prompt: z.string().min(10, "Please provide a more detailed description."),
 });
 
-const defaultValue = `My farm has soil with a pH of 6.5 and medium moisture, rich in phosphorus. The weather forecast predicts an average temperature of 25°C with 300mm of rain. I've previously grown corn and soybeans. Corn prices are high, while soybeans are stable. I'm looking for high-yield, profitable crops.`;
+const defaultPromptValue = `My farm has soil with a pH of 6.5 and medium moisture, rich in phosphorus. The weather forecast predicts an average temperature of 25°C with 300mm of rain. I've previously grown corn and soybeans. Corn prices are high, while soybeans are stable. I'm looking for high-yield, profitable crops.`;
+
+const suggestionPrompts = [
+    "I have sandy loam soil and want to maximize profit.",
+    "Show me drought-resistant crops for clay soil.",
+    "What can I plant to improve soil nitrogen?",
+    "Recommend crops for a short, cool growing season."
+]
 
 type PromptFormProps = {
   onSubmit: (prompt: string) => void;
@@ -33,50 +39,67 @@ export function PromptForm({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      prompt: defaultValue,
+      prompt: '',
     },
   });
 
   const handleSubmit = (data: z.infer<typeof formSchema>) => {
     onSubmit(data.prompt);
+    form.reset({ prompt: '' });
+  }
+
+  const handleSuggestionClick = (suggestion: string) => {
+    form.setValue('prompt', suggestion);
+    form.handleSubmit(handleSubmit)();
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(handleSubmit)}>
-        <Card>
-           <CardHeader>
-            <CardTitle>Describe Your Farm & Goals</CardTitle>
-            <CardDescription>
-              Provide details about your farm's conditions and what you want to achieve. The more detail you provide, the better the recommendations.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
+    <div className="space-y-4">
+        <div className="flex flex-wrap items-center justify-center gap-2">
+            {suggestionPrompts.map(prompt => (
+                <Button key={prompt} variant="outline" size="sm" onClick={() => handleSuggestionClick(prompt)} disabled={disabled}>
+                    {prompt}
+                </Button>
+            ))}
+        </div>
+        <Form {...form}>
+        <form onSubmit={form.handleSubmit(handleSubmit)} className="relative">
             <FormField
-              control={form.control}
-              name="prompt"
-              render={({ field }) => (
+            control={form.control}
+            name="prompt"
+            render={({ field }) => (
                 <FormItem>
-                  <FormControl>
+                <FormControl>
                     <Textarea
-                      placeholder="e.g., Describe soil, weather, crop history, and goals like 'maximize profit' or 'improve soil health'..."
-                      className="resize-none min-h-[250px]"
-                      {...field}
+                    placeholder="Describe your farm and goals, or select a suggestion above..."
+                    className="resize-none pr-20 min-h-[52px]"
+                    {...field}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter' && !e.shiftKey) {
+                            e.preventDefault();
+                            form.handleSubmit(handleSubmit)();
+                        }
+                    }}
                     />
-                  </FormControl>
-                  <FormMessage />
+                </FormControl>
+                <FormMessage className="absolute -top-8 left-0" />
                 </FormItem>
-              )}
+            )}
             />
-          </CardContent>
-          <CardFooter>
-            <Button type="submit" className="w-full bg-primary hover:bg-primary/90" disabled={disabled}>
-              {disabled && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-              {disabled ? 'Analyzing...' : 'Get Recommendations'}
+            <Button 
+                type="submit" 
+                size="icon" 
+                className="absolute right-3 top-1/2 -translate-y-1/2 bg-primary hover:bg-primary/90" 
+                disabled={disabled || !form.watch('prompt')}
+            >
+                {disabled ? <Loader2 className="h-4 w-4 animate-spin" /> : <ArrowUp className="h-4 w-4" />}
+                <span className="sr-only">Get Recommendations</span>
             </Button>
-          </CardFooter>
-        </Card>
-      </form>
-    </Form>
+        </form>
+        </Form>
+        <p className="text-xs text-center text-muted-foreground">
+          AgriAssist AI can make mistakes. Consider verifying important information.
+        </p>
+    </div>
   );
 }

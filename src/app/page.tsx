@@ -9,7 +9,6 @@ import { getRecommendationsFromPrompt } from '@/app/actions';
 import { useToast } from '@/hooks/use-toast';
 import type { OptimalCropsInput } from '@/ai/schemas';
 
-
 export default function Home() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -21,12 +20,13 @@ export default function Home() {
     setLoading(true);
     setError(null);
     setResult(null);
-    setFormInputs(null); 
+    setFormInputs(null);
     try {
       const { recommendation, parsedInput } = await getRecommendationsFromPrompt(prompt);
       setFormInputs(parsedInput);
       if (recommendation.crops.length === 0) {
         setError("The AI couldn't find any suitable crops based on your prompt. Please try adjusting the inputs.");
+        setResult(null);
       } else {
         setResult(recommendation);
       }
@@ -46,25 +46,20 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
-      <main className="flex-1 container mx-auto p-4 md:p-8">
-        <div className="grid gap-12 lg:grid-cols-3">
-          <aside className="lg:col-span-1">
-            <div className="sticky top-20">
-              <h1 className="font-headline text-3xl font-bold mb-6 text-primary">
-                Get Crop Recommendations
-              </h1>
-              <PromptForm
-                onSubmit={handleGetRecommendations}
-                disabled={loading}
-              />
-            </div>
-          </aside>
-          <div className="lg:col-span-2">
-            <CropResults
-              loading={loading}
-              error={error}
-              result={result}
-              formInputs={formInputs}
+      <main className="flex-1 flex flex-col container mx-auto w-full max-w-4xl py-8">
+        <div className="flex-1 pb-24">
+          <CropResults
+            loading={loading}
+            error={error}
+            result={result}
+            formInputs={formInputs}
+          />
+        </div>
+        <div className="fixed bottom-0 left-0 right-0 bg-background/80 backdrop-blur-sm">
+          <div className="container mx-auto max-w-4xl px-4 py-4">
+            <PromptForm
+              onSubmit={handleGetRecommendations}
+              disabled={loading}
             />
           </div>
         </div>
