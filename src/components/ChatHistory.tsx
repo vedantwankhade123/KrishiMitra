@@ -189,10 +189,10 @@ export function ChatHistory() {
                                         onClick={(e) => e.stopPropagation()}
                                     />
                                     <div className='flex items-center'>
-                                        <Button variant="ghost" size="icon" className="h-7 w-7 rounded-full" onClick={(e) => { e.stopPropagation(); handleRenameConfirm(chat.id); }}>
+                                        <Button variant="ghost" size="icon" className="h-7 w-7 rounded-full hover:bg-green-500/10" onClick={(e) => { e.stopPropagation(); handleRenameConfirm(chat.id); }}>
                                             <Check className="h-4 w-4 text-green-500" />
                                         </Button>
-                                        <Button variant="ghost" size="icon" className="h-7 w-7 rounded-full" onClick={(e) => { e.stopPropagation(); handleRenameCancel(chat.id); }}>
+                                        <Button variant="ghost" size="icon" className="h-7 w-7 rounded-full hover:bg-red-500/10" onClick={(e) => { e.stopPropagation(); handleRenameCancel(chat.id); }}>
                                             <X className="h-4 w-4 text-red-500" />
                                         </Button>
                                     </div>
