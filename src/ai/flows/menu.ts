@@ -60,14 +60,14 @@ const menuFlow = ai.defineFlow(
       tools: [recommendOptimalCropsTool],
     });
 
-    const toolChoice = llmResponse.choices[0].tool?.name;
-    const textResponse = llmResponse.text();
-    if (toolChoice === 'recommendOptimalCrops') {
-      const toolResult = await llmResponse.choices[0].tool!.call();
+    const toolRequest = llmResponse.toolRequest;
+    const textResponse = llmResponse.text;
+    if (toolRequest?.name === 'recommendOptimalCrops') {
+      const toolResult = await toolRequest.call();
       return {
         toolRecommended: true,
         response: textResponse,
-        structuredOutput: toolResult.output as OptimalCropsOutput,
+        structuredOutput: toolResult as OptimalCropsOutput,
       };
     } else {
       return {
