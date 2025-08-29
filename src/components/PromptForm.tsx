@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useForm } from 'react-hook-form';
@@ -53,41 +54,46 @@ export function PromptForm({
   const [attachment, setAttachment] = useState<Attachment | null>(null);
 
   useEffect(() => {
-    let currentPromptIndex = 0;
-    let currentText = '';
-    let isDeleting = false;
-    let timeoutId: NodeJS.Timeout;
-
     const type = () => {
-      const fullPrompt = placeholderPrompts[currentPromptIndex];
-      const typingSpeed = isDeleting ? 50 : 100;
+      let currentPromptIndex = 0;
+      let currentText = '';
+      let isDeleting = false;
+      let timeoutId: NodeJS.Timeout;
 
-      if (isDeleting) {
-        currentText = fullPrompt.substring(0, currentText.length - 1);
-      } else {
-        currentText = fullPrompt.substring(0, currentText.length + 1);
-      }
+      const typeAnimation = () => {
+          const fullPrompt = placeholderPrompts[currentPromptIndex];
+          const typingSpeed = isDeleting ? 50 : 100;
 
-      setPlaceholder(currentText + ' ');
+          if (isDeleting) {
+              currentText = fullPrompt.substring(0, currentText.length - 1);
+          } else {
+              currentText = fullPrompt.substring(0, currentText.length + 1);
+          }
 
-      let nextTypingSpeed = typingSpeed;
+          setPlaceholder(currentText + ' ');
 
-      if (!isDeleting && currentText === fullPrompt) {
-        nextTypingSpeed = 2000; // Pause at end
-        isDeleting = true;
-      } else if (isDeleting && currentText === '') {
-        isDeleting = false;
-        currentPromptIndex = (currentPromptIndex + 1) % placeholderPrompts.length;
-        nextTypingSpeed = 500; // Pause before new prompt
-      }
+          let nextTypingSpeed = typingSpeed;
 
-      timeoutId = setTimeout(type, nextTypingSpeed);
+          if (!isDeleting && currentText === fullPrompt) {
+              nextTypingSpeed = 2000; // Pause at end
+              isDeleting = true;
+          } else if (isDeleting && currentText === '') {
+              isDeleting = false;
+              currentPromptIndex = (currentPromptIndex + 1) % placeholderPrompts.length;
+              nextTypingSpeed = 500; // Pause before new prompt
+          }
+          timeoutId = setTimeout(typeAnimation, nextTypingSpeed);
+      };
+
+      timeoutId = setTimeout(typeAnimation, 1000); // Initial delay
+      
+      return () => clearTimeout(timeoutId);
     };
 
-    timeoutId = setTimeout(type, 1000); // Initial delay
-
-    return () => clearTimeout(timeoutId);
+    const cleanup = type();
+    return cleanup;
   }, [placeholderPrompts]);
+
 
   useEffect(() => {
     const transcribe = async () => {
