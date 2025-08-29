@@ -120,7 +120,7 @@ export default function LandingPage() {
                         </ul>
                     </div>
                     <div>
-                        <Image src="https://picsum.photos/seed/farm-features/800/1000" alt="Farmer using a tablet in a field" width={800} height={1000} className="rounded-3xl object-cover aspect-[4/5]" data-ai-hint="farmer tablet field" />
+                        <Image src="https://picsum.photos/seed/farm-features/800/800" alt="Farmer using a tablet in a field" width={800} height={800} className="rounded-3xl object-cover aspect-square" data-ai-hint="farmer tablet field" />
                     </div>
                 </div>
             </div>
