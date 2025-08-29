@@ -47,6 +47,7 @@ const prompt = ai.definePrompt({
   - Use headings for sections.
   - Use bold text for emphasis.
   - Use bullet points for lists.
+  - If making any comparisons, use Markdown tables to display the data clearly.
 `,
 });
 
