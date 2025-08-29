@@ -56,13 +56,16 @@ const menuFlow = ai.defineFlow(
   },
   async ({ prompt, language, imageUrl }) => {
 
-    const llmPrompt = [
-        {text: `You are an expert AI assistant for farmers.
-      If the user is asking for a recommendation, use the recommendOptimalCrops tool.
-      Otherwise, simply answer their question.
-      Respond in the following language: ${language}.
-      USER_PROMPT: ${prompt}`}
-    ];
+    const systemPrompt = `You are an expert AI assistant for farmers. Your primary goal is to provide crop recommendations.
+
+- If the user provides a text prompt asking for a recommendation, use the \`recommendOptimalCrops\` tool.
+- If the user provides only an image and no text prompt, describe the image.
+- For any other general questions, provide a helpful answer without using tools.
+
+You must respond in the following language: ${language}.
+USER_PROMPT: ${prompt || '(No text prompt provided)'}`;
+
+    const llmPrompt = [{ text: systemPrompt }];
 
     if (imageUrl) {
         llmPrompt.push({media: {url: imageUrl}});
