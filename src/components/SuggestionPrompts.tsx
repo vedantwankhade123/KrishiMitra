@@ -9,6 +9,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { useTranslation } from "@/hooks/useTranslation";
+import { Badge } from "@/components/ui/badge";
 
 type SuggestionPromptsProps = {
     onSuggestionClick: (prompt: string) => void;
@@ -18,7 +19,7 @@ type SuggestionPromptsProps = {
 export function SuggestionPrompts({ onSuggestionClick }: SuggestionPromptsProps) {
     const { t } = useTranslation();
     const suggestionPrompts = t('suggestions', { returnObjects: true }) as { title: string, prompt: string }[];
-    const icons = [<Sprout/>, <BrainCircuit/>, <Sprout/>, <Sprout/>, <BrainCircuit/>];
+    const icons = [<Sprout size={14}/>, <BrainCircuit size={14}/>, <Sprout size={14}/>, <Sprout size={14}/>, <BrainCircuit size={14}/>];
 
     return (
         <div className="mb-4 px-10">
@@ -30,14 +31,16 @@ export function SuggestionPrompts({ onSuggestionClick }: SuggestionPromptsProps)
             >
               <CarouselContent>
                 {suggestionPrompts.map(({title, prompt}, index) => (
-                    <CarouselItem key={title} className="basis-1/1 md:basis-1/2 lg:basis-1/3">
+                    <CarouselItem key={title} className="basis-auto">
                       <div className="p-1">
-                        <button 
-                            onClick={() => onSuggestionClick(prompt)} 
-                            className="w-full h-full p-3 rounded-full bg-card/50 hover:bg-primary/10 border border-transparent hover:border-primary/20 transition-all text-left space-y-1 focus:outline-none focus:ring-1 focus:ring-primary/50"
+                        <button
+                            onClick={() => onSuggestionClick(prompt)}
+                            className="group"
                         >
-                          <div className="flex items-center gap-2 text-primary text-xs">{icons[index]}<span className="font-semibold text-foreground">{title}</span></div>
-                          <p className="text-xs text-muted-foreground">{prompt}</p>
+                            <Badge variant="outline" className="font-normal border-primary/20 bg-primary/5 group-hover:bg-primary/10 group-hover:border-primary/30 transition-all text-muted-foreground group-hover:text-foreground">
+                                {icons[index]}
+                                {title}
+                            </Badge>
                         </button>
                       </div>
                     </CarouselItem>
