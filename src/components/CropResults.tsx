@@ -87,7 +87,7 @@ export function CropResults({ loading, conversation, onSuggestionClick }: CropRe
                 {message.role === 'bot' && (
                   <>
                     {message.text && (
-                      <div className="bg-card p-4 rounded-2xl rounded-bl-none">
+                      <div className="p-4 rounded-2xl rounded-bl-none">
                         <p className="text-muted-foreground leading-relaxed">{message.text}</p>
                       </div>
                     )}
