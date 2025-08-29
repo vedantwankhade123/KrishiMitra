@@ -8,7 +8,7 @@ export const dictionary = {
     },
     welcome: {
       title: "Hello, Farmer!",
-      title2: "Welcome, Josh!",
+      title2: "Welcome Back!",
       title3: "Ask me anything!",
       subtitle: "What can I help you with today?",
     },
@@ -61,7 +61,7 @@ export const dictionary = {
     },
     welcome: {
       title: "नमस्ते किसान!",
-      title2: "जोश, आपका स्वागत है!",
+      title2: "वापसी पर स्वागत है!",
       title3: "मुझसे कुछ भी पूछें!",
       subtitle: "आज मैं आपकी क्या मदद कर सकता हूँ?",
     },
@@ -114,7 +114,7 @@ export const dictionary = {
     },
     welcome: {
       title: "नमस्कार, शेतकरी!",
-      title2: "जोश, स्वागत आहे!",
+      title2: "पुन्हा स्वागत आहे!",
       title3: "मला काहीही विचारा!",
       subtitle: "आज मी तुमची काय मदत करू शकतो?",
     },
