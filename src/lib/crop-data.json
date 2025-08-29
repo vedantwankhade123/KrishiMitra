@@ -79,5 +79,85 @@
         "varieties": ["Danvers", "Nantes", "Imperator", "Chantenay"],
         "climate": "A cool-season crop, grows best at temperatures between 16°C and 21°C.",
         "soil": "Prefers deep, loose, well-drained sandy loam or peaty soils with a pH of 6.0 to 6.8."
+    },
+    {
+        "name": "Barley",
+        "image": "https://picsum.photos/seed/barley/800/600",
+        "description": "A member of the grass family, is a major cereal grain grown in temperate climates globally. It was one of the first cultivated grains and is now used for animal fodder, beer and other distilled beverages, and various health foods.",
+        "planting": "Planted in spring or autumn. It has a short growing season and is relatively drought-tolerant compared to other cereals.",
+        "yield": "Average yield is about 3-4 tons per hectare.",
+        "varieties": ["Hulled Barley", "Pearl Barley", "Barley Grits"],
+        "climate": "Adaptable to a wide range of climates, including high altitudes and latitudes.",
+        "soil": "Grows well in well-drained loam soils with a pH of 6.0 to 8.5."
+    },
+    {
+        "name": "Cotton",
+        "image": "https://picsum.photos/seed/cotton/800/600",
+        "description": "A soft, fluffy staple fiber that grows in a boll, or protective case, around the seeds of the cotton plants of the genus Gossypium. The fiber is almost pure cellulose.",
+        "planting": "Planted in spring in consistently warm weather. Requires a long, frost-free period, plenty of sunshine, and moderate rainfall.",
+        "yield": "Yield varies greatly, from 1 to 2.5 tons of lint per hectare.",
+        "varieties": ["Pima", "Egyptian", "Upland"],
+        "climate": "Requires a hot climate with long, sunny days.",
+        "soil": "Prefers deep, well-drained, fertile loamy soils."
+    },
+    {
+        "name": "Sugarcane",
+        "image": "https://picsum.photos/seed/sugarcane/800/600",
+        "description": "Several species of tall perennial true grasses of the genus Saccharum, used for sugar production. The plants are 2–6 m tall with stout, jointed, fibrous stalks that are rich in sucrose.",
+        "planting": "Propagated from cuttings. Requires a tropical or subtropical climate, with a frost-free period of 9 to 12 months.",
+        "yield": "Can yield 60 to 120 tons per hectare.",
+        "varieties": ["Chewing Canes", "Crystal Canes", "Syrup Canes"],
+        "climate": "Tropical and subtropical regions with high rainfall.",
+        "soil": "Prefers well-drained, deep loams or volcanic soils with a pH between 5.0 and 8.0."
+    },
+    {
+        "name": "Coffee",
+        "image": "https://picsum.photos/seed/coffee/800/600",
+        "description": "A brewed drink prepared from roasted coffee beans, the seeds of berries from certain Coffea species. The two most common sources of coffee beans are the highly regarded Coffea arabica, and the 'robusta' form of the hardier Coffea canephora.",
+        "planting": "Grown in the 'Bean Belt', between the Tropics of Cancer and Capricorn. Trees require specific temperature and rainfall conditions.",
+        "yield": "Yields average about 1 to 2 tons of green beans per hectare.",
+        "varieties": ["Arabica", "Robusta", "Liberica", "Excelsa"],
+        "climate": "Requires a stable climate with moderate temperatures and rainfall. Often grown at high altitudes.",
+        "soil": "Deep, fertile, well-drained, and slightly acidic soils are ideal."
+    },
+    {
+        "name": "Apple",
+        "image": "https://picsum.photos/seed/apple/800/600",
+        "description": "The fruit of the apple tree (Malus domestica). Apple trees are cultivated worldwide and are the most widely grown species in the genus Malus. The tree originated in Central Asia.",
+        "planting": "Planted as grafted saplings. Requires a temperate climate with a cold winter period for dormancy. Cross-pollination is often necessary.",
+        "yield": "A mature dwarf tree can produce 20-30 tons per hectare.",
+        "varieties": ["Granny Smith", "Gala", "Fuji", "Red Delicious", "Honeycrisp"],
+        "climate": "Temperate climates with a distinct winter chilling period.",
+        "soil": "Prefers well-drained, loamy soil with a pH of 6.0 to 7.0."
+    },
+    {
+        "name": "Grape",
+        "image": "https://picsum.photos/seed/grape/800/600",
+        "description": "A fruit, botanically a berry, of the deciduous woody vines of the flowering plant genus Vitis. Grapes can be eaten fresh as table grapes or they can be used for making wine, jam, grape juice, jelly, grape seed extract, raisins, vinegar, and grape seed oil.",
+        "planting": "Propagated from cuttings. Vines require trellising and extensive pruning. They need a long season of warm to hot, dry weather.",
+        "yield": "Table grape yields can be 20-30 tons per hectare; wine grapes are lower.",
+        "varieties": ["Cabernet Sauvignon", "Chardonnay", "Merlot", "Thompson Seedless"],
+        "climate": "Temperate to warm climates with long, dry summers.",
+        "soil": "Well-drained soils are critical. Tolerant of a wide range of soil types."
+    },
+    {
+        "name": "Onion",
+        "image": "https://picsum.photos/seed/onion/800/600",
+        "description": "Also known as the bulb onion or common onion, is a vegetable that is the most widely cultivated species of the genus Allium. Its close relatives include the garlic, shallot, leek, chive, and Chinese onion.",
+        "planting": "Can be grown from seeds, sets (small bulbs), or transplants. Requires full sun and good soil drainage. Day-length is critical for bulb formation.",
+        "yield": "Yields can range from 30 to 60 tons per hectare.",
+        "varieties": ["Yellow Onion", "Red Onion", "White Onion", "Sweet Onion (Vidalia, Walla Walla)"],
+        "climate": "Best in temperate climates. Bulb formation is triggered by day length, so variety choice is important.",
+        "soil": "Prefers fertile, sandy loam soils with a pH of 6.0 to 6.8."
+    },
+    {
+        "name": "Cabbage",
+        "image": "https://picsum.photos/seed/cabbage/800/600",
+        "description": "A leafy green, red, or white biennial plant grown as an annual vegetable crop for its dense-leaved heads. It is descended from the wild cabbage, and belongs to the 'cole crops' or brassicas.",
+        "planting": "A cool-weather crop, planted in early spring or late summer for a fall harvest. Requires consistent moisture.",
+        "yield": "Can yield between 40 and 70 tons per hectare.",
+        "varieties": ["Green Cabbage", "Red Cabbage", "Savoy Cabbage", "Napa Cabbage"],
+        "climate": "Cool and moist conditions are ideal. Can tolerate light frost.",
+        "soil": "Requires fertile, well-drained soil with plenty of organic matter."
     }
 ]
