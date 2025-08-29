@@ -55,8 +55,7 @@
   body {
     @apply text-foreground bg-background;
     background-image: 
-      radial-gradient(ellipse 80% 50% at 50% -20%, hsl(var(--primary) / 0.3), transparent),
-      radial-gradient(ellipse 80% 50% at 50% 120%, hsl(var(--primary) / 0.35), transparent);
+      radial-gradient(ellipse 80% 50% at 50% -20%, hsl(var(--primary) / 0.3), transparent);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     scrollbar-width: thin;
