@@ -114,16 +114,21 @@ export function ChatHistory() {
                                         <MessageSquare className="h-4 w-4 mr-2 flex-shrink-0" />
                                         <span className="truncate flex-1">{chat.title}</span>
                                         <div className="pr-2 flex items-center">
-                                             <Button
-                                                variant="ghost"
-                                                size="icon"
-                                                className="h-7 w-7 rounded-full text-muted-foreground hover:bg-primary/10 hover:text-primary"
-                                                onClick={(e) => { e.stopPropagation(); handleRenameStart(chat); }}
-                                            >
-                                                <Pencil className="h-4 w-4" />
-                                                <span className="sr-only">Rename chat</span>
-                                            </Button>
-                                            {isDeleteMode && (
+                                            <div className={cn("transition-transform duration-300 ease-in-out", isDeleteMode && "-translate-x-8")}>
+                                                 <Button
+                                                    variant="ghost"
+                                                    size="icon"
+                                                    className="h-7 w-7 rounded-full text-muted-foreground hover:bg-primary/10 hover:text-primary"
+                                                    onClick={(e) => { e.stopPropagation(); handleRenameStart(chat); }}
+                                                >
+                                                    <Pencil className="h-4 w-4" />
+                                                    <span className="sr-only">Rename chat</span>
+                                                </Button>
+                                            </div>
+                                            <div className={cn(
+                                                "absolute right-2 transition-all duration-300 ease-in-out",
+                                                isDeleteMode ? "opacity-100 scale-100" : "opacity-0 scale-0"
+                                            )}>
                                                 <AlertDialog>
                                                     <AlertDialogTrigger asChild>
                                                         <Button
@@ -131,6 +136,7 @@ export function ChatHistory() {
                                                             size="icon"
                                                             className="h-7 w-7 rounded-full text-red-500/80 hover:bg-red-500/10 hover:text-red-500"
                                                             onClick={(e) => e.stopPropagation()}
+                                                            disabled={!isDeleteMode}
                                                         >
                                                             <Trash2 className="h-4 w-4" />
                                                             <span className="sr-only">Delete chat</span>
@@ -154,7 +160,7 @@ export function ChatHistory() {
                                                         </AlertDialogFooter>
                                                     </AlertDialogContent>
                                                 </AlertDialog>
-                                            )}
+                                            </div>
                                         </div>
                                     </>
                                 )}
