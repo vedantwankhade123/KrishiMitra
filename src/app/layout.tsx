@@ -19,7 +19,7 @@ const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
 
 export const metadata: Metadata = {
-  title: 'AgriAssist AI',
+  title: 'AgriAI',
   description: 'AI-Based Crop Recommendation for Farmers',
 };
 
