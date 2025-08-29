@@ -64,15 +64,15 @@ export function CropResults({ loading, conversation, onSuggestionClick }: CropRe
             <ChatBubble key={message.id} variant={message.role}>
                 {message.role === 'user' && (
                     <div className={cn(
-                      "rounded-2xl rounded-br-none space-y-2",
-                      message.attachment ? "bg-primary/5 p-2" : "bg-gradient-to-br from-primary to-primary/70 text-primary-foreground p-4"
+                      "rounded-2xl rounded-br-none space-y-2 p-2",
+                      message.attachment ? "bg-primary/5" : "bg-primary/20"
                     )}>
                         {message.attachment && (
                             <Image src={message.attachment.url} alt="User attachment" width={200} height={200} className="rounded-lg" />
                         )}
                         {message.text && (
                           <p className={cn(
-                            message.attachment ? "p-2 text-primary-foreground" : ""
+                            "p-2 text-primary-foreground"
                           )}>{message.text}</p>
                         )}
                     </div>
