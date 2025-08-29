@@ -6,10 +6,11 @@ import { cn } from '@/lib/utils';
 import { Inter } from 'next/font/google';
 import { LanguageProvider } from '@/context/LanguageContext';
 import { ThemeProvider } from '@/components/ThemeProvider';
-import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarTrigger, SidebarInset } from '@/components/ui/sidebar';
+import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarTrigger, SidebarInset, SidebarSeparator } from '@/components/ui/sidebar';
 import { NewChatButton } from '@/components/NewChatButton';
 import { Button } from '@/components/ui/button';
 import { Menu } from 'lucide-react';
+import { ChatHistory } from '@/components/ChatHistory';
 
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
@@ -37,7 +38,7 @@ export default function RootLayout({
             disableTransitionOnChange
         >
           <LanguageProvider>
-            <SidebarProvider defaultOpen={true}>
+            <SidebarProvider defaultOpen={true} variant="inset">
               <Sidebar>
                 <SidebarContent>
                   <SidebarHeader>
@@ -55,6 +56,8 @@ export default function RootLayout({
                     </div>
                   </SidebarHeader>
                   <NewChatButton />
+                  <SidebarSeparator />
+                  <ChatHistory />
                 </SidebarContent>
               </Sidebar>
               <SidebarInset>
