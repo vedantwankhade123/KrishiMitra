@@ -46,9 +46,6 @@ export function LandingHeader() {
                     <Link href="#">About Us</Link>
                 </Button>
                  <Button variant="pill" visual="ghost" asChild>
-                    <Link href="#">Blog</Link>
-                </Button>
-                 <Button variant="pill" asChild>
                     <Link href="#">Contact</Link>
                 </Button>
             </div>
