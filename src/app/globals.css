@@ -25,7 +25,6 @@
     --input: 220 13% 91%;
     --ring: 140 70% 35%;
     --light-green: 140 70% 90%;
-    --aurora: repeating-linear-gradient(100deg, hsl(var(--primary)) 10%, #18a68a 15%, #0ab69a 20%, #00c4a3 25%, hsl(var(--primary)) 30%);
   }
   .dark {
     --background: 220 15% 10%;
@@ -54,8 +53,8 @@
     @apply border-border;
   }
   body {
-    @apply text-foreground;
-    background-color: hsl(var(--background));
+    @apply text-foreground bg-background;
+    background-image: radial-gradient(ellipse 80% 50% at 50% 120%, hsl(var(--primary) / 0.15), transparent);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     scrollbar-width: thin;
@@ -214,4 +213,3 @@
     transform: translateY(0px) translateX(0px) rotate(0deg);
   }
 }
-

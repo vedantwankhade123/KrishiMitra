@@ -118,14 +118,6 @@ export default {
           '0%, 100%': { opacity: '0' },
           '50%': { opacity: '1' },
         },
-        "aurora": {
-          from: {
-            backgroundPosition: "50% 50%, 50% 50%",
-          },
-          to: {
-            backgroundPosition: "350% 50%, 350% 50%",
-          },
-        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -135,7 +127,6 @@ export default {
         'fade-in-out-fast': 'fade-in-out-fast 2s ease-in-out infinite',
         'shimmer': 'shimmer 2s infinite',
         'dot-pulse': 'dot-pulse 1.4s infinite',
-        "aurora": "aurora 60s linear infinite",
       },
     },
   },

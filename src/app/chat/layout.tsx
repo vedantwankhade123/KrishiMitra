@@ -12,7 +12,6 @@ import { Menu } from 'lucide-react';
 import { ChatHistory } from '@/components/ChatHistory';
 import { ChatHistoryProvider } from '@/context/ChatHistoryContext';
 import { Logo } from '@/components/Logo';
-import { AuroraBackground } from '@/components/ui/aurora-background';
 
 export default function ChatLayout({
   children,
@@ -21,7 +20,6 @@ export default function ChatLayout({
 }>) {
   return (
     <ChatHistoryProvider>
-      <AuroraBackground>
         <SidebarProvider defaultOpen={true} variant="inset">
           <Sidebar>
             <SidebarContent>
@@ -50,7 +48,6 @@ export default function ChatLayout({
           </SidebarInset>
           <Toaster />
         </SidebarProvider>
-      </AuroraBackground>
     </ChatHistoryProvider>
   );
 }
