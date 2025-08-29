@@ -35,7 +35,7 @@ export function SuggestionPrompts({ onSuggestionClick }: SuggestionPromptsProps)
                       <div className="p-1">
                         <Badge 
                             variant="outline" 
-                            className="font-normal border-primary/20 bg-primary/5 hover:bg-primary/20 hover:text-white transition-all text-muted-foreground cursor-pointer"
+                            className="font-normal border-primary/20 bg-background hover:bg-primary/10 transition-all text-foreground cursor-pointer"
                             onClick={() => onSuggestionClick(prompt)}
                         >
                            <p className="whitespace-normal text-left">{prompt}</p>
