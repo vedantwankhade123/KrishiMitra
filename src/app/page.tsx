@@ -72,47 +72,6 @@ export default function LandingPage() {
 
         <section className="py-16 md:py-24">
             <div className="container mx-auto px-4">
-                <div className="grid md:grid-cols-2 gap-8 items-center">
-                    <div>
-                        <p className="text-primary font-semibold mb-2">Farm Types</p>
-                        <h2 className="text-4xl font-bold mb-4">Smart Farming Support for All Types of Farms</h2>
-                        <p className="text-muted-foreground">From small family plots to large-scale agriculture - our focus is to support you. We make sure that our product will fit every step of the way.</p>
-                    </div>
-                    <div className="grid grid-cols-2 gap-4">
-                        <Image src="https://picsum.photos/seed/farm1/400/400" alt="Close up of a crop" width={400} height={400} className="rounded-3xl object-cover aspect-square" data-ai-hint="crop close-up" />
-                        <Image src="https://picsum.photos/seed/farm2/400/400" alt="Vineyard" width={400} height={400} className="rounded-3xl object-cover aspect-square mt-8" data-ai-hint="vineyard" />
-                        <Image src="https://picsum.photos/seed/farm3/400/400" alt="Lush green crops" width={400} height={400} className="rounded-3xl object-cover aspect-square" data-ai-hint="green crops" />
-                        <Image src="https://picsum.photos/seed/farm4/400/400" alt="Apple orchard" width={400} height={400} className="rounded-3xl object-cover aspect-square mt-8" data-ai-hint="apple orchard" />
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section className="bg-primary text-primary-foreground py-16 m-[10px] rounded-2xl">
-            <div className="container mx-auto px-4">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-                    <div>
-                        <p className="text-5xl font-bold">15</p>
-                        <p className="text-primary-foreground/80">Years of experience</p>
-                    </div>
-                    <div>
-                        <p className="text-5xl font-bold">36k+</p>
-                        <p className="text-primary-foreground/80">Acres Planted</p>
-                    </div>
-                     <div>
-                        <p className="text-5xl font-bold">6428</p>
-                        <p className="text-primary-foreground/80">Projects completed</p>
-                    </div>
-                     <div>
-                        <p className="text-5xl font-bold">92k+</p>
-                        <p className="text-primary-foreground/80">Customers</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <section className="py-16 md:py-24">
-            <div className="container mx-auto px-4">
                 <div className="text-center max-w-3xl mx-auto mb-12">
                     <p className="text-primary font-semibold mb-2">See It in Action</p>
                     <h2 className="text-4xl font-bold mb-4">How Our System Works</h2>
@@ -129,6 +88,24 @@ export default function LandingPage() {
             </div>
         </section>
 
+        <section className="py-16 md:py-24">
+            <div className="container mx-auto px-4">
+                <div className="grid md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <p className="text-primary font-semibold mb-2">Farm Types</p>
+                        <h2 className="text-4xl font-bold mb-4">Smart Farming Support for All Types of Farms</h2>
+                        <p className="text-muted-foreground">From small family plots to large-scale agriculture - our focus is to support you. We make sure that our product will fit every step of the way.</p>
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                        <Image src="https://picsum.photos/seed/farm1/400/400" alt="Close up of a crop" width={400} height={400} className="rounded-3xl object-cover aspect-square" data-ai-hint="crop close-up" />
+                        <Image src="https://picsum.photos/seed/farm2/400/400" alt="Vineyard" width={400} height={400} className="rounded-3xl object-cover aspect-square mt-8" data-ai-hint="vineyard" />
+                        <Image src="https://picsum.photos/seed/farm3/400/400" alt="Lush green crops" width={400} height={400} className="rounded-3xl object-cover aspect-square" data-ai-hint="green crops" />
+                        <Image src="https://picsum.photos/seed/farm4/400/400" alt="Apple orchard" width={400} height={400} className="rounded-3xl object-cover aspect-square mt-8" data-ai-hint="apple orchard" />
+                    </div>
+                </div>
+            </div>
+        </section>
+        
         <section className="py-16 md:py-24">
             <div className="container mx-auto px-4">
                 <div className="bg-lime-100/50 dark:bg-lime-900/20 rounded-3xl p-8 md:p-16 relative overflow-hidden">
