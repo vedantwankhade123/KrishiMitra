@@ -53,7 +53,7 @@ export async function menu(input: MenuInput): Promise<MenuOutput> {
 }
 
 export async function menuStream(input: MenuInput) {
-  return await menuFlow(input, true);
+    return await menuFlow(input, true);
 }
 
 
