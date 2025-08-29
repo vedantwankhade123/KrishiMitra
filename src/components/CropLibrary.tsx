@@ -72,8 +72,8 @@ export function CropLibrary() {
         <ScrollArea className="flex-1 -mx-6 px-6">
             <div className="py-4 grid grid-cols-1 md:grid-cols-2 gap-6">
                 {cropData.map((crop) => (
-                    <div key={crop.name} className="bg-muted/50 rounded-lg p-4 flex flex-col sm:flex-row gap-4">
-                        <Image src={crop.image} alt={crop.name} width={150} height={150} className="rounded-md object-cover w-full sm:w-[150px] h-[150px]" data-ai-hint="crop image"/>
+                    <div key={crop.name} className="bg-muted/50 rounded-xl p-4 flex flex-col sm:flex-row gap-4">
+                        <Image src={crop.image} alt={crop.name} width={150} height={150} className="rounded-lg object-cover w-full sm:w-[150px] h-[150px]" data-ai-hint="crop image"/>
                         <div className="space-y-2 flex-1">
                             <h3 className="text-xl font-bold text-primary">{crop.name}</h3>
                             <p className="text-sm text-muted-foreground">{crop.description}</p>
