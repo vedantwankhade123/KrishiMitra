@@ -185,7 +185,7 @@ export function CropLibrary() {
                             <div className="space-y-2 flex-1 flex flex-col">
                                 <h3 className="text-xl font-bold text-primary">{crop.name}</h3>
                                 <p className="text-sm text-muted-foreground line-clamp-2 flex-grow">{crop.description}</p>
-                                <div className="mt-4 flex items-center gap-2">
+                                <div className="mt-4 flex flex-col sm:flex-row items-center gap-2">
                                     <Button 
                                         variant="outline"
                                         className="w-full rounded-full text-muted-foreground border-primary/20 hover:bg-primary/10 hover:text-primary"
@@ -194,22 +194,24 @@ export function CropLibrary() {
                                     >
                                         View Details
                                     </Button>
-                                    <Button
-                                        variant="outline"
-                                        size="icon"
-                                        className="rounded-full text-muted-foreground border-primary/20 hover:bg-primary/10 hover:text-primary flex-shrink-0"
-                                        aria-label={`Share ${crop.name}`}
-                                    >
-                                        <Share2 className="h-4 w-4" />
-                                    </Button>
-                                    <Button
-                                        variant="outline"
-                                        size="icon"
-                                        className="rounded-full text-muted-foreground border-primary/20 hover:bg-primary/10 hover:text-primary flex-shrink-0"
-                                        aria-label={`Download details for ${crop.name}`}
-                                    >
-                                        <Download className="h-4 w-4" />
-                                    </Button>
+                                    <div className="flex w-full sm:w-auto items-center gap-2">
+                                        <Button
+                                            variant="outline"
+                                            size="icon"
+                                            className="rounded-full text-muted-foreground border-primary/20 hover:bg-primary/10 hover:text-primary flex-shrink-0 w-full sm:w-auto"
+                                            aria-label={`Share ${crop.name}`}
+                                        >
+                                            <Share2 className="h-4 w-4" />
+                                        </Button>
+                                        <Button
+                                            variant="outline"
+                                            size="icon"
+                                            className="rounded-full text-muted-foreground border-primary/20 hover:bg-primary/10 hover:text-primary flex-shrink-0 w-full sm:w-auto"
+                                            aria-label={`Download details for ${crop.name}`}
+                                        >
+                                            <Download className="h-4 w-4" />
+                                        </Button>
+                                    </div>
                                 </div>
                             </div>
                         </div>

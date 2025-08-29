@@ -187,7 +187,7 @@ export function Weather() {
                                 type="single" 
                                 value={mapLayer} 
                                 onValueChange={(value) => value && setMapLayer(value)}
-                                className="justify-center"
+                                className="justify-center flex-wrap"
                                 variant="outline"
                             >
                                 <ToggleGroupItem value="mapnik" aria-label="Standard map view" className="gap-2">
@@ -203,7 +203,7 @@ export function Weather() {
                                     Transport
                                 </ToggleGroupItem>
                             </ToggleGroup>
-                             <Button asChild variant="outline" size="sm">
+                             <Button asChild variant="outline" size="sm" className="w-full">
                                 <a href={openStreetMapUrl} target="_blank" rel="noopener noreferrer">
                                    <MapPin className="h-4 w-4 mr-2" />
                                     View on OpenStreetMap
