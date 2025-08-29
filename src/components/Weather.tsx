@@ -12,12 +12,6 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { Thermometer, Wind, Droplets, Sun, Cloud, CloudRain, CloudSnow, MapPin } from "lucide-react";
 import { useEffect, useState } from "react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
 
 type WeatherData = {
     temperature: number;
@@ -32,11 +26,11 @@ type Location = {
 }
 
 function getWeatherIcon(code: number) {
-    if (code === 0) return <Sun className="h-10 w-10 text-yellow-400" />;
-    if (code >= 1 && code <= 3) return <Cloud className="h-10 w-10 text-gray-400" />;
-    if ((code >= 51 && code <= 67) || (code >= 80 && code <= 82)) return <CloudRain className="h-10 w-10 text-blue-400" />;
-    if ((code >= 71 && code <= 77) || (code >= 85 && code <= 86)) return <CloudSnow className="h-10 w-10 text-white" />;
-    return <Sun className="h-10 w-10 text-yellow-400" />;
+    if (code === 0) return <Sun className="h-5 w-5 text-yellow-400" />;
+    if (code >= 1 && code <= 3) return <Cloud className="h-5 w-5 text-gray-400" />;
+    if ((code >= 51 && code <= 67) || (code >= 80 && code <= 82)) return <CloudRain className="h-5 w-5 text-blue-400" />;
+    if ((code >= 71 && code <= 77) || (code >= 85 && code <= 86)) return <CloudSnow className="h-5 w-5 text-white" />;
+    return <Sun className="h-5 w-5 text-yellow-400" />;
 }
 
 export function Weather() {
@@ -89,28 +83,22 @@ export function Weather() {
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <TooltipProvider>
-            <Tooltip>
-                <TooltipTrigger asChild>
-                    <DialogTrigger asChild>
-                        <Button variant="ghost" size="icon" className="h-9 w-9 rounded-full text-muted-foreground hover:text-foreground">
-                            {weather ? (
-                                <div className="flex items-center">
-                                    {getWeatherIcon(weather.weathercode)}
-                                    <span className="text-xs font-bold ml-1">{weather.temperature}°</span>
-                                </div>
-                            ) : (
-                                <Sun className="h-5 w-5" />
-                            )}
-                            <span className="sr-only">View Weather</span>
-                        </Button>
-                    </DialogTrigger>
-                </TooltipTrigger>
-                <TooltipContent>
-                    <p>Current Weather</p>
-                </TooltipContent>
-            </Tooltip>
-        </TooltipProvider>
+      <DialogTrigger asChild>
+          <Button variant="ghost" className="h-9 rounded-full text-muted-foreground hover:text-foreground px-4">
+              {weather ? (
+                  <>
+                      {getWeatherIcon(weather.weathercode)}
+                      <span className="ml-2 font-semibold">{weather.temperature}°F</span>
+                  </>
+              ) : (
+                  <>
+                      <Sun className="h-5 w-5" />
+                      <span className="ml-2">Weather</span>
+                  </>
+              )}
+              <span className="sr-only">View Weather</span>
+          </Button>
+      </DialogTrigger>
 
       <DialogContent className="sm:max-w-[425px] bg-card border-primary/20">
         <DialogHeader>
