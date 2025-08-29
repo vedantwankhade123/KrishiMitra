@@ -136,7 +136,7 @@ export function CropLibrary() {
   const renderListView = () => (
     <>
         <DialogHeader>
-          <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:justify-between">
             <div className="flex items-center gap-2">
                 <Sprout className="h-7 w-7 text-primary" />
                 <div>
@@ -148,7 +148,7 @@ export function CropLibrary() {
                     </DialogDescription>
                 </div>
             </div>
-             <div className="relative">
+             <div className="relative sm:ml-auto">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input
                     placeholder="Search crops..."
