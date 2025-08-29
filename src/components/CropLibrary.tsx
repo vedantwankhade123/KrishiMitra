@@ -16,51 +16,9 @@ import { Sprout, ArrowLeft, Search } from "lucide-react";
 import Image from "next/image";
 import { useState, useMemo } from "react";
 import { Badge } from "./ui/badge";
+import cropData from '@/lib/crop-data.json';
 
-const cropData = [
-    {
-        name: "Wheat",
-        image: "https://picsum.photos/800/600?random=1",
-        description: "A cereal grain, which is a worldwide staple food. The many species of wheat together make up the genus Triticum; the most widely grown is common wheat. It is a key source of carbohydrates and dietary fiber.",
-        planting: "Best planted in autumn for winter wheat or early spring for spring wheat. Requires well-drained soil and a sunny location. Typically sown using a drill in rows to ensure uniform depth and spacing.",
-        yield: "Average yield is about 3-4 tons per hectare, but can vary greatly depending on soil, climate, and farming practices.",
-        varieties: ["Hard Red Winter", "Soft Red Winter", "Hard Red Spring", "White Wheat"],
-        climate: "Adaptable to various climates, but grows best in temperate regions with rainfall between 30 and 90 cm.",
-        soil: "Prefers loam or clay-loam soils with a pH between 6.0 and 7.0."
-    },
-    {
-        name: "Rice",
-        image: "https://picsum.photos/800/600?random=2",
-        description: "The seed of the grass species Oryza sativa (Asian rice) or less commonly Oryza glaberrima (African rice). As a cereal grain, it is the most widely consumed staple food for a large part of the world's human population, especially in Asia.",
-        planting: "Typically grown in flooded paddies. Seedlings are first grown in a nursery and then transplanted into the fields. Requires significant water and a long, warm growing season.",
-        yield: "Average yield for irrigated rice is about 5-7 tons per hectare. Rain-fed rice yields are lower.",
-        varieties: ["Basmati", "Jasmine", "Arborio", "Brown Rice"],
-        climate: "Requires a hot and humid climate. It is best suited to regions with high humidity, prolonged sunshine, and an assured supply of water.",
-        soil: "Best grown in clayey loam soils which can hold water for a long time."
-    },
-    {
-        name: "Corn (Maize)",
-        image: "https://picsum.photos/800/600?random=3",
-        description: "A tall annual cereal grass that yields large grains, or kernels, set in rows on a cob. It is one of the most widely distributed of the world's food crops and is used for food, animal feed, and biofuel.",
-        planting: "Planted in spring in warm soil. Needs full sun and is often planted in blocks rather than single rows for better pollination. It's a heavy feeder, requiring nutrient-rich soil.",
-        yield: "Average yield can range from 8-12 tons per hectare under good conditions.",
-        varieties: ["Dent Corn", "Flint Corn", "Sweet Corn", "Popcorn"],
-        climate: "Requires warm nights and grows best in temperatures between 20°C and 30°C. Sensitive to frost.",
-        soil: "Prefers well-drained, fertile, loamy soils with good water-holding capacity."
-    },
-    {
-        name: "Soybean",
-        image: "https://picsum.photos/800/600?random=4",
-        description: "A species of legume native to East Asia, widely grown for its edible bean, which has numerous uses including soy milk, tofu, and soy oil. They are also a key component in animal feed.",
-        planting: "Planted in late spring once soil temperatures have warmed. Soybeans are nitrogen-fixing plants, meaning they can convert atmospheric nitrogen into a form usable by the plant, which improves soil fertility.",
-        yield: "Average yield is about 2.5-3.5 tons per hectare.",
-        varieties: ["Glycine max", "Edamame"],
-        climate: "Grows best in warm and moist climates. Prefers temperatures between 20°C and 30°C.",
-        soil: "Adaptable to a wide range of soils, but grows best in moist, well-drained loams."
-    }
-];
-
-type Crop = typeof cropData[0];
+type Crop = (typeof cropData)[0];
 
 
 export function CropLibrary() {
