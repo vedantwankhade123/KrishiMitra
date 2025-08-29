@@ -107,7 +107,7 @@ export function PromptForm({
                     ref={textareaRef}
                     aria-label={t('promptForm.placeholder')}
                     placeholder={!watchedPrompt ? placeholder : t('promptForm.placeholder')}
-                    className="resize-none pr-14 text-base rounded-full bg-card border-2 border-primary/10 focus-visible:border-primary/50 focus-visible:ring-0 focus-visible:ring-offset-0 transition-all duration-300 overflow-y-hidden max-h-48 py-3"
+                    className="resize-none pr-14 text-base rounded-full bg-card border-2 border-primary/10 focus-visible:border-primary/50 focus-visible:ring-0 focus-visible:ring-offset-0 transition-all duration-300 overflow-y-hidden max-h-48 py-3.5"
                     rows={1}
                     {...field}
                     onKeyDown={(e) => {
@@ -127,7 +127,7 @@ export function PromptForm({
           <Button 
               type="submit" 
               size="icon" 
-              className="absolute right-2 bottom-2 h-10 w-10 rounded-full bg-primary hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2" 
+              className="absolute right-1.5 bottom-1.5 h-10 w-10 rounded-full bg-primary hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2" 
               disabled={disabled || !watchedPrompt}
               aria-label={t('promptForm.send')}
           >
