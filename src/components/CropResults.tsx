@@ -12,6 +12,7 @@ import { useEffect, useRef } from 'react';
 import { useTranslation } from '@/hooks/useTranslation';
 import { cn } from '@/lib/utils';
 import { Welcome } from './Welcome';
+import ReactMarkdown from 'react-markdown';
 
 type CropResultsProps = {
   loading: boolean;
@@ -73,7 +74,7 @@ export function CropResults({ loading, conversation, onSuggestionClick }: CropRe
                         {message.text && (
                           <p className={cn(
                             "p-2",
-                            !message.attachment && "text-primary-foreground"
+                             !message.attachment && ""
                           )}>{message.text}</p>
                         )}
                     </div>
@@ -81,8 +82,8 @@ export function CropResults({ loading, conversation, onSuggestionClick }: CropRe
                 {message.role === 'bot' && (
                   <>
                     {message.text && (
-                      <div className="p-4 rounded-2xl rounded-bl-none">
-                        <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">{message.text}</p>
+                      <div className="p-4 rounded-2xl rounded-bl-none prose prose-sm dark:prose-invert prose-headings:font-semibold prose-p:text-muted-foreground prose-strong:text-foreground">
+                        <ReactMarkdown>{message.text}</ReactMarkdown>
                       </div>
                     )}
                     {message.recommendation && message.recommendation.crops.length > 0 && (

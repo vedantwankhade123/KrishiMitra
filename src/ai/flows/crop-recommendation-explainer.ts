@@ -43,8 +43,10 @@ const prompt = ai.definePrompt({
   Crop Rotation History: {{cropRotationHistory}}
   Market Prices: {{marketPrices}}
 
-  Provide a concise explanation understandable to a farmer. Focus on the most important factors.
-  Use Markdown formatting for clear presentation (e.g., headings, bold text, bullet points).
+  Provide a concise explanation understandable to a farmer. Use clear Markdown formatting.
+  - Use headings for sections.
+  - Use bold text for emphasis.
+  - Use bullet points for lists.
 `,
 });
 

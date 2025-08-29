@@ -58,4 +58,48 @@
   .dark body {
     background: radial-gradient(ellipse 80% 50% at 50% -20%, hsl(var(--primary) / 0.3), hsl(var(--background)));
   }
+
+  .prose-sm {
+      @apply text-sm;
+  }
+
+  .prose-headings\:font-semibold h1,
+  .prose-headings\:font-semibold h2,
+  .prose-headings\:font-semibold h3,
+  .prose-headings\:font-semibold h4,
+  .prose-headings\:font-semibold h5,
+  .prose-headings\:font-semibold h6 {
+      @apply font-semibold text-foreground;
+  }
+
+  .prose-p\:text-muted-foreground p {
+      @apply text-muted-foreground leading-relaxed;
+  }
+
+  .prose-strong\:text-foreground strong {
+      @apply text-foreground font-semibold;
+  }
+
+  .prose-ul\:text-muted-foreground ul {
+      @apply text-muted-foreground list-disc pl-5;
+  }
+  
+  .dark .prose-invert h1,
+  .dark .prose-invert h2,
+  .dark .prose-invert h3,
+  .dark .prose-invert h4,
+  .dark .prose-invert h5,
+  .dark .prose-invert h6 {
+      @apply text-foreground;
+  }
+  .dark .prose-invert p {
+      @apply text-muted-foreground;
+  }
+  .dark .prose-invert strong {
+      @apply text-foreground;
+  }
+  .dark .prose-invert ul {
+      @apply text-muted-foreground;
+  }
+
 }
