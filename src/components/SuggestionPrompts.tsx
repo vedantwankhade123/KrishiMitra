@@ -22,16 +22,16 @@ export function SuggestionPrompts({ onSuggestionClick }: SuggestionPromptsProps)
     const suggestionPrompts = t('suggestions', { returnObjects: true }) as { title: string, prompt: string }[];
 
     return (
-        <div className="mb-4 px-10">
+        <div className="mb-4 w-full">
             <Carousel
               opts={{
                 align: "start",
               }}
               className="w-full"
             >
-              <CarouselContent>
+              <CarouselContent className="-ml-1">
                 {suggestionPrompts.map(({title, prompt}) => (
-                    <CarouselItem key={title} className="basis-auto">
+                    <CarouselItem key={title} className="basis-auto pl-1">
                       <div className="p-1">
                         <Badge 
                             variant="outline" 
@@ -44,8 +44,8 @@ export function SuggestionPrompts({ onSuggestionClick }: SuggestionPromptsProps)
                     </CarouselItem>
                 ))}
               </CarouselContent>
-              <CarouselPrevious className="hidden sm:flex"/>
-              <CarouselNext className="hidden sm:flex"/>
+              <CarouselPrevious className="hidden sm:flex -left-12"/>
+              <CarouselNext className="hidden sm:flex -right-12"/>
             </Carousel>
         </div>
     );

@@ -111,7 +111,7 @@ export default function Home() {
               />
             </div>
             <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-background via-background/80 to-transparent">
-              <div className="container mx-auto max-w-2xl px-4 pt-8 pb-4">
+              <div className="container mx-auto max-w-2xl px-4 pt-8 pb-4 flex flex-col items-center">
                 <SuggestionPrompts onSuggestionClick={handleSuggestionClick} />
                 <PromptForm
                   onSubmit={handlePromptSubmit}

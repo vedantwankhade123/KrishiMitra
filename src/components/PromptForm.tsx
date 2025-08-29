@@ -147,7 +147,7 @@ export function PromptForm({
   const isSubmitDisabled = disabled || (!watchedPrompt && !attachment);
 
   return (
-    <div className="px-4">
+    <div className="w-full">
       <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="relative">
           {attachment && (
