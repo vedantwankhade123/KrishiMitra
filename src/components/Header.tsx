@@ -8,9 +8,10 @@ import { Separator } from './ui/separator';
 import { ThemeToggle } from './ThemeToggle';
 import { ProfileButton } from './ProfileButton';
 import { Button } from './ui/button';
-import { Menu } from 'lucide-react';
+import { Menu, Home } from 'lucide-react';
 import { SidebarTrigger, useSidebar } from './ui/sidebar';
 import { Logo } from './Logo';
+import Link from 'next/link';
 
 export function Header() {
   const { open } = useSidebar();
@@ -37,6 +38,13 @@ export function Header() {
         <div className="container relative flex h-16 items-center justify-center mx-auto max-w-4xl">
             {/* Middle Group */}
             <div className="flex items-center gap-2 bg-card/80 backdrop-blur-md border border-primary/20 rounded-full p-2">
+                <Button variant="ghost" className="h-9 rounded-full text-foreground hover:bg-primary/10 hover:text-primary px-4" asChild>
+                  <Link href="/">
+                    <Home className="h-5 w-5" />
+                    <span className="ml-2">Home</span>
+                  </Link>
+                </Button>
+                <Separator orientation="vertical" className="h-6" />
                 <Weather />
                 <Separator orientation="vertical" className="h-6" />
                 <CropLibrary />
