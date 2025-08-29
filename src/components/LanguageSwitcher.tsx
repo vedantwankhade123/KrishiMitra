@@ -10,18 +10,18 @@ import {
 } from "@/components/ui/select";
 import { useLanguage } from "@/context/LanguageContext";
 import { Globe } from "lucide-react";
+import { Button } from "./ui/button";
 
 export function LanguageSwitcher() {
   const { language, setLanguage } = useLanguage();
   
   const languages: Record<string, string> = {
-    en: 'English',
-    hi: 'हिन्दी',
-    mr: 'मराठी',
+    en: 'EN',
+    hi: 'HI',
+    mr: 'MR',
   };
 
   const handleValueChange = (newLanguage: 'en' | 'hi' | 'mr') => {
-    // This check is still good practice to prevent unnecessary context updates.
     if (newLanguage !== language) {
       setLanguage(newLanguage);
     }
@@ -29,9 +29,11 @@ export function LanguageSwitcher() {
 
   return (
     <Select defaultValue={language} onValueChange={handleValueChange}>
-      <SelectTrigger className="w-auto gap-2 border-none bg-transparent text-muted-foreground hover:text-foreground focus:ring-0">
-        <Globe className="h-4 w-4" />
-        <SelectValue>{languages[language]}</SelectValue>
+      <SelectTrigger asChild>
+          <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground h-9 w-9 rounded-full">
+            <Globe className="h-5 w-5" />
+            <span className="sr-only">Switch Language, current: {languages[language]}</span>
+          </Button>
       </SelectTrigger>
       <SelectContent>
         <SelectItem value="en">English</SelectItem>
