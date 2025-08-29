@@ -18,9 +18,9 @@ import { useEffect, useState } from 'react';
 export default function LandingPage() {
   const [headlineIndex, setHeadlineIndex] = useState(0);
   const headlines = [
-    "Your AI Farming Assistant",
-    "Instant Crop Recommendations",
-    "Explore Our Crop Library"
+    "Your <span class='text-primary'>AI Farming Assistant</span>",
+    "Instant <span class='text-primary'>Crop Recommendations</span>",
+    "Explore Our <span class='text-primary'>Crop Library</span>"
   ];
 
   useEffect(() => {
@@ -48,9 +48,11 @@ export default function LandingPage() {
             <div className="grid grid-cols-1 gap-8 items-center">
               <div className="space-y-6 text-white max-w-3xl mx-auto flex flex-col items-center">
                 <div className="min-h-[160px] md:min-h-[180px] flex items-center justify-center">
-                    <h1 key={headlineIndex} className="text-5xl md:text-7xl font-bold tracking-tighter animate-fade-in-out">
-                        {headlines[headlineIndex]}
-                    </h1>
+                    <h1 
+                        key={headlineIndex} 
+                        className="text-5xl md:text-7xl font-bold tracking-tighter animate-fade-in-out"
+                        dangerouslySetInnerHTML={{ __html: headlines[headlineIndex] }}
+                    />
                 </div>
                 <p className="text-lg md:text-xl text-white/80">
                   Save more with sustainable farming tools.
