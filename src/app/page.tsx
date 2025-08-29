@@ -50,7 +50,7 @@ export default function LandingPage() {
               <div className="space-y-4">
                 <div className="bg-white/10 backdrop-blur-md rounded-full p-3 flex items-center gap-3 max-w-sm ml-auto">
                     <span className="h-3 w-3 rounded-full bg-green-400 block animate-pulse"></span>
-                    <p className="text-sm text-white">Tax exemption for farmers secured.</p>
+                    <p className="text-sm text-white">KrishiMitra AI is now online.</p>
                 </div>
                 <div className="bg-white/10 backdrop-blur-md rounded-3xl p-6 space-y-4 max-w-sm ml-auto">
                     <div className="flex justify-between items-center text-white">
@@ -58,10 +58,10 @@ export default function LandingPage() {
                         <span className="text-sm font-semibold">2025</span>
                     </div>
                     <h3 className="text-2xl font-semibold text-white">
-                        Agricultural Development Initiative
+                        AI-Powered Insights
                     </h3>
                     <p className="text-white/70 text-sm">
-                        Incentives for Eco-Friendly Agricultural Practices
+                        Get real-time crop recommendations and analysis.
                     </p>
                 </div>
               </div>
