@@ -110,35 +110,20 @@ export default function LandingPage() {
                 </div>
             </div>
         </section>
-
+        
         <section className="py-16 md:py-24">
             <div className="container mx-auto px-4">
-                <div className="text-center max-w-2xl mx-auto mb-12">
-                    <p className="text-primary font-semibold mb-2">Our Process</p>
+                <div className="text-center max-w-3xl mx-auto mb-12">
+                    <p className="text-primary font-semibold mb-2">See It in Action</p>
                     <h2 className="text-4xl font-bold mb-4">How Our System Works</h2>
-                    <p className="text-muted-foreground">We combine data, AI, and continuous support to help you succeed.</p>
+                    <p className="text-muted-foreground">Watch a quick demo of our Chat AI, Crop Library, Weather, and Marketplace features. See how easy it is to get the insights you need for a successful harvest.</p>
                 </div>
-                <div className="grid md:grid-cols-3 gap-8">
-                    <div className="text-center p-8 border border-primary/10 bg-card/50 rounded-2xl">
-                        <div className="flex-shrink-0 h-16 w-16 mx-auto mb-4 rounded-full bg-primary/10 text-primary flex items-center justify-center">
-                            <Database className="h-8 w-8" />
-                        </div>
-                        <h3 className="text-xl font-semibold mb-2">1. Data Analysis</h3>
-                        <p className="text-muted-foreground">Expert analysis of your farm's soil conditions, weather patterns, and historical data to establish a baseline for improvement.</p>
-                    </div>
-                    <div className="text-center p-8 border border-primary/10 bg-card/50 rounded-2xl">
-                        <div className="flex-shrink-0 h-16 w-16 mx-auto mb-4 rounded-full bg-primary/10 text-primary flex items-center justify-center">
-                            <BrainCircuit className="h-8 w-8" />
-                        </div>
-                        <h3 className="text-xl font-semibold mb-2">2. AI-Powered Planning</h3>
-                        <p className="text-muted-foreground">Our AI platform creates a customized crop rotation and soil amendment plan to maximize yield, profitability, and long-term soil health.</p>
-                    </div>
-                    <div className="text-center p-8 border border-primary/10 bg-card/50 rounded-2xl">
-                        <div className="flex-shrink-0 h-16 w-16 mx-auto mb-4 rounded-full bg-primary/10 text-primary flex items-center justify-center">
-                            <Repeat className="h-8 w-8" />
-                        </div>
-                        <h3 className="text-xl font-semibold mb-2">3. Continuous Support</h3>
-                        <p className="text-muted-foreground">Receive ongoing monitoring, real-time alerts, and adaptive recommendations to ensure a successful harvest, season after season.</p>
+                <div className="relative max-w-5xl mx-auto">
+                    <Image src="https://picsum.photos/seed/video-thumb/1280/720" alt="Video thumbnail" width={1280} height={720} className="rounded-3xl object-cover w-full shadow-2xl" data-ai-hint="video thumbnail" />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                         <Button size="icon" className="h-20 w-20 rounded-full bg-white/20 backdrop-blur-sm group hover:bg-white/30">
+                            <Play className="h-8 w-8 text-white fill-white ml-1 transition-transform group-hover:scale-110" />
+                        </Button>
                     </div>
                 </div>
             </div>
@@ -292,3 +277,5 @@ export default function LandingPage() {
     </div>
   );
 }
+
+    
