@@ -12,7 +12,7 @@ import {
 import { 
   extractFarmData,
 } from '@/ai/flows/extract-farm-data';
-import { menu } from '@/ai/flows/menu';
+import { menu, menuStream } from '@/ai/flows/menu';
 import { 
   transcribeAudio, 
   type TranscribeAudioInput, 
@@ -20,7 +20,7 @@ import {
 } from '@/ai/flows/transcribe-audio';
 import { parseRecommendations } from '@/lib/parsers';
 import type { RecommendationResult } from '@/lib/types';
-
+import {readableStreamToAsyncGenerator} from '@genkit-ai/next';
 
 export async function getRecommendations(input: OptimalCropsInput): Promise<RecommendationResult> {
   const result = await recommendOptimalCrops(input);
@@ -39,6 +39,11 @@ export async function getRecommendationsFromPrompt(prompt: string, language: str
   }
   
   return { recommendation: null, parsedInput: null, generalResponse: result.response };
+}
+
+export async function getStreamingResponse(prompt: string, language: string, imageUrl?: string) {
+    const stream = await menuStream({prompt, language, imageUrl});
+    return readableStreamToAsyncGenerator(stream);
 }
 
 export async function getExplanation(input: CropRecommendationExplainerInput): Promise<CropRecommendationExplainerOutput> {

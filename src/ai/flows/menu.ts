@@ -13,6 +13,7 @@ import {
   type OptimalCropsOutput,
 } from '@/ai/schemas';
 import {z} from 'genkit';
+import {GenerateRequest} from 'genkit/generate';
 
 const MenuInputSchema = z.object({
   prompt: z.string().describe('The user prompt.'),
@@ -32,8 +33,29 @@ const MenuOutputSchema = z.object({
 export type MenuOutput = z.infer<typeof MenuOutputSchema>;
 
 export async function menu(input: MenuInput): Promise<MenuOutput> {
-  return menuFlow(input);
+  const llmResponse = await menuFlow(input);
+  const toolRequest = llmResponse.toolRequest;
+  const textResponse = llmResponse.text;
+
+  if (toolRequest?.name === 'recommendOptimalCrops') {
+    const toolResult = await toolRequest.call();
+    return {
+      toolRecommended: true,
+      response: textResponse,
+      structuredOutput: toolResult as OptimalCropsOutput,
+    };
+  } else {
+    return {
+      toolRecommended: false,
+      response: textResponse,
+    };
+  }
 }
+
+export async function menuStream(input: MenuInput) {
+  return await menuFlow(input, true);
+}
+
 
 const recommendOptimalCropsTool = ai.defineTool(
   {
@@ -48,13 +70,14 @@ const recommendOptimalCropsTool = ai.defineTool(
   }
 );
 
+
 const menuFlow = ai.defineFlow(
   {
     name: 'menuFlow',
     inputSchema: MenuInputSchema,
-    outputSchema: MenuOutputSchema,
+    outputSchema: z.any(),
   },
-  async ({ prompt, language, imageUrl }) => {
+  async ({ prompt, language, imageUrl }, streaming) => {
 
     const systemPrompt = `You are an expert AI assistant for farmers. Your primary goal is to provide crop recommendations.
 
@@ -65,32 +88,24 @@ const menuFlow = ai.defineFlow(
 You must respond in the following language: ${language}.
 USER_PROMPT: ${prompt || '(No text prompt provided)'}`;
 
-    const llmPrompt = [{ text: systemPrompt }];
+    const llmPrompt: GenerateRequest['prompt'] = [{ text: systemPrompt }];
 
     if (imageUrl) {
         llmPrompt.push({media: {url: imageUrl}});
     }
 
-    const llmResponse = await ai.generate({
-      prompt: llmPrompt,
-      model: 'googleai/gemini-2.5-flash',
-      tools: [recommendOptimalCropsTool],
-    });
+    const llmRequest: GenerateRequest = {
+        prompt: llmPrompt,
+        model: 'googleai/gemini-2.5-flash',
+        tools: [recommendOptimalCropsTool],
+    }
 
-    const toolRequest = llmResponse.toolRequest;
-    const textResponse = llmResponse.text;
-    if (toolRequest?.name === 'recommendOptimalCrops') {
-      const toolResult = await toolRequest.call();
-      return {
-        toolRecommended: true,
-        response: textResponse,
-        structuredOutput: toolResult as OptimalCropsOutput,
-      };
+    if (streaming) {
+        const { stream, response } = ai.generateStream(llmRequest);
+        await response;
+        return stream.text();
     } else {
-      return {
-        toolRecommended: false,
-        response: textResponse,
-      };
+        return ai.generate(llmRequest);
     }
   }
 );
