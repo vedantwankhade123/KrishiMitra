@@ -43,15 +43,14 @@ export function SuggestionPrompts({ onSuggestionClick }: SuggestionPromptsProps)
                           <div className="p-1">
                             <Tooltip>
                                 <TooltipTrigger asChild>
-                                    <button
+                                    <Badge 
+                                        variant="outline" 
+                                        className="font-normal border-primary/20 bg-primary/5 hover:bg-primary/10 hover:border-primary/30 transition-all text-muted-foreground hover:text-foreground cursor-pointer"
                                         onClick={() => onSuggestionClick(prompt)}
-                                        className="group"
                                     >
-                                        <Badge variant="outline" className="font-normal border-primary/20 bg-primary/5 group-hover:bg-primary/10 group-hover:border-primary/30 transition-all text-muted-foreground group-hover:text-foreground">
-                                            {icons[index]}
-                                            {title}
-                                        </Badge>
-                                    </button>
+                                        {icons[index]}
+                                        {title}
+                                    </Badge>
                                 </TooltipTrigger>
                                 <TooltipContent>
                                     <p className="max-w-xs">{prompt}</p>
