@@ -15,6 +15,7 @@ export default function Home() {
   const [result, setResult] = useState<RecommendationResult | null>(null);
   const [formInputs, setFormInputs] = useState<OptimalCropsInput | null>(null);
   const [lastPrompt, setLastPrompt] = useState<string>('');
+  const [generalResponse, setGeneralResponse] = useState<string | null>(null);
 
   const { toast } = useToast();
 
@@ -23,16 +24,23 @@ export default function Home() {
     setError(null);
     setResult(null);
     setFormInputs(null);
+    setGeneralResponse(null);
     setLastPrompt(prompt);
     try {
-      const { recommendation, parsedInput } = await getRecommendationsFromPrompt(prompt);
-      setFormInputs(parsedInput);
-      if (recommendation.crops.length === 0) {
-        setError("The AI couldn't find any suitable crops based on your prompt. Please try adjusting the inputs.");
-        setResult(null);
+      const { recommendation, parsedInput, generalResponse } = await getRecommendationsFromPrompt(prompt);
+
+      if (recommendation) {
+        setFormInputs(parsedInput);
+        if (recommendation.crops.length === 0) {
+          setError("The AI couldn't find any suitable crops based on your prompt. Please try adjusting the inputs.");
+          setResult(null);
+        } else {
+          setResult(recommendation);
+        }
       } else {
-        setResult(recommendation);
+         setGeneralResponse(generalResponse);
       }
+
     } catch (e) {
       console.error(e);
       setError("An unexpected error occurred while getting recommendations. The AI model might have returned an unparsable response. Please check the console for details and try again.");
@@ -55,6 +63,7 @@ export default function Home() {
             loading={loading}
             error={error}
             result={result}
+            generalResponse={generalResponse}
             formInputs={formInputs}
             lastPrompt={lastPrompt}
             onSuggestionClick={handleGetRecommendations}

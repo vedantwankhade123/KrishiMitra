@@ -14,6 +14,7 @@ type CropResultsProps = {
   loading: boolean;
   error: string | null;
   result: RecommendationResult | null;
+  generalResponse: string | null;
   formInputs: OptimalCropsInput | null;
   lastPrompt: string;
   onSuggestionClick: (prompt: string) => void;
@@ -27,7 +28,7 @@ const suggestionPrompts = [
 
 function LoadingSkeleton() {
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 w-full">
       <div className="flex items-start gap-4">
         <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary flex-shrink-0">
           <Bot className="h-5 w-5" />
@@ -39,24 +40,13 @@ function LoadingSkeleton() {
           </CardContent>
         </Card>
       </div>
-       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {[...Array(3)].map((_, i) => (
-          <Card key={i}>
-            <CardContent className="p-4 space-y-4">
-              <Skeleton className="h-5 w-3/4" />
-              <Skeleton className="h-5 w-3/4" />
-              <Skeleton className="h-5 w-3/4" />
-            </CardContent>
-          </Card>
-        ))}
-      </div>
     </div>
   );
 }
 
 function ChatBubble({ children, variant }: { children: React.ReactNode, variant: 'user' | 'bot' }) {
     const avatar = variant === 'user' ? (
-        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-card flex-shrink-0 overflow-hidden">
+        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-card flex-shrink-0 overflow-hidden" data-ai-hint="user avatar">
             <Image src="https://picsum.photos/100/100" alt="User avatar" width={32} height={32} />
         </div>
     ) : (
@@ -68,7 +58,7 @@ function ChatBubble({ children, variant }: { children: React.ReactNode, variant:
     return (
         <div className={`flex items-start gap-4 ${variant === 'user' ? 'justify-end' : ''}`}>
             {variant === 'bot' && avatar}
-            <div className={`max-w-[85%] space-y-4 ${variant === 'user' ? 'items-end' : ''}`}>
+            <div className={`max-w-[85%] w-full flex flex-col space-y-4 ${variant === 'user' ? 'items-end' : ''}`}>
                 {children}
             </div>
             {variant === 'user' && avatar}
@@ -76,10 +66,10 @@ function ChatBubble({ children, variant }: { children: React.ReactNode, variant:
     );
 }
 
-export function CropResults({ loading, error, result, formInputs, lastPrompt, onSuggestionClick }: CropResultsProps) {
+export function CropResults({ loading, error, result, generalResponse, formInputs, lastPrompt, onSuggestionClick }: CropResultsProps) {
 
-  const showWelcome = !loading && !error && !result;
-  const showResults = !loading && !error && result;
+  const showWelcome = !loading && !error && !result && !lastPrompt;
+  const showResults = !loading && !error && (result || generalResponse);
 
   return (
       <div className="space-y-8">
@@ -106,7 +96,7 @@ export function CropResults({ loading, error, result, formInputs, lastPrompt, on
           </ChatBubble>
         )}
         
-        {loading && <ChatBubble variant="bot"><LoadingSkeleton /></ChatBubble>}
+        {loading && <LoadingSkeleton />}
 
         {error && (
             <ChatBubble variant="bot">
@@ -119,19 +109,28 @@ export function CropResults({ loading, error, result, formInputs, lastPrompt, on
 
         {showResults && (
             <ChatBubble variant="bot">
-                <div className="bg-card p-4 rounded-2xl rounded-bl-none">
-                  <p className="text-muted-foreground leading-relaxed">{result.summary}</p>
-                </div>
+                {generalResponse && (
+                  <div className="bg-card p-4 rounded-2xl rounded-bl-none">
+                    <p className="text-muted-foreground leading-relaxed">{generalResponse}</p>
+                  </div>
+                )}
+                {result?.summary && (
+                  <div className="bg-card p-4 rounded-2xl rounded-bl-none">
+                    <p className="text-muted-foreground leading-relaxed">{result.summary}</p>
+                  </div>
+                )}
                 
                 <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                {result.crops.length > 0 ? (
+                {result && result.crops.length > 0 ? (
                     result.crops.map(crop => (
                         <CropCard key={crop.name} crop={crop} formInputs={formInputs} />
                     ))
                     ) : (
-                    <p className="text-muted-foreground md:col-span-2 lg:col-span-3 text-center py-8">
-                        No crops were recommended. Try adjusting your prompt.
-                    </p>
+                      result && (
+                        <p className="text-muted-foreground md:col-span-2 lg:col-span-3 text-center py-8">
+                            No crops were recommended. Try adjusting your prompt.
+                        </p>
+                      )
                     )}
                 </div>
             </ChatBubble>
