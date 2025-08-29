@@ -155,7 +155,7 @@ export default function LandingPage() {
 
       </main>
 
-      <footer className="bg-black text-white rounded-t-3xl mt-16">
+      <footer className="bg-black text-white rounded-3xl m-2.5">
         <div className="container mx-auto px-4 py-16">
             <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-12">
                 <div className="lg:col-span-2">
