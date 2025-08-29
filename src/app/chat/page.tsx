@@ -139,7 +139,7 @@ export default function ChatPage() {
       <SidebarInset>
         <div className="flex flex-col min-h-screen">
           <Header />
-          <main className="flex-1 flex flex-col container mx-auto w-full max-w-2xl py-8">
+          <main className="flex-1 flex flex-col container mx-auto w-full max-w-2xl py-8 z-10">
             <div className="flex-1 pb-48">
               <CropResults
                 loading={loading}
@@ -148,7 +148,7 @@ export default function ChatPage() {
               />
             </div>
             <div className={cn(
-                "fixed bottom-0 right-0 bg-gradient-to-t from-background to-background/0",
+                "fixed bottom-0 right-0 bg-gradient-to-t from-background to-transparent",
                 "transition-[left] duration-200 ease-linear",
                 sidebarOpen && !isMobile ? "left-[16rem]" : "left-0"
               )}>
