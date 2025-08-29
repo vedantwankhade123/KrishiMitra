@@ -56,25 +56,3 @@
     -moz-osx-font-smoothing: grayscale;
   }
 }
-
-@keyframes shimmer {
-  from {
-    transform: translateX(-100%);
-  }
-  to {
-    transform: translateX(100%);
-  }
-}
-
-@keyframes dot-pulse {
-  0%, 100% {
-    opacity: 0;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-
-.animate-dot-pulse {
-  animation: dot-pulse 1.4s infinite;
-}
