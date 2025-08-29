@@ -34,12 +34,12 @@ export function ProfileButton() {
           <div className="flex items-center gap-3">
              <Avatar className="h-10 w-10">
                 <AvatarImage src="https://picsum.photos/seed/user-avatar/100/100" alt="User avatar" data-ai-hint="user avatar" />
-                <AvatarFallback>ME</AvatarFallback>
+                <AvatarFallback>U</AvatarFallback>
             </Avatar>
             <div className='space-y-1'>
-                <p className="text-sm font-medium leading-none text-foreground">Muhammad Emon</p>
+                <p className="text-sm font-medium leading-none text-foreground">Valued Farmer</p>
                 <p className="text-xs leading-none text-muted-foreground">
-                    helloeemon@gmail.com
+                    farmer@example.com
                 </p>
             </div>
           </div>
