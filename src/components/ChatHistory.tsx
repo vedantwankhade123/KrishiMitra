@@ -119,13 +119,12 @@ export function ChatHistory() {
                                     <span className="sr-only">Rename chat</span>
                                 </Button>
                                 <AlertDialog>
-                                    <AlertDialogTrigger asChild>
+                                    <AlertDialogTrigger asChild onClick={(e) => e.stopPropagation()}>
                                         <Button
                                             variant="ghost"
                                             size="icon"
                                             className="h-7 w-7 rounded-full text-muted-foreground hover:bg-primary/10 hover:text-primary"
                                             disabled={chatHistory.length <= 1}
-                                            onClick={(e) => { e.stopPropagation(); }}
                                         >
                                             <Trash2 className="h-4 w-4" />
                                             <span className="sr-only">Delete chat</span>
@@ -139,8 +138,8 @@ export function ChatHistory() {
                                         </AlertDialogDescription>
                                         </AlertDialogHeader>
                                         <AlertDialogFooter>
-                                        <AlertDialogCancel onClick={(e) => e.stopPropagation()}>Cancel</AlertDialogCancel>
-                                        <AlertDialogAction onClick={(e) => { e.stopPropagation(); deleteChat(chat.id)}}>Delete</AlertDialogAction>
+                                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                        <AlertDialogAction onClick={() => deleteChat(chat.id)}>Delete</AlertDialogAction>
                                         </AlertDialogFooter>
                                     </AlertDialogContent>
                                 </AlertDialog>
