@@ -20,7 +20,7 @@ export default function ChatLayout({
 }>) {
   return (
     <ChatHistoryProvider>
-        <SidebarProvider defaultOpen={true} variant="inset">
+        <SidebarProvider defaultOpen={false} variant="inset">
           <Sidebar>
             <SidebarContent>
               <SidebarHeader>
