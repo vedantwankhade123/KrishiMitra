@@ -10,6 +10,7 @@ import { Sparkles, User } from "lucide-react";
 import { useEffect, useRef } from 'react';
 import { useTranslation } from '@/hooks/useTranslation';
 import { TypingIndicator } from './TypingIndicator';
+import { cn } from '@/lib/utils';
 
 type CropResultsProps = {
   loading: boolean;
@@ -64,11 +65,18 @@ export function CropResults({ loading, conversation, onSuggestionClick }: CropRe
         {conversation.map((message) => (
             <ChatBubble key={message.id} variant={message.role}>
                 {message.role === 'user' && (
-                    <div className="bg-primary text-primary-foreground p-4 rounded-2xl rounded-br-none space-y-2">
+                    <div className={cn(
+                      "rounded-2xl rounded-br-none space-y-2",
+                      message.attachment ? "bg-primary/5 p-2" : "bg-primary text-primary-foreground p-4"
+                    )}>
                         {message.attachment && (
                             <Image src={message.attachment.url} alt="User attachment" width={200} height={200} className="rounded-lg" />
                         )}
-                        {message.text && <p>{message.text}</p>}
+                        {message.text && (
+                          <p className={cn(
+                            message.attachment ? "p-2 text-primary-foreground" : ""
+                          )}>{message.text}</p>
+                        )}
                     </div>
                 )}
                 {message.role === 'bot' && (
