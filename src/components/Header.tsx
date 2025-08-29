@@ -21,8 +21,10 @@ export function Header() {
                 size="icon"
                 className="h-9 w-9 rounded-full text-muted-foreground hover:text-foreground hover:bg-primary/10 transition-all duration-200 hover:scale-110"
               >
-                <Menu className="h-5 w-5" />
-                <span className="sr-only">Open menu</span>
+                <>
+                  <Menu className="h-5 w-5" />
+                  <span className="sr-only">Open menu</span>
+                </>
               </Button>
             </SidebarTrigger>
         </div>
