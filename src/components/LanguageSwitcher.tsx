@@ -21,13 +21,14 @@ export function LanguageSwitcher() {
   };
 
   const handleValueChange = (newLanguage: 'en' | 'hi' | 'mr') => {
+    // This check is still good practice to prevent unnecessary context updates.
     if (newLanguage !== language) {
       setLanguage(newLanguage);
     }
   };
 
   return (
-    <Select value={language} onValueChange={handleValueChange}>
+    <Select defaultValue={language} onValueChange={handleValueChange}>
       <SelectTrigger className="w-auto gap-2 border-none bg-transparent text-muted-foreground hover:text-foreground focus:ring-0">
         <Globe className="h-4 w-4" />
         <SelectValue>{languages[language]}</SelectValue>
