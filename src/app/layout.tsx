@@ -11,6 +11,7 @@ import { NewChatButton } from '@/components/NewChatButton';
 import { Button } from '@/components/ui/button';
 import { Menu } from 'lucide-react';
 import { ChatHistory } from '@/components/ChatHistory';
+import { ChatHistoryProvider } from '@/context/ChatHistoryContext';
 
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
@@ -38,33 +39,35 @@ export default function RootLayout({
             disableTransitionOnChange
         >
           <LanguageProvider>
-            <SidebarProvider defaultOpen={true} variant="inset">
-              <Sidebar>
-                <SidebarContent>
-                  <SidebarHeader>
-                    <div className="flex items-center justify-between w-full">
-                      <SidebarTrigger asChild>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-9 w-9 rounded-full text-muted-foreground hover:text-foreground hover:bg-primary/10 transition-all duration-200 hover:scale-110"
-                        >
-                          <Menu className="h-5 w-5" />
-                          <span className="sr-only">Open menu</span>
-                        </Button>
-                      </SidebarTrigger>
-                    </div>
-                  </SidebarHeader>
-                  <NewChatButton />
-                  <SidebarSeparator />
-                  <ChatHistory />
-                </SidebarContent>
-              </Sidebar>
-              <SidebarInset>
-                {children}
-              </SidebarInset>
-              <Toaster />
-            </SidebarProvider>
+            <ChatHistoryProvider>
+              <SidebarProvider defaultOpen={true} variant="inset">
+                <Sidebar>
+                  <SidebarContent>
+                    <SidebarHeader>
+                      <div className="flex items-center justify-between w-full">
+                        <SidebarTrigger asChild>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-9 w-9 rounded-full text-muted-foreground hover:text-foreground hover:bg-primary/10 transition-all duration-200 hover:scale-110"
+                          >
+                            <Menu className="h-5 w-5" />
+                            <span className="sr-only">Open menu</span>
+                          </Button>
+                        </SidebarTrigger>
+                      </div>
+                    </SidebarHeader>
+                    <NewChatButton />
+                    <SidebarSeparator />
+                    <ChatHistory />
+                  </SidebarContent>
+                </Sidebar>
+                <SidebarInset>
+                  {children}
+                </SidebarInset>
+                <Toaster />
+              </SidebarProvider>
+            </ChatHistoryProvider>
           </LanguageProvider>
         </ThemeProvider>
       </body>

@@ -1,8 +1,7 @@
 
-
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Header } from '@/components/Header';
 import { PromptForm } from '@/components/PromptForm';
 import { CropResults } from '@/components/CropResults';
@@ -14,20 +13,27 @@ import { useLanguage } from '@/context/LanguageContext';
 import { useTranslation } from '@/hooks/useTranslation';
 import { SidebarInset, useSidebar } from '@/components/ui/sidebar';
 import { cn } from '@/lib/utils';
+import { useChatHistory } from '@/context/ChatHistoryContext';
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [conversation, setConversation] = useState<ChatMessage[]>([]);
   const { language } = useLanguage();
   const { t } = useTranslation();
   const { toast } = useToast();
   const { open: sidebarOpen, isMobile } = useSidebar();
-
+  const { activeChat, updateActiveChat } = useChatHistory();
+  const [conversation, setConversation] = useState<ChatMessage[]>([]);
+  
+  useEffect(() => {
+    if (activeChat) {
+      setConversation(activeChat.messages);
+    } else {
+      setConversation([]);
+    }
+  }, [activeChat]);
 
   const handlePromptSubmit = async (prompt: string, attachment?: Attachment | null) => {
     setLoading(true);
-    setError(null);
 
     const userMessage: ChatMessage = {
       id: `user-${Date.now()}`,
@@ -35,7 +41,9 @@ export default function Home() {
       text: prompt,
       attachment: attachment
     };
-    setConversation(prev => [...prev, userMessage]);
+    
+    const updatedConversation = [...conversation, userMessage];
+    setConversation(updatedConversation);
 
     try {
       const { recommendation, parsedInput, generalResponse } = await getRecommendationsFromPrompt(prompt, language, attachment?.url);
@@ -65,18 +73,32 @@ export default function Home() {
             text: generalResponse,
           };
       }
-      setConversation(prev => [...prev, botMessage]);
+      
+      const finalConversation = [...updatedConversation, botMessage];
+      setConversation(finalConversation);
+
+      updateActiveChat(chat => ({
+          ...chat,
+          messages: finalConversation,
+          title: finalConversation.length === 2 ? (finalConversation[0].text || "Chat") : chat.title,
+      }));
 
     } catch (e) {
         console.error(e);
         const errorMsg = t('errors.unexpectedError');
-        setError(errorMsg);
         const errorBotMessage: ChatMessage = {
           id: `bot-error-${Date.now()}`,
           role: 'bot',
           error: errorMsg
         };
-        setConversation(prev => [...prev, errorBotMessage]);
+        const finalConversation = [...updatedConversation, errorBotMessage];
+        setConversation(finalConversation);
+
+        updateActiveChat(chat => ({
+          ...chat,
+          messages: finalConversation,
+        }));
+
         toast({
           title: t('errors.errorTitle'),
           description: t('errors.failedToGetRecommendations'),
@@ -113,7 +135,7 @@ export default function Home() {
                 <SuggestionPrompts onSuggestionClick={handleSuggestionClick} />
                 <PromptForm
                   onSubmit={handlePromptSubmit}
-                  disabled={loading}
+                  disabled={loading || !activeChat}
                 />
               </div>
             </div>

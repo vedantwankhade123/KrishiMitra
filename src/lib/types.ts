@@ -28,3 +28,10 @@ export type ChatMessage = {
   error?: string | null;
   attachment?: Attachment | null;
 };
+
+export type ChatSession = {
+  id: string;
+  title: string;
+  messages: ChatMessage[];
+  createdAt: number;
+};
