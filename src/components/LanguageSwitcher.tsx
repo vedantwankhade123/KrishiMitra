@@ -32,7 +32,7 @@ export function LanguageSwitcher() {
      <Select defaultValue={language} onValueChange={handleValueChange}>
       <SelectTrigger className={cn(
         buttonVariants({ variant: "ghost" }),
-        "h-9 rounded-full text-muted-foreground hover:bg-primary/10 hover:text-primary px-4 border-0"
+        "h-9 rounded-full text-foreground hover:bg-primary/10 hover:text-primary px-4 border-0"
       )}>
         <div className="flex items-center gap-2">
           <Globe className="h-5 w-5" />

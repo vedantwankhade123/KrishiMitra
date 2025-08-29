@@ -239,7 +239,7 @@ export function CropLibrary() {
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
-          <Button variant="ghost" className="h-9 rounded-full text-muted-foreground hover:bg-primary/10 hover:text-primary px-4">
+          <Button variant="ghost" className="h-9 rounded-full text-foreground hover:bg-primary/10 hover:text-primary px-4">
               <Sprout className="h-5 w-5" />
               <span className="ml-2">Crop Library</span>
               <span className="sr-only">View Crop Library</span>
