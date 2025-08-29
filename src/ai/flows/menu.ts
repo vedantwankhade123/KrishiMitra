@@ -103,7 +103,7 @@ USER_PROMPT: ${prompt || '(No text prompt provided)'}`;
     if (streaming) {
         const { stream, response } = ai.generateStream(llmRequest);
         await response;
-        return stream.text();
+        return stream;
     } else {
         return ai.generate(llmRequest);
     }
