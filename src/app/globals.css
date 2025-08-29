@@ -54,7 +54,9 @@
   }
   body {
     @apply text-foreground bg-background;
-    background-image: radial-gradient(ellipse 80% 50% at 50% 120%, hsl(var(--primary) / 0.15), transparent);
+    background-image: 
+      radial-gradient(ellipse 80% 50% at 50% -20%, hsl(var(--primary) / 0.1), transparent),
+      radial-gradient(ellipse 80% 50% at 50% 120%, hsl(var(--primary) / 0.15), transparent);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     scrollbar-width: thin;
@@ -142,11 +144,11 @@
     transform: translate(4px);
   }
 
-  .animated-button-shine:hover .animated-button-shine-before {
+  .animated-button-shine:hover::before {
     animation: shine 1.5s ease-out infinite;
   }
 
-  .animated-button-shine-before {
+  .animated-button-shine::before {
     content: "";
     position: absolute;
     width: 100px;
