@@ -36,7 +36,7 @@ export function Header() {
         </div>
         <div className="container relative flex h-16 items-center justify-center mx-auto max-w-4xl">
             {/* Middle Group */}
-            <div className="flex items-center gap-2 bg-white/10 dark:bg-black/10 backdrop-blur-xl border border-neutral-200/50 dark:border-neutral-800/50 rounded-full p-2">
+            <div className="flex items-center gap-2 bg-card/50 backdrop-blur-sm border border-primary/10 rounded-full p-2">
                 <Button variant="ghost" className="h-9 rounded-full text-foreground hover:bg-primary/10 hover:text-primary px-4" asChild>
                   <Link href="/">
                     <Home className="h-5 w-5" />
