@@ -41,7 +41,11 @@ export default function Home() {
       id: `user-${Date.now()}`,
       role: 'user',
       text: prompt,
-      attachment: attachment
+      attachment: attachment,
+      content: [
+        { text: prompt },
+        ...(attachment ? [{ media: { url: attachment.url } }] : [])
+      ],
     };
     
     const updatedConversation = [...conversation, userMessage];
@@ -59,7 +63,7 @@ export default function Home() {
           }).catch(e => console.error("Failed to generate title", e));
       }
 
-      const { recommendation, parsedInput, generalResponse } = await getRecommendationsFromPrompt(prompt, language, attachment?.url);
+      const { recommendation, parsedInput, generalResponse } = await getRecommendationsFromPrompt(prompt, language, conversation, attachment?.url);
       
       let botMessage: ChatMessage;
 
@@ -69,6 +73,7 @@ export default function Home() {
               id: `bot-error-${Date.now()}`,
               role: 'bot',
               text: t('errors.noCropsFound'),
+              content: [{ text: t('errors.noCropsFound') }]
             };
           } else {
             botMessage = {
@@ -76,7 +81,8 @@ export default function Home() {
               role: 'bot',
               recommendation,
               inputs: parsedInput,
-              text: generalResponse
+              text: generalResponse,
+              content: [{ text: generalResponse || '' }]
             };
           }
       } else {
@@ -84,6 +90,7 @@ export default function Home() {
             id: `bot-${Date.now()}`,
             role: 'bot',
             text: generalResponse,
+            content: [{ text: generalResponse || '' }]
           };
       }
       
@@ -102,7 +109,8 @@ export default function Home() {
         const errorBotMessage: ChatMessage = {
           id: `bot-error-${Date.now()}`,
           role: 'bot',
-          error: errorMsg
+          error: errorMsg,
+          content: [{ text: errorMsg }]
         };
         const finalConversation = [...updatedConversation, errorBotMessage];
         setConversation(finalConversation);

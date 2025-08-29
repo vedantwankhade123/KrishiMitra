@@ -19,10 +19,15 @@ export type Attachment = {
   type: string;
 }
 
+export type Part = 
+  | { text: string; media?: never }
+  | { text?: never; media: { url: string } };
+
 export type ChatMessage = {
   id: string;
   role: 'user' | 'bot';
   text?: string | null;
+  content: Part[];
   recommendation?: RecommendationResult | null;
   inputs?: OptimalCropsInput | null;
   error?: string | null;

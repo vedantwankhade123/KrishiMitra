@@ -13,12 +13,13 @@ import {
   type OptimalCropsOutput,
 } from '@/ai/schemas';
 import {z} from 'genkit';
-import {GenerateRequest} from 'genkit/generate';
+import {GenerateRequest, MessageData} from 'genkit/generate';
 
 const MenuInputSchema = z.object({
   prompt: z.string().describe('The user prompt.'),
   language: z.string().describe('The language to respond in.'),
   imageUrl: z.string().optional().describe('A data URI of an image uploaded by the user.'),
+  history: z.array(z.any()).optional().describe('The conversation history.'),
 });
 export type MenuInput = z.infer<typeof MenuInputSchema>;
 
@@ -72,7 +73,7 @@ const menuFlow = ai.defineFlow(
     inputSchema: MenuInputSchema,
     outputSchema: z.any(),
   },
-  async ({ prompt, language, imageUrl }) => {
+  async ({ prompt, language, imageUrl, history }) => {
 
     const systemPrompt = `You are an expert AI assistant for farmers. Your primary goal is to provide crop recommendations.
 
@@ -93,6 +94,7 @@ USER_PROMPT: ${prompt || '(No text prompt provided)'}`;
         prompt: llmPrompt,
         model: 'googleai/gemini-2.5-flash',
         tools: [recommendOptimalCropsTool],
+        history: history as MessageData[],
     });
   }
 );

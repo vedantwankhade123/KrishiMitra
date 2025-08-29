@@ -24,7 +24,7 @@ import {
   type GenerateTitleOutput,
 } from '@/ai/flows/generate-title';
 import { parseRecommendations } from '@/lib/parsers';
-import type { RecommendationResult } from '@/lib/types';
+import type { ChatMessage, Part, RecommendationResult } from '@/lib/types';
 import cropData from '@/lib/crop-data.json';
 
 export async function getRecommendations(input: OptimalCropsInput): Promise<RecommendationResult> {
@@ -32,8 +32,26 @@ export async function getRecommendations(input: OptimalCropsInput): Promise<Reco
   return parseRecommendations(result);
 }
 
-export async function getRecommendationsFromPrompt(prompt: string, language: string, imageUrl?: string): Promise<{recommendation: RecommendationResult | null, parsedInput: OptimalCropsInput | null, generalResponse: string | null}> {
-  const result = await menu({prompt, language, imageUrl});
+export async function getRecommendationsFromPrompt(prompt: string, language: string, history: ChatMessage[], imageUrl?: string): Promise<{recommendation: RecommendationResult | null, parsedInput: OptimalCropsInput | null, generalResponse: string | null}> {
+  
+  // Convert client-side ChatMessage[] to Genkit MessageData[]
+  const historyForGenkit = history.map(msg => {
+    // Determine role, ensuring 'bot' maps to 'model'
+    const role = msg.role === 'bot' ? 'model' : 'user';
+
+    // Construct content parts
+    const content: Part[] = [];
+    if (msg.text) {
+      content.push({ text: msg.text });
+    }
+    if (msg.attachment) {
+      content.push({ media: { url: msg.attachment.url } });
+    }
+
+    return { role, content };
+  });
+  
+  const result = await menu({prompt, language, imageUrl, history: historyForGenkit});
 
   if (result.toolRecommended && result.structuredOutput) {
     const recommendation = parseRecommendations(result.structuredOutput);
