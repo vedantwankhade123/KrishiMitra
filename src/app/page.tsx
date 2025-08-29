@@ -129,57 +129,6 @@ export default function LandingPage() {
             </div>
         </section>
 
-        <section className="py-16 md:py-24 bg-secondary/30">
-            <div className="container mx-auto px-4">
-                 <div className="text-center max-w-2xl mx-auto mb-12">
-                    <p className="text-primary font-semibold mb-2">Benefits</p>
-                    <h2 className="text-4xl font-bold mb-4">Why Choose Us - Key Benefits</h2>
-                     <p className="text-muted-foreground">Our innovative solutions for your farm's success. We analyze your unique conditions to provide data-driven strategies for boosting productivity and sustainability.</p>
-                </div>
-                <div className="grid md:grid-cols-2 gap-12 items-center">
-                    <div className="space-y-8">
-                        <div className="flex items-start gap-4">
-                            <div className="flex-shrink-0 h-12 w-12 rounded-full bg-primary/10 text-primary flex items-center justify-center">
-                                <Award className="h-6 w-6" />
-                            </div>
-                            <div>
-                                <h3 className="text-xl font-semibold mb-1">Smart Farming Technology</h3>
-                                <p className="text-muted-foreground">Get data-driven insights and AI-powered recommendations to make smarter decisions for your farm.</p>
-                            </div>
-                        </div>
-                        <div className="flex items-start gap-4">
-                            <div className="flex-shrink-0 h-12 w-12 rounded-full bg-primary/10 text-primary flex items-center justify-center">
-                                <BarChart className="h-6 w-6" />
-                            </div>
-                            <div>
-                                <h3 className="text-xl font-semibold mb-1">Improved Crop Yield</h3>
-                                <p className="text-muted-foreground">Optimize your planting strategies based on soil data, weather forecasts, and market trends to increase productivity.</p>
-                            </div>
-                        </div>
-                        <div className="flex items-start gap-4">
-                            <div className="flex-shrink-0 h-12 w-12 rounded-full bg-primary/10 text-primary flex items-center justify-center">
-                                <Users className="h-6 w-6" />
-                            </div>
-                            <div>
-                                <h3 className="text-xl font-semibold mb-1">Resource Optimization</h3>
-                                <p className="text-muted-foreground">Conserve water, reduce fertilizer use, and lower costs with our precision agriculture tools and recommendations.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="relative">
-                        <Image src="https://picsum.photos/seed/benefits-image/600/700" alt="Farmer holding seedlings" width={600} height={700} className="rounded-3xl object-cover" data-ai-hint="farmer holding seedlings" />
-                        <div className="absolute -bottom-8 -right-8 bg-card p-4 rounded-2xl shadow-lg max-w-xs border border-primary/10">
-                            <div className="flex items-center gap-2 mb-2">
-                                <CheckCircle className="h-5 w-5 text-primary" />
-                                <p className="font-semibold">Real-Time Data</p>
-                            </div>
-                            <p className="text-sm text-muted-foreground">Our AI provides instant analysis and ongoing recommendations.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <section className="py-16 md:py-24">
             <div className="container mx-auto px-4">
                 <div className="bg-lime-100/50 dark:bg-lime-900/20 rounded-3xl p-8 md:p-16 relative overflow-hidden">
@@ -277,5 +226,7 @@ export default function LandingPage() {
     </div>
   );
 }
+
+    
 
     
