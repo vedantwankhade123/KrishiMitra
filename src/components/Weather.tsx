@@ -97,7 +97,6 @@ export function Weather() {
                     setError("An unknown error occurred while accessing location.");
                     break;
             }
-            console.error(err);
             setLoading(false);
         },
         { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
