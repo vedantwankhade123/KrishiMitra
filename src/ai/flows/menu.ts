@@ -52,11 +52,6 @@ export async function menu(input: MenuInput): Promise<MenuOutput> {
   }
 }
 
-export async function menuStream(input: MenuInput) {
-    return await menuFlow(input, true);
-}
-
-
 const recommendOptimalCropsTool = ai.defineTool(
   {
     name: 'recommendOptimalCrops',
@@ -77,7 +72,7 @@ const menuFlow = ai.defineFlow(
     inputSchema: MenuInputSchema,
     outputSchema: z.any(),
   },
-  async ({ prompt, language, imageUrl }, streaming) => {
+  async ({ prompt, language, imageUrl }) => {
 
     const systemPrompt = `You are an expert AI assistant for farmers. Your primary goal is to provide crop recommendations.
 
@@ -94,20 +89,10 @@ USER_PROMPT: ${prompt || '(No text prompt provided)'}`;
         llmPrompt.push({media: {url: imageUrl}});
     }
 
-    const llmRequest: GenerateRequest = {
+    return await ai.generate({
         prompt: llmPrompt,
         model: 'googleai/gemini-2.5-flash',
         tools: [recommendOptimalCropsTool],
-    }
-
-    if (streaming) {
-        const { stream, response } = await ai.generateStream(llmRequest);
-        // We wait for the response to resolve to ensure tools are called if needed.
-        // However, we only return the text stream to the client.
-        await response;
-        return stream;
-    } else {
-        return await ai.generate(llmRequest);
-    }
+    });
   }
 );

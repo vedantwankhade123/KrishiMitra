@@ -9,7 +9,6 @@ import { CropCard } from "@/components/CropCard";
 import { Sparkles, User } from "lucide-react";
 import { useEffect, useRef } from 'react';
 import { useTranslation } from '@/hooks/useTranslation';
-import { TypingIndicator } from './TypingIndicator';
 import { cn } from '@/lib/utils';
 
 type CropResultsProps = {
@@ -83,7 +82,7 @@ export function CropResults({ loading, conversation, onSuggestionClick }: CropRe
                   <>
                     {message.text && (
                       <div className="p-4 rounded-2xl rounded-bl-none">
-                        <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">{message.text}{message.id.includes('streaming') ? <TypingIndicator />: ''}</p>
+                        <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">{message.text}</p>
                       </div>
                     )}
                     {message.recommendation && message.recommendation.crops.length > 0 && (
@@ -103,6 +102,14 @@ export function CropResults({ loading, conversation, onSuggestionClick }: CropRe
                 )}
             </ChatBubble>
         ))}
+
+        {loading && (
+          <ChatBubble variant="bot">
+            <div className="p-4 rounded-2xl rounded-bl-none">
+              <Skeleton className="h-4 w-32" />
+            </div>
+          </ChatBubble>
+        )}
         
         <div ref={scrollRef} />
       </div>

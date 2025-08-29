@@ -12,7 +12,7 @@ import {
 import { 
   extractFarmData,
 } from '@/ai/flows/extract-farm-data';
-import { menu, menuStream } from '@/ai/flows/menu';
+import { menu } from '@/ai/flows/menu';
 import { 
   transcribeAudio, 
   type TranscribeAudioInput, 
@@ -38,14 +38,6 @@ export async function getRecommendationsFromPrompt(prompt: string, language: str
   }
   
   return { recommendation: null, parsedInput: null, generalResponse: result.response };
-}
-
-export async function getStreamingResponse(prompt: string, language: string, imageUrl?: string) {
-    const stream = await menuStream({prompt, language, imageUrl});
-    
-    // The stream from `generateStream` is already an AsyncGenerator<string>
-    // so we can return it directly to be consumed by the client.
-    return stream;
 }
 
 export async function getExplanation(input: CropRecommendationExplainerInput): Promise<CropRecommendationExplainerOutput> {
