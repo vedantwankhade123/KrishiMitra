@@ -8,6 +8,8 @@ import { LanguageProvider } from '@/context/LanguageContext';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarTrigger } from '@/components/ui/sidebar';
 import { NewChatButton } from '@/components/NewChatButton';
+import { Button } from '@/components/ui/button';
+import { Menu } from 'lucide-react';
 
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
@@ -39,6 +41,16 @@ export default function RootLayout({
               <Sidebar>
                 <SidebarContent>
                   <SidebarHeader>
+                    <SidebarTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-9 w-9 rounded-full text-muted-foreground hover:text-foreground hover:bg-primary/10 transition-all duration-200 hover:scale-110"
+                      >
+                        <Menu className="h-5 w-5" />
+                        <span className="sr-only">Open menu</span>
+                      </Button>
+                    </SidebarTrigger>
                     <NewChatButton />
                   </SidebarHeader>
                 </SidebarContent>
