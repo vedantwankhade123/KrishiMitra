@@ -34,7 +34,7 @@ export default function LandingPage() {
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground overflow-x-hidden">
       <main className="flex-1">
-        <div className="relative bg-black rounded-b-3xl">
+        <div className="relative bg-black rounded-b-3xl m-2.5">
           <LandingHeader />
           <Image
             src="https://picsum.photos/seed/farmers/1200/800"
