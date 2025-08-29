@@ -22,13 +22,14 @@ export async function getRecommendations(input: OptimalCropsInput): Promise<Reco
   return parseRecommendations(result);
 }
 
-export async function getRecommendationsFromPrompt(prompt: string): Promise<{recommendation: RecommendationResult | null, parsedInput: OptimalCropsInput | null, generalResponse: string | null}> {
-  const result = await menu(prompt);
+export async function getRecommendationsFromPrompt(prompt: string, language: string): Promise<{recommendation: RecommendationResult | null, parsedInput: OptimalCropsInput | null, generalResponse: string | null}> {
+  const result = await menu({prompt, language});
 
   if (result.toolRecommended && result.structuredOutput) {
     const recommendation = parseRecommendations(result.structuredOutput);
-    // TODO: This is a bit of a hack. The `menu` flow should ideally return the parsed input.
     const parsedInput = await extractFarmData({prompt});
+    // Pass language to the parsed input for the explainer
+    parsedInput.language = language; 
     return { recommendation, parsedInput, generalResponse: result.response };
   }
   

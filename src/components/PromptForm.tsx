@@ -14,6 +14,7 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { Loader2, ArrowUp } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useTranslation } from '@/hooks/useTranslation';
 
 const formSchema = z.object({
   prompt: z.string().min(1, "Prompt cannot be empty."),
@@ -23,14 +24,6 @@ type PromptFormProps = {
   onSubmit: (prompt: string) => void;
   disabled: boolean;
 };
-
-const placeholderPrompts = [
-  "What crops are best for sandy soil?",
-  "Suggest drought-resistant options.",
-  "How can I improve soil nitrogen?",
-  "What should I plant after corn?",
-  "Show me profitable crops for a cool climate.",
-];
 
 export function PromptForm({
   onSubmit,
@@ -43,7 +36,10 @@ export function PromptForm({
     },
   });
 
-  const [placeholder, setPlaceholder] = useState("What is on your mind?");
+  const { t } = useTranslation();
+  const placeholderPrompts = t('promptForm.placeholders', { returnObjects: true }) as string[];
+
+  const [placeholder, setPlaceholder] = useState(t('promptForm.placeholder'));
 
   useEffect(() => {
     let currentPromptIndex = 0;
@@ -80,7 +76,7 @@ export function PromptForm({
     timeoutId = setTimeout(type, 1000); // Initial delay
 
     return () => clearTimeout(timeoutId);
-  }, []);
+  }, [placeholderPrompts]);
 
   const handleSubmit = (data: z.infer<typeof formSchema>) => {
     onSubmit(data.prompt);
@@ -100,8 +96,8 @@ export function PromptForm({
               <FormItem>
               <FormControl>
                   <Textarea
-                    aria-label="What is on your mind?"
-                    placeholder={!watchedPrompt ? placeholder : "What is on your mind?"}
+                    aria-label={t('promptForm.placeholder')}
+                    placeholder={!watchedPrompt ? placeholder : t('promptForm.placeholder')}
                     className="resize-none pr-14 min-h-[52px] text-base rounded-full bg-card border border-primary/10 focus:border-primary/30 flex items-center"
                     {...field}
                     onKeyDown={(e) => {
@@ -123,15 +119,15 @@ export function PromptForm({
               size="icon" 
               className="absolute right-2 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-primary hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2" 
               disabled={disabled || !watchedPrompt}
-              aria-label="Send"
+              aria-label={t('promptForm.send')}
           >
               {disabled ? <Loader2 className="h-5 w-5 animate-spin" /> : <ArrowUp className="h-5 w-5" />}
-              <span className="sr-only">Send</span>
+              <span className="sr-only">{t('promptForm.send')}</span>
           </Button>
       </form>
       </Form>
        <p className="text-center text-xs text-muted-foreground/50 pt-3">
-          AgriAssist can make mistakes. Consider checking important information.
+          {t('promptForm.disclaimer')}
       </p>
     </div>
   );

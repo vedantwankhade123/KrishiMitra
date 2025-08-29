@@ -24,6 +24,7 @@ const prompt = ai.definePrompt({
   input: {schema: OptimalCropsInputSchema},
   output: {schema: OptimalCropsOutputSchema},
   prompt: `You are an expert agricultural advisor. Based on the following data, recommend the optimal crops to plant.
+Your response must be in this language: {{{language}}}.
 
 Soil Data: {{{soilData}}}
 Weather Forecast: {{{weatherForecast}}}

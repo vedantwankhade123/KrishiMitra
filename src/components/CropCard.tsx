@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/card";
 import { Sprout, DollarSign, BarChart, Info, Leaf, TrendingUp } from "lucide-react";
 import { RecommendationExplainer } from "@/components/RecommendationExplainer";
+import { useTranslation } from "@/hooks/useTranslation";
 
 type CropCardProps = {
   crop: CropData;
@@ -20,6 +21,8 @@ type CropCardProps = {
 };
 
 export function CropCard({ crop, formInputs }: CropCardProps) {
+  const { t } = useTranslation();
+
   return (
     <Card className="flex flex-col transition-all duration-300 bg-card/50 backdrop-blur-sm border-primary/10 hover:border-primary/30">
       <CardHeader>
@@ -36,21 +39,21 @@ export function CropCard({ crop, formInputs }: CropCardProps) {
         <div className="flex items-start">
           <TrendingUp className="h-4 w-4 mr-3 mt-0.5 text-accent flex-shrink-0" />
           <div>
-            <span className="font-semibold mr-2">Yield:</span>
+            <span className="font-semibold mr-2">{t('cropCard.yield')}:</span>
             <span>{crop.yield.toFixed(1)} {crop.yieldUnit}</span>
           </div>
         </div>
         <div className="flex items-start">
           <DollarSign className="h-4 w-4 mr-3 mt-0.5 text-accent flex-shrink-0" />
           <div>
-            <span className="font-semibold mr-2">Profit Margin:</span>
+            <span className="font-semibold mr-2">{t('cropCard.profitMargin')}:</span>
             <span>~${crop.profit.toFixed(0)} / {crop.profitUnit.split('/')[1] || 'acre'}</span>
           </div>
         </div>
         <div className="flex items-start">
           <Leaf className="h-4 w-4 mr-3 mt-0.5 text-accent flex-shrink-0" />
           <div>
-            <span className="font-semibold mr-2">Sustainability:</span>
+            <span className="font-semibold mr-2">{t('cropCard.sustainability')}:</span>
             <span className="font-bold">{crop.sustainability}/10</span>
           </div>
         </div>
@@ -59,7 +62,7 @@ export function CropCard({ crop, formInputs }: CropCardProps) {
         <RecommendationExplainer cropName={crop.name} formInputs={formInputs}>
           <Button variant="ghost" size="sm" className="w-full text-muted-foreground hover:bg-primary/10 hover:text-primary">
             <Info className="mr-2 h-4 w-4" />
-            Why was this recommended?
+            {t('cropCard.whyRecommended')}
           </Button>
         </RecommendationExplainer>
       </CardFooter>

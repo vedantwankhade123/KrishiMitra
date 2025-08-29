@@ -9,11 +9,15 @@ import { getRecommendationsFromPrompt } from '@/app/actions';
 import { useToast } from '@/hooks/use-toast';
 import type { OptimalCropsInput } from '@/ai/schemas';
 import { SuggestionPrompts } from '@/components/SuggestionPrompts';
+import { useLanguage } from '@/context/LanguageContext';
+import { useTranslation } from '@/hooks/useTranslation';
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [conversation, setConversation] = useState<ChatMessage[]>([]);
+  const { language } = useLanguage();
+  const { t } = useTranslation();
 
   const { toast } = useToast();
 
@@ -29,7 +33,7 @@ export default function Home() {
     setConversation(prev => [...prev, userMessage]);
 
     try {
-      const { recommendation, parsedInput, generalResponse } = await getRecommendationsFromPrompt(prompt);
+      const { recommendation, parsedInput, generalResponse } = await getRecommendationsFromPrompt(prompt, language);
       
       let botMessage: ChatMessage;
 
@@ -38,7 +42,7 @@ export default function Home() {
            botMessage = {
             id: `bot-error-${Date.now()}`,
             role: 'bot',
-            error: "The AI couldn't find any suitable crops based on your prompt. Please try adjusting the inputs."
+            error: t('errors.noCropsFound')
           };
         } else {
           botMessage = {
@@ -60,7 +64,7 @@ export default function Home() {
 
     } catch (e) {
       console.error(e);
-      const errorMsg = "An unexpected error occurred while getting recommendations. The AI model might have returned an unparsable response. Please check the console for details and try again.";
+      const errorMsg = t('errors.unexpectedError');
       setError(errorMsg);
       const errorBotMessage: ChatMessage = {
         id: `bot-error-${Date.now()}`,
@@ -69,8 +73,8 @@ export default function Home() {
       };
       setConversation(prev => [...prev, errorBotMessage]);
       toast({
-        title: "Error",
-        description: "Failed to get recommendations. Please try again.",
+        title: t('errors.errorTitle'),
+        description: t('errors.failedToGetRecommendations'),
         variant: "destructive",
       });
     } finally {

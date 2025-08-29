@@ -16,6 +16,7 @@ const CropRecommendationExplainerInputSchema = z.object({
   weatherForecast: z.string().describe('Localized weather forecast data.'),
   cropRotationHistory: z.string().describe('Past crop rotation data.'),
   marketPrices: z.string().describe('Current market prices for various crops.'),
+  language: z.string().describe('The language to respond in.'),
 });
 export type CropRecommendationExplainerInput = z.infer<typeof CropRecommendationExplainerInputSchema>;
 
@@ -33,6 +34,7 @@ const prompt = ai.definePrompt({
   input: {schema: CropRecommendationExplainerInputSchema},
   output: {schema: CropRecommendationExplainerOutputSchema},
   prompt: `You are an AI assistant that explains why a certain crop is recommended to a farmer.
+  Your response must be in this language: {{language}}.
 
   Given the following information, summarize the key factors influencing the recommendation of {{crop}}.
 

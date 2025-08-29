@@ -17,6 +17,8 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { getExplanation } from '@/app/actions';
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from './ui/alert';
+import { useLanguage } from '@/context/LanguageContext';
+import { useTranslation } from '@/hooks/useTranslation';
 
 type RecommendationExplainerProps = {
   cropName: string;
@@ -34,6 +36,8 @@ export function RecommendationExplainer({
   const [error, setError] = useState<string | null>(null);
   const [explanation, setExplanation] = useState<string | null>(null);
   const { toast } = useToast();
+  const { language } = useLanguage();
+  const { t } = useTranslation();
 
   const handleOpenChange = async (open: boolean) => {
     setIsOpen(open);
@@ -44,14 +48,15 @@ export function RecommendationExplainer({
         const result = await getExplanation({
           crop: cropName,
           ...formInputs,
+          language,
         });
         setExplanation(result.explanation);
       } catch (e) {
         console.error(e);
-        setError("Failed to load explanation. Please try again later.");
+        setError(t('errors.failedToLoadExplanation'));
         toast({
-          title: "Error",
-          description: "Could not fetch the explanation.",
+          title: t('errors.errorTitle'),
+          description: t('errors.couldNotFetchExplanation'),
           variant: "destructive",
         });
       } finally {
@@ -65,9 +70,9 @@ export function RecommendationExplainer({
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-[525px] bg-card border-primary/20">
         <DialogHeader>
-          <DialogTitle className="font-bold text-2xl">Why {cropName}?</DialogTitle>
+          <DialogTitle className="font-bold text-2xl">{t('explainer.title', { cropName })}</DialogTitle>
           <DialogDescription>
-            An AI-generated summary of the key factors behind this recommendation.
+            {t('explainer.description')}
           </DialogDescription>
         </DialogHeader>
         <div className="py-4 text-sm max-h-[60vh] overflow-y-auto">
@@ -80,7 +85,7 @@ export function RecommendationExplainer({
           )}
           {error && (
             <Alert variant="destructive">
-              <AlertTitle>Error</AlertTitle>
+              <AlertTitle>{t('errors.errorTitle')}</AlertTitle>
               <AlertDescription>{error}</AlertDescription>
             </Alert>
           )}
@@ -89,7 +94,7 @@ export function RecommendationExplainer({
         <DialogFooter>
             <DialogClose asChild>
                 <Button type="button" variant="secondary">
-                Close
+                {t('explainer.close')}
                 </Button>
             </DialogClose>
         </DialogFooter>

@@ -14,7 +14,10 @@ import {
 } from '@/ai/schemas';
 import {z} from 'genkit';
 
-const MenuInputSchema = z.string().describe('The user prompt.');
+const MenuInputSchema = z.object({
+  prompt: z.string().describe('The user prompt.'),
+  language: z.string().describe('The language to respond in.'),
+});
 export type MenuInput = z.infer<typeof MenuInputSchema>;
 
 const MenuOutputSchema = z.object({
@@ -50,11 +53,12 @@ const menuFlow = ai.defineFlow(
     inputSchema: MenuInputSchema,
     outputSchema: MenuOutputSchema,
   },
-  async prompt => {
+  async ({ prompt, language }) => {
     const llmResponse = await ai.generate({
       prompt: `You are an expert AI assistant for farmers.
       If the user is asking for a recommendation, use the recommendOptimalCrops tool.
       Otherwise, simply answer their question.
+      Respond in the following language: ${language}.
       USER_PROMPT: ${prompt}`,
       model: 'googleai/gemini-2.5-flash',
       tools: [recommendOptimalCropsTool],

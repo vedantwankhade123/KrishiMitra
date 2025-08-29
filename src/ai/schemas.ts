@@ -9,6 +9,7 @@ export const OptimalCropsInputSchema = z.object({
     .string()
     .describe('The past crop rotation data for the field.'),
   marketPrices: z.string().describe('The current market prices for various crops.'),
+  language: z.string().describe('The language for the AI to respond in.').optional(),
 });
 export type OptimalCropsInput = z.infer<typeof OptimalCropsInputSchema>;
 

@@ -8,6 +8,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { CropCard } from "@/components/CropCard";
 import { Bot, User } from "lucide-react";
 import { useEffect, useRef } from 'react';
+import { useTranslation } from '@/hooks/useTranslation';
 
 type CropResultsProps = {
   loading: boolean;
@@ -54,6 +55,7 @@ function ChatBubble({ children, variant }: { children: React.ReactNode, variant:
 
 export function CropResults({ loading, conversation, onSuggestionClick }: CropResultsProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -67,8 +69,8 @@ export function CropResults({ loading, conversation, onSuggestionClick }: CropRe
       <div className="space-y-8">
         {showWelcome && (
             <div className="text-center pt-16">
-                <h1 className="text-3xl font-bold tracking-tighter mb-2">HI JOSH!</h1>
-                <p className="text-muted-foreground mb-10">What Do You Want To Chat About Today?</p>
+                <h1 className="text-3xl font-bold tracking-tighter mb-2">{t('welcome.title')}</h1>
+                <p className="text-muted-foreground mb-10">{t('welcome.subtitle')}</p>
             </div>
         )}
 
@@ -95,7 +97,7 @@ export function CropResults({ loading, conversation, onSuggestionClick }: CropRe
                     )}
                     {message.error && (
                        <Alert variant="destructive" className="bg-destructive/10 border-destructive/30">
-                            <AlertTitle className="font-bold text-lg">Error</AlertTitle>
+                            <AlertTitle className="font-bold text-lg">{t('errors.errorTitle')}</AlertTitle>
                             <AlertDescription>{message.error}</AlertDescription>
                         </Alert>
                     )}
