@@ -18,9 +18,9 @@ import { useEffect, useState } from 'react';
 export default function LandingPage() {
   const [headlineIndex, setHeadlineIndex] = useState(0);
   const headlines = [
-    "Smart Solutions for Farmers",
-    "Sustainable Farming, Higher Yields",
-    "Data-Driven Agriculture"
+    "Your AI Farming Assistant",
+    "Instant Crop Recommendations",
+    "Explore Our Crop Library"
   ];
 
   useEffect(() => {
