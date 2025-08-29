@@ -16,7 +16,7 @@ export type GenerateTitleInput = z.infer<typeof GenerateTitleInputSchema>;
 const GenerateTitleOutputSchema = z.object({
   title: z
     .string()
-    .describe('A short, concise title (2-3 words) for the chat session.'),
+    .describe('A very short, concise title (2 words max) for the chat session.'),
 });
 export type GenerateTitleOutput = z.infer<typeof GenerateTitleOutputSchema>;
 
@@ -30,7 +30,7 @@ const prompt = ai.definePrompt({
   name: 'generateTitlePrompt',
   input: {schema: GenerateTitleInputSchema},
   output: {schema: GenerateTitleOutputSchema},
-  prompt: `Generate a short, concise title (2-3 words max) in {{language}} for the following user prompt. The title should capture the main topic of the prompt.
+  prompt: `Generate a very short, concise title (2 words max) in {{language}} for the following user prompt. The title should capture the main topic of the prompt.
 
 User Prompt:
 "{{{prompt}}}"
