@@ -13,6 +13,9 @@ type ChatHistoryContextType = {
   deleteChat: (id: string) => void;
   clearAllChats: () => void;
   updateActiveChat: (updater: (chat: ChatSession) => ChatSession) => void;
+  startRenaming: (id: string) => void;
+  cancelRenaming: (id: string) => void;
+  confirmRename: (id: string, newTitle: string) => void;
 };
 
 const ChatHistoryContext = createContext<ChatHistoryContextType | undefined>(undefined);
@@ -98,10 +101,22 @@ export function ChatHistoryProvider({ children }: { children: ReactNode }) {
     });
   };
 
+  const startRenaming = (id: string) => {
+    setChatHistory(prev => prev.map(chat => chat.id === id ? { ...chat, isRenaming: true } : { ...chat, isRenaming: false }));
+  };
+
+  const cancelRenaming = (id: string) => {
+    setChatHistory(prev => prev.map(chat => chat.id === id ? { ...chat, isRenaming: false } : chat));
+  }
+
+  const confirmRename = (id: string, newTitle: string) => {
+    setChatHistory(prev => prev.map(chat => chat.id === id ? { ...chat, title: newTitle, isRenaming: false } : chat));
+  }
+
   const activeChat = chatHistory.find(chat => chat.id === activeChatId) || null;
 
   return (
-    <ChatHistoryContext.Provider value={{ chatHistory, activeChat, setActiveChatId, createNewChat, deleteChat, clearAllChats, updateActiveChat }}>
+    <ChatHistoryContext.Provider value={{ chatHistory, activeChat, setActiveChatId, createNewChat, deleteChat, clearAllChats, updateActiveChat, startRenaming, cancelRenaming, confirmRename }}>
       {children}
     </ChatHistoryContext.Provider>
   );

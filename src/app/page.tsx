@@ -80,7 +80,7 @@ export default function Home() {
       updateActiveChat(chat => ({
           ...chat,
           messages: finalConversation,
-          title: finalConversation.length === 2 ? (finalConversation[0].text || "Chat") : chat.title,
+          title: finalConversation.length === 2 ? (finalConversation[0].text?.substring(0, 40) || "Chat") : chat.title,
       }));
 
     } catch (e) {

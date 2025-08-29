@@ -34,4 +34,5 @@ export type ChatSession = {
   title: string;
   messages: ChatMessage[];
   createdAt: number;
+  isRenaming?: boolean;
 };
