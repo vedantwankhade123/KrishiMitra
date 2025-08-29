@@ -82,7 +82,7 @@ export function CropResults({ loading, conversation, onSuggestionClick }: CropRe
                 {message.role === 'bot' && (
                   <>
                     {message.text && (
-                      <div className="p-4 rounded-2xl rounded-bl-none prose prose-sm dark:prose-invert prose-headings:font-semibold prose-p:text-muted-foreground prose-strong:text-foreground">
+                      <div className="p-4 rounded-2xl rounded-bl-none prose prose-sm dark:prose-invert prose-headings:font-semibold prose-p:text-muted-foreground prose-strong:text-foreground dark:text-white">
                         <ReactMarkdown>{message.text}</ReactMarkdown>
                       </div>
                     )}
