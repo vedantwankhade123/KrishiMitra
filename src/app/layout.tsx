@@ -55,7 +55,7 @@ export default function RootLayout({
                   </SidebarHeader>
                 </SidebarContent>
               </Sidebar>
-              <div className="absolute top-0 left-0 w-full h-[400px] bg-gradient-to-b from-primary/20 via-primary/5 to-transparent -z-10" />
+              <div className="fixed top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,hsl(var(--primary)/0.3),transparent)] -z-10" />
               {children}
               <Toaster />
             </SidebarProvider>

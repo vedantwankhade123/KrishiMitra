@@ -23,10 +23,9 @@
     --border: 200 13% 88%;
     --input: 200 13% 91%;
     --ring: 150 80% 45%;
-    --radius: 0.8rem;
   }
   .dark {
-    --background: 180 15% 8%;
+    --background: 150 15% 5%;
     --foreground: 180 10% 95%;
     --card: 180 12% 12%;
     --card-foreground: 180 10% 95%;
