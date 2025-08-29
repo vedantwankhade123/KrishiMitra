@@ -41,7 +41,11 @@ export async function getRecommendationsFromPrompt(prompt: string, language: str
 }
 
 export async function getStreamingResponse(prompt: string, language: string, imageUrl?: string) {
-    return await menuStream({prompt, language, imageUrl});
+    const stream = await menuStream({prompt, language, imageUrl});
+    
+    // The stream from `generateStream` is already an AsyncGenerator<string>
+    // so we can return it directly to be consumed by the client.
+    return stream;
 }
 
 export async function getExplanation(input: CropRecommendationExplainerInput): Promise<CropRecommendationExplainerOutput> {

@@ -101,11 +101,13 @@ USER_PROMPT: ${prompt || '(No text prompt provided)'}`;
     }
 
     if (streaming) {
-        const { stream, response } = ai.generateStream(llmRequest);
+        const { stream, response } = await ai.generateStream(llmRequest);
+        // We wait for the response to resolve to ensure tools are called if needed.
+        // However, we only return the text stream to the client.
         await response;
         return stream;
     } else {
-        return ai.generate(llmRequest);
+        return await ai.generate(llmRequest);
     }
   }
 );
