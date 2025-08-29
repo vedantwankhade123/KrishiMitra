@@ -246,7 +246,7 @@ export function CropLibrary() {
           </Button>
       </DialogTrigger>
 
-      <DialogContent className="max-w-4xl h-[90vh] border-primary/20 flex flex-col">
+      <DialogContent className="max-w-4xl h-[90vh] border-primary/20 flex flex-col dark:bg-gradient-radial-primary">
         {selectedCrop ? renderDetailView(selectedCrop) : renderListView()}
       </DialogContent>
     </Dialog>
