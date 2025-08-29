@@ -84,51 +84,54 @@ export function ChatHistory() {
                         onClick={() => !chat.isRenaming && !isDeleteMode && setActiveChatId(chat.id)}
                     >
                         <div className={cn(
-                            "flex items-center truncate transition-transform duration-300 ease-in-out w-full px-4",
-                            isDeleteMode && "-translate-x-10"
+                            "flex items-center truncate transition-transform duration-300 ease-in-out w-full",
+                            isDeleteMode ? "-translate-x-10" : "translate-x-0"
                         )}>
-                            {chat.isRenaming ? (
-                                <>
-                                <input 
-                                    type="text"
-                                    value={editingTitle}
-                                    onChange={(e) => setEditingTitle(e.target.value)}
-                                    onKeyDown={(e) => {
-                                        if (e.key === 'Enter') handleRenameConfirm(chat.id);
-                                        if (e.key === 'Escape') handleRenameCancel(chat.id);
-                                    }}
-                                    className="bg-transparent border-b border-primary/50 focus:outline-none flex-1 text-sm h-7"
-                                    autoFocus
-                                    onFocus={(e) => e.target.select()}
-                                />
-                                    <div className='flex items-center'>
-                                        <Button variant="ghost" size="icon" className="h-7 w-7 rounded-full" onClick={() => handleRenameConfirm(chat.id)}>
-                                            <Check className="h-4 w-4 text-green-500" />
-                                        </Button>
-                                        <Button variant="ghost" size="icon" className="h-7 w-7 rounded-full" onClick={() => handleRenameCancel(chat.id)}>
-                                            <X className="h-4 w-4 text-red-500" />
-                                        </Button>
-                                    </div>
-                                </>
-                            ) : (
-                                <>
-                                    <div className="flex items-center truncate flex-1">
+                            <div className="flex-1 flex items-center truncate px-4">
+                                {chat.isRenaming ? (
+                                    <>
+                                        <input 
+                                            type="text"
+                                            value={editingTitle}
+                                            onChange={(e) => setEditingTitle(e.target.value)}
+                                            onKeyDown={(e) => {
+                                                if (e.key === 'Enter') handleRenameConfirm(chat.id);
+                                                if (e.key === 'Escape') handleRenameCancel(chat.id);
+                                            }}
+                                            className="bg-transparent border-b border-primary/50 focus:outline-none flex-1 text-sm h-7"
+                                            autoFocus
+                                            onFocus={(e) => e.target.select()}
+                                        />
+                                        <div className='flex items-center'>
+                                            <Button variant="ghost" size="icon" className="h-7 w-7 rounded-full" onClick={() => handleRenameConfirm(chat.id)}>
+                                                <Check className="h-4 w-4 text-green-500" />
+                                            </Button>
+                                            <Button variant="ghost" size="icon" className="h-7 w-7 rounded-full" onClick={() => handleRenameCancel(chat.id)}>
+                                                <X className="h-4 w-4 text-red-500" />
+                                            </Button>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <>
                                         <MessageSquare className="h-4 w-4 mr-2 flex-shrink-0" />
-                                        <span className="truncate">{chat.title}</span>
-                                    </div>
-                                    <div className='flex items-center'>
-                                        <Button
-                                            variant="ghost"
-                                            size="icon"
-                                            className="h-7 w-7 rounded-full text-muted-foreground hover:bg-primary/10 hover:text-primary"
-                                            onClick={(e) => { e.stopPropagation(); handleRenameStart(chat); }}
-                                        >
-                                            <Pencil className="h-4 w-4" />
-                                            <span className="sr-only">Rename chat</span>
-                                        </Button>
-                                    </div>
-                                </>
-                            )}
+                                        <span className="truncate flex-1">{chat.title}</span>
+                                        <div className={cn(
+                                            'flex items-center',
+                                            isDeleteMode && 'opacity-0'
+                                        )}>
+                                            <Button
+                                                variant="ghost"
+                                                size="icon"
+                                                className="h-7 w-7 rounded-full text-muted-foreground hover:bg-primary/10 hover:text-primary"
+                                                onClick={(e) => { e.stopPropagation(); handleRenameStart(chat); }}
+                                            >
+                                                <Pencil className="h-4 w-4" />
+                                                <span className="sr-only">Rename chat</span>
+                                            </Button>
+                                        </div>
+                                    </>
+                                )}
+                            </div>
                         </div>
 
                         <AlertDialog>
