@@ -16,9 +16,6 @@ export function LandingHeader() {
             <Logo />
             
             <div className="hidden md:flex items-center justify-center gap-2 bg-black/30 backdrop-blur-sm border border-white/10 rounded-full px-4 py-2">
-                <Button variant="pill" asChild>
-                    <Link href="/">Home</Link>
-                </Button>
                  <Button variant="pill" visual="ghost" asChild>
                     <Link href="/chat">Krishi AI</Link>
                 </Button>
