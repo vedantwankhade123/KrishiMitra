@@ -18,7 +18,7 @@ export const AuroraBackground = ({
   return (
     <div
       className={cn(
-        "relative h-screen w-full bg-background text-foreground transition-bg",
+        "relative h-screen w-full bg-transparent text-foreground transition-bg",
         className
       )}
       {...props}
@@ -32,7 +32,7 @@ export const AuroraBackground = ({
           [background-image:var(--white-gradient),var(--aurora)]
           dark:[background-image:var(--dark-gradient),var(--aurora)]
           [background-size:300%,_200%]
-          [background-position:50%_50%,50%_50%]
+          [background-position:50%_0%,50%_50%]
           filter-none
           brightness-100
           saturate-150
