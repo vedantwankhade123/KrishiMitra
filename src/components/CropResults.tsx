@@ -1,3 +1,4 @@
+
 'use client';
 
 import Image from 'next/image';
@@ -64,7 +65,7 @@ export function CropResults({ loading, conversation, onSuggestionClick }: CropRe
                 {message.role === 'user' && (
                     <div className={cn(
                       "rounded-2xl rounded-br-none space-y-2",
-                      message.attachment ? "bg-primary/5 p-2" : "bg-primary text-primary-foreground p-4"
+                      message.attachment ? "bg-primary/5 p-2" : "bg-gradient-to-br from-primary to-primary/70 text-primary-foreground p-4"
                     )}>
                         {message.attachment && (
                             <Image src={message.attachment.url} alt="User attachment" width={200} height={200} className="rounded-lg" />
