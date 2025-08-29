@@ -19,6 +19,8 @@ export const dictionary = {
       ],
       send: "Send",
       disclaimer: "AgriAssist can make mistakes. Consider checking important information.",
+      startRecording: "Start recording",
+      stopRecording: "Stop recording",
     },
     suggestions: [
       { title: "What are the most profitable crops for sandy loam soil?", prompt: "I have sandy loam soil and want to maximize profit." },
@@ -66,6 +68,8 @@ export const dictionary = {
       ],
       send: "भेजें",
       disclaimer: "एग्रीअसिस्ट गलतियाँ कर सकता है। महत्वपूर्ण जानकारी की जाँच करने पर विचार करें।",
+      startRecording: "रिकॉर्डिंग शुरू करें",
+      stopRecording: "रिकॉर्डिंग बंद करें",
     },
     suggestions: [
       { title: "रेतीली दोमट मिट्टी के लिए सबसे अधिक लाभदायक फसलें कौन सी हैं?", prompt: "मेरे पास रेतीली दोमट मिट्टी है और मैं लाभ को अधिकतम करना चाहता हूं।" },
@@ -113,6 +117,8 @@ export const dictionary = {
       ],
       send: "पाठवा",
       disclaimer: "ऍग्रीअसिस्ट चुका करू शकते. महत्वाची माहिती तपासण्याचा विचार करा.",
+      startRecording: "रेकॉर्डिंग सुरू करा",
+      stopRecording: "रेकॉर्डिंग थांबवा",
     },
     suggestions: [
         { title: "वाळूमिश्रित चिकणमातीसाठी सर्वात फायदेशीर पिके कोणती आहेत?", prompt: "माझ्याकडे वाळूमिश्रित चिकणमाती आहे आणि मला नफा वाढवायचा आहे." },

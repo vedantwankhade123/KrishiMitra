@@ -12,9 +12,12 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
-import { Loader2, ArrowUp } from 'lucide-react';
+import { Loader2, ArrowUp, Mic, Square, BrainCircuit } from 'lucide-react';
 import { useEffect, useState, useRef } from 'react';
 import { useTranslation } from '@/hooks/useTranslation';
+import { useRecorder } from '@/hooks/use-recorder';
+import { getTranscription } from '@/app/actions';
+import { useLanguage } from '@/context/LanguageContext';
 
 const formSchema = z.object({
   prompt: z.string().min(1, "Prompt cannot be empty."),
@@ -38,9 +41,12 @@ export function PromptForm({
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const { t } = useTranslation();
+  const { language } = useLanguage();
   const placeholderPrompts = t('promptForm.placeholders', { returnObjects: true }) as string[];
 
   const [placeholder, setPlaceholder] = useState(t('promptForm.placeholder'));
+  const { isRecording, startRecording, stopRecording, audioData } = useRecorder();
+  const [isTranscribing, setIsTranscribing] = useState(false);
 
   useEffect(() => {
     let currentPromptIndex = 0;
@@ -79,6 +85,25 @@ export function PromptForm({
     return () => clearTimeout(timeoutId);
   }, [placeholderPrompts]);
 
+  useEffect(() => {
+    const transcribe = async () => {
+      if (audioData) {
+        setIsTranscribing(true);
+        try {
+          const result = await getTranscription({ audioDataUri: audioData, language });
+          if(result.transcription) {
+            form.setValue('prompt', form.getValues('prompt') + result.transcription);
+          }
+        } catch (error) {
+          console.error("Transcription failed", error);
+        } finally {
+          setIsTranscribing(false);
+        }
+      }
+    };
+    transcribe();
+  }, [audioData, form, language]);
+
   const handleSubmit = (data: z.infer<typeof formSchema>) => {
     onSubmit(data.prompt);
     form.reset();
@@ -89,9 +114,13 @@ export function PromptForm({
   useEffect(() => {
     if (textareaRef.current) {
       textareaRef.current.style.height = 'auto';
-      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+      const scrollHeight = textareaRef.current.scrollHeight;
+      const maxHeight = 200; // Corresponds to max-h-48 (12rem) roughly
+      textareaRef.current.style.height = `${Math.min(scrollHeight, maxHeight)}px`;
     }
   }, [watchedPrompt]);
+  
+  const isMicDisabled = disabled || isTranscribing;
 
   return (
     <div className="px-4">
@@ -107,7 +136,7 @@ export function PromptForm({
                     ref={textareaRef}
                     aria-label={t('promptForm.placeholder')}
                     placeholder={!watchedPrompt ? placeholder : t('promptForm.placeholder')}
-                    className="resize-none pr-14 text-base rounded-full bg-card border-2 border-primary/10 focus-visible:border-primary/50 focus-visible:ring-0 focus-visible:ring-offset-0 transition-all duration-300 overflow-y-hidden max-h-48 py-3.5"
+                    className="resize-none pr-24 text-base rounded-full bg-card border-2 border-primary/10 focus-visible:border-primary/50 focus-visible:ring-0 focus-visible:ring-offset-0 transition-all duration-300 overflow-y-auto max-h-48 py-3.5 pl-5"
                     rows={1}
                     {...field}
                     onKeyDown={(e) => {
@@ -124,16 +153,37 @@ export function PromptForm({
               </FormItem>
           )}
           />
-          <Button 
-              type="submit" 
-              size="icon" 
-              className="absolute right-1.5 bottom-1.5 h-10 w-10 rounded-full bg-primary hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2" 
-              disabled={disabled || !watchedPrompt}
-              aria-label={t('promptForm.send')}
-          >
-              {disabled ? <Loader2 className="h-5 w-5 animate-spin" /> : <ArrowUp className="h-5 w-5" />}
-              <span className="sr-only">{t('promptForm.send')}</span>
-          </Button>
+          <div className="absolute right-1.5 bottom-1.5 flex items-center gap-1.5">
+            <Button 
+                type="button" 
+                size="icon" 
+                variant="ghost"
+                className="h-10 w-10 rounded-full text-muted-foreground hover:bg-primary/10 hover:text-primary"
+                disabled={isMicDisabled}
+                onClick={isRecording ? stopRecording : startRecording}
+                aria-label={isRecording ? "Stop recording" : "Start recording"}
+            >
+                {isRecording ? (
+                  <Square className="h-5 w-5 text-red-500 fill-red-500" />
+                ) : isTranscribing ? (
+                  <BrainCircuit className="h-5 w-5 animate-pulse" />
+                ) : (
+                  <Mic className="h-5 w-5" />
+                )}
+                <span className="sr-only">{isRecording ? "Stop recording" : "Start recording"}</span>
+            </Button>
+
+            <Button 
+                type="submit" 
+                size="icon" 
+                className="h-10 w-10 rounded-full bg-primary hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2" 
+                disabled={disabled || !watchedPrompt}
+                aria-label={t('promptForm.send')}
+            >
+                {disabled ? <Loader2 className="h-5 w-5 animate-spin" /> : <ArrowUp className="h-5 w-5" />}
+                <span className="sr-only">{t('promptForm.send')}</span>
+            </Button>
+          </div>
       </form>
       </Form>
        <p className="text-center text-xs text-muted-foreground/50 pt-3">

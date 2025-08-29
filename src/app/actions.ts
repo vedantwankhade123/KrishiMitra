@@ -13,6 +13,11 @@ import {
   extractFarmData,
 } from '@/ai/flows/extract-farm-data';
 import { menu } from '@/ai/flows/menu';
+import { 
+  transcribeAudio, 
+  type TranscribeAudioInput, 
+  type TranscribeAudioOutput 
+} from '@/ai/flows/transcribe-audio';
 import { parseRecommendations } from '@/lib/parsers';
 import type { RecommendationResult } from '@/lib/types';
 
@@ -38,4 +43,8 @@ export async function getRecommendationsFromPrompt(prompt: string, language: str
 
 export async function getExplanation(input: CropRecommendationExplainerInput): Promise<CropRecommendationExplainerOutput> {
   return await cropRecommendationExplainer(input);
+}
+
+export async function getTranscription(input: TranscribeAudioInput): Promise<TranscribeAudioOutput> {
+  return await transcribeAudio(input);
 }
