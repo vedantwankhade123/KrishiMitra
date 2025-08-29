@@ -29,11 +29,11 @@ export function LanguageSwitcher() {
 
   return (
      <Select defaultValue={language} onValueChange={handleValueChange}>
-      <SelectTrigger asChild>
-        <Button variant="ghost" className="h-9 rounded-full text-muted-foreground hover:text-foreground px-4">
+      <SelectTrigger className="h-9 rounded-full text-muted-foreground hover:text-foreground px-4 w-auto bg-card/50 backdrop-blur-sm border-primary/10 hover:border-primary/30 focus:ring-0 focus:ring-offset-0">
+        <div className="flex items-center gap-2">
             <Globe className="h-5 w-5" />
-            <span className="ml-2">{languages[language]}</span>
-        </Button>
+            <span>{languages[language]}</span>
+        </div>
       </SelectTrigger>
       <SelectContent>
         <SelectItem value="en">English</SelectItem>
