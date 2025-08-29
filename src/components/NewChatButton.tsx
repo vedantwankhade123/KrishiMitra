@@ -3,16 +3,19 @@
 import { Plus } from "lucide-react";
 import { Button } from "./ui/button";
 import { useTranslation } from "@/hooks/useTranslation";
+import { useSidebar } from "./ui/sidebar";
 
 export function NewChatButton() {
     const { t } = useTranslation();
+    const { setOpenMobile } = useSidebar();
     const handleNewChat = () => {
         window.location.reload();
+        setOpenMobile(false);
     }
     return (
         <Button 
             variant="ghost" 
-            className="text-muted-foreground hover:text-foreground h-9 rounded-full px-4"
+            className="w-full justify-start"
             onClick={handleNewChat}
         >
             <Plus className="h-5 w-5 mr-2" />

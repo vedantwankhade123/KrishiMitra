@@ -10,6 +10,9 @@ import { useToast } from '@/hooks/use-toast';
 import { SuggestionPrompts } from '@/components/SuggestionPrompts';
 import { useLanguage } from '@/context/LanguageContext';
 import { useTranslation } from '@/hooks/useTranslation';
+import { Sidebar, SidebarContent, SidebarHeader, SidebarInset, SidebarItem, SidebarMenu, SidebarMenuItem, SidebarTrigger } from '@/components/ui/sidebar';
+import { NewChatButton } from '@/components/NewChatButton';
+import { Separator } from '@/components/ui/separator';
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
@@ -86,26 +89,39 @@ export default function Home() {
   }
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <Header />
-      <main className="flex-1 flex flex-col container mx-auto w-full max-w-2xl py-8">
-        <div className="flex-1 pb-48">
-          <CropResults
-            loading={loading}
-            conversation={conversation}
-            onSuggestionClick={handleSuggestionClick}
-          />
+    <>
+      <Sidebar>
+        <SidebarContent>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <NewChatButton />
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarContent>
+      </Sidebar>
+      <SidebarInset>
+        <div className="flex flex-col min-h-screen">
+          <Header />
+          <main className="flex-1 flex flex-col container mx-auto w-full max-w-2xl py-8">
+            <div className="flex-1 pb-48">
+              <CropResults
+                loading={loading}
+                conversation={conversation}
+                onSuggestionClick={handleSuggestionClick}
+              />
+            </div>
+            <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-background via-background/80 to-transparent">
+              <div className="container mx-auto max-w-2xl px-4 pt-8 pb-4">
+                <SuggestionPrompts onSuggestionClick={handleSuggestionClick} />
+                <PromptForm
+                  onSubmit={handlePromptSubmit}
+                  disabled={loading}
+                />
+              </div>
+            </div>
+          </main>
         </div>
-        <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-background via-background/80 to-transparent">
-          <div className="container mx-auto max-w-2xl px-4 pt-8 pb-4">
-            <SuggestionPrompts onSuggestionClick={handleSuggestionClick} />
-            <PromptForm
-              onSubmit={handlePromptSubmit}
-              disabled={loading}
-            />
-          </div>
-        </div>
-      </main>
-    </div>
+      </SidebarInset>
+    </>
   );
 }
