@@ -190,20 +190,20 @@ export function Weather() {
                                 className="justify-center flex-wrap"
                                 variant="outline"
                             >
-                                <ToggleGroupItem value="mapnik" aria-label="Standard map view" className="gap-2">
+                                <ToggleGroupItem value="mapnik" aria-label="Standard map view" className="gap-2 rounded-full">
                                     <Map className="h-4 w-4"/>
                                     Standard
                                 </ToggleGroupItem>
-                                <ToggleGroupItem value="cyclemap" aria-label="Cycle map view" className="gap-2">
+                                <ToggleGroupItem value="cyclemap" aria-label="Cycle map view" className="gap-2 rounded-full">
                                     <Bike className="h-4 w-4"/>
                                     Cycle
                                 </ToggleGroupItem>
-                                <ToggleGroupItem value="transportmap" aria-label="Transport map view" className="gap-2">
+                                <ToggleGroupItem value="transportmap" aria-label="Transport map view" className="gap-2 rounded-full">
                                     <Waypoints className="h-4 w-4"/>
                                     Transport
                                 </ToggleGroupItem>
                             </ToggleGroup>
-                             <Button asChild variant="outline" size="sm" className="w-full">
+                             <Button asChild variant="outline" size="sm" className="w-full rounded-full">
                                 <a href={openStreetMapUrl} target="_blank" rel="noopener noreferrer">
                                    <MapPin className="h-4 w-4 mr-2" />
                                     View on OpenStreetMap
