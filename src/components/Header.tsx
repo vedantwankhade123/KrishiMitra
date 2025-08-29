@@ -44,13 +44,6 @@ export function Header() {
                     <span className="ml-2">Home</span>
                   </Link>
                 </Button>
-                 <Separator orientation="vertical" className="h-6" />
-                 <Button variant="ghost" className="h-9 rounded-full text-foreground hover:bg-primary/10 hover:text-primary px-4" asChild>
-                  <Link href="/chat">
-                    <BrainCircuit className="h-5 w-5" />
-                    <span className="ml-2">Krishi AI</span>
-                  </Link>
-                </Button>
                 <Separator orientation="vertical" className="h-6" />
                 <Weather />
                 <Separator orientation="vertical" className="h-6" />
