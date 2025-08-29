@@ -61,7 +61,7 @@ export function ChatHistory() {
                 variant="ghost"
                 size="icon"
                 className={cn(
-                    "h-7 w-7 rounded-full text-muted-foreground hover:text-primary",
+                    "h-7 w-7 rounded-full text-muted-foreground hover:bg-primary/10 hover:text-primary",
                     isDeleteMode && "bg-primary/10 text-primary"
                 )}
                 onClick={toggleDeleteMode}
@@ -81,7 +81,7 @@ export function ChatHistory() {
                             !chat.isRenaming && "hover:bg-primary/10 hover:text-primary transition-colors cursor-pointer",
                             activeChat?.id === chat.id && !chat.isRenaming && "bg-primary/10 text-primary"
                         )}
-                        onClick={() => !chat.isRenaming && !isDeleteMode && setActiveChatId(chat.id)}
+                        onClick={() => !chat.isRenaming && setActiveChatId(chat.id)}
                     >
                         <div className="flex items-center w-full">
                             <div className={cn("flex-1 flex items-center truncate pl-4")}>
@@ -118,7 +118,7 @@ export function ChatHistory() {
                                                  <Button
                                                     variant="ghost"
                                                     size="icon"
-                                                    className="h-7 w-7 rounded-full text-muted-foreground hover:bg-primary/10 hover:text-primary"
+                                                    className="h-7 w-7 rounded-full text-muted-foreground hover:bg-primary/10 hover:text-primary opacity-100 transition-opacity group-hover:opacity-100"
                                                     onClick={(e) => { e.stopPropagation(); handleRenameStart(chat); }}
                                                 >
                                                     <Pencil className="h-4 w-4" />
@@ -136,7 +136,6 @@ export function ChatHistory() {
                                                             size="icon"
                                                             className="h-7 w-7 rounded-full text-red-500/80 hover:bg-red-500/10 hover:text-red-500"
                                                             onClick={(e) => e.stopPropagation()}
-                                                            disabled={!isDeleteMode}
                                                         >
                                                             <Trash2 className="h-4 w-4" />
                                                             <span className="sr-only">Delete chat</span>
