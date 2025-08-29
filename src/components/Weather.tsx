@@ -89,7 +89,7 @@ export function Weather() {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-          <Button variant="ghost" className="h-9 rounded-full text-muted-foreground hover:text-foreground px-4">
+          <Button variant="ghost" className="h-9 rounded-full text-muted-foreground hover:bg-primary/10 hover:text-primary px-4">
               {weather ? (
                   <>
                       {getWeatherIcon(weather.weathercode, "h-5 w-5")}

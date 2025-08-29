@@ -18,7 +18,7 @@ export function Gallery() {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-          <Button variant="ghost" className="h-9 rounded-full text-muted-foreground hover:text-foreground px-4">
+          <Button variant="ghost" className="h-9 rounded-full text-muted-foreground hover:bg-primary/10 hover:text-primary px-4">
               <Images className="h-5 w-5" />
               <span className="ml-2">Gallery</span>
               <span className="sr-only">View Gallery</span>
