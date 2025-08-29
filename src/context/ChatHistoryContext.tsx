@@ -70,7 +70,7 @@ export function ChatHistoryProvider({ children }: { children: ReactNode }) {
       messages: [],
       createdAt: Date.now(),
     };
-    setChatHistory(prev => [newChat, ...prev]);
+    setChatHistory(prev => [newChat, ...prev].sort((a, b) => b.createdAt - a.createdAt));
     if(setAsActive) {
       setActiveChatId(newChat.id);
     }
@@ -99,12 +99,13 @@ export function ChatHistoryProvider({ children }: { children: ReactNode }) {
   
   const updateActiveChat = (updater: (chat: ChatSession) => ChatSession) => {
     setChatHistory(prevHistory => {
-        return prevHistory.map(chat => {
+        const newHistory = prevHistory.map(chat => {
             if (chat.id === activeChatId) {
                 return updater(chat);
             }
             return chat;
         });
+        return newHistory.sort((a, b) => b.createdAt - a.createdAt);
     });
   };
 
@@ -129,10 +130,11 @@ export function ChatHistoryProvider({ children }: { children: ReactNode }) {
   const activeChat = chatHistory.find(chat => chat.id === activeChatId) || null;
 
   const filteredChatHistory = useMemo(() => {
+    const sortedHistory = [...chatHistory].sort((a,b) => b.createdAt - a.createdAt);
     if (!searchTerm) {
-        return chatHistory;
+        return sortedHistory;
     }
-    return chatHistory.filter(chat => 
+    return sortedHistory.filter(chat => 
         chat.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         chat.messages.some(msg => msg.text?.toLowerCase().includes(searchTerm.toLowerCase()))
     );

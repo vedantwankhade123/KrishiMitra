@@ -18,6 +18,11 @@ import {
   type TranscribeAudioInput, 
   type TranscribeAudioOutput 
 } from '@/ai/flows/transcribe-audio';
+import {
+  generateTitle,
+  type GenerateTitleInput,
+  type GenerateTitleOutput,
+} from '@/ai/flows/generate-title';
 import { parseRecommendations } from '@/lib/parsers';
 import type { RecommendationResult } from '@/lib/types';
 import cropData from '@/lib/crop-data.json';
@@ -47,6 +52,10 @@ export async function getExplanation(input: CropRecommendationExplainerInput): P
 
 export async function getTranscription(input: TranscribeAudioInput): Promise<TranscribeAudioOutput> {
   return await transcribeAudio(input);
+}
+
+export async function getChatTitle(input: GenerateTitleInput): Promise<GenerateTitleOutput> {
+    return await generateTitle(input);
 }
 
 export async function getCropsFromLibrary({ page = 1, limit = 8, searchTerm = '' }: { page?: number; limit?: number; searchTerm?: string }) {

@@ -6,7 +6,7 @@ import { Header } from '@/components/Header';
 import { PromptForm } from '@/components/PromptForm';
 import { CropResults } from '@/components/CropResults';
 import type { ChatMessage, Attachment } from '@/lib/types';
-import { getRecommendationsFromPrompt } from '@/app/actions';
+import { getRecommendationsFromPrompt, getChatTitle } from '@/app/actions';
 import { useToast } from '@/hooks/use-toast';
 import { SuggestionPrompts } from '@/components/SuggestionPrompts';
 import { useLanguage } from '@/context/LanguageContext';
@@ -35,6 +35,8 @@ export default function Home() {
   const handlePromptSubmit = async (prompt: string, attachment?: Attachment | null) => {
     setLoading(true);
 
+    const isNewChat = conversation.length === 0;
+
     const userMessage: ChatMessage = {
       id: `user-${Date.now()}`,
       role: 'user',
@@ -46,6 +48,17 @@ export default function Home() {
     setConversation(updatedConversation);
 
     try {
+      if (isNewChat && prompt) {
+          getChatTitle({ prompt, language }).then(({ title }) => {
+            if (title) {
+                updateActiveChat(chat => ({
+                    ...chat,
+                    title,
+                }));
+            }
+          }).catch(e => console.error("Failed to generate title", e));
+      }
+
       const { recommendation, parsedInput, generalResponse } = await getRecommendationsFromPrompt(prompt, language, attachment?.url);
       
       let botMessage: ChatMessage;
@@ -80,7 +93,7 @@ export default function Home() {
       updateActiveChat(chat => ({
           ...chat,
           messages: finalConversation,
-          title: finalConversation.length === 2 ? (finalConversation[0].text?.substring(0, 40) || "Chat") : chat.title,
+          title: isNewChat ? (prompt.substring(0, 40) || t('header.newChat')) : chat.title,
       }));
 
     } catch (e) {
