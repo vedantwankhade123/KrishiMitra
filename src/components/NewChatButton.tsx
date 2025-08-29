@@ -1,5 +1,3 @@
-// This component is not used in the current layout.
-// You can remove this file if it's no longer needed.
 'use client';
 
 import { Plus } from "lucide-react";
@@ -14,7 +12,7 @@ export function NewChatButton() {
     return (
         <Button 
             variant="ghost" 
-            className="w-full justify-start"
+            className="w-full justify-start h-9 rounded-full text-muted-foreground hover:bg-primary/10 hover:text-primary px-4"
             onClick={handleNewChat}
         >
             <Plus className="h-5 w-5 mr-2" />
