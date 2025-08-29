@@ -26,9 +26,10 @@ export function LandingHeader() {
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="center" className="bg-black/50 backdrop-blur-md border-white/10 text-white">
-                        <DropdownMenuItem className="cursor-pointer hover:!bg-primary/20">Crop AI</DropdownMenuItem>
+                        <DropdownMenuItem className="cursor-pointer hover:!bg-primary/20">Krishi AI</DropdownMenuItem>
                         <DropdownMenuItem className="cursor-pointer hover:!bg-primary/20">Marketplace</DropdownMenuItem>
                         <DropdownMenuItem className="cursor-pointer hover:!bg-primary/20">Farm Analytics</DropdownMenuItem>
+                        <DropdownMenuItem className="cursor-pointer hover:!bg-primary/20">Crop Library</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
                  <Button variant="pill" visual="ghost" asChild>
