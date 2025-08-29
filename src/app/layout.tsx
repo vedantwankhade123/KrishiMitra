@@ -12,6 +12,7 @@ import { Button } from '@/components/ui/button';
 import { Menu } from 'lucide-react';
 import { ChatHistory } from '@/components/ChatHistory';
 import { ChatHistoryProvider } from '@/context/ChatHistoryContext';
+import { Logo } from '@/components/Logo';
 
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
@@ -44,7 +45,7 @@ export default function RootLayout({
                 <Sidebar>
                   <SidebarContent>
                     <SidebarHeader>
-                      <div className="flex items-center justify-between w-full">
+                      <div className="flex items-center gap-2">
                         <SidebarTrigger asChild>
                           <Button
                             variant="ghost"
@@ -55,6 +56,7 @@ export default function RootLayout({
                             <span className="sr-only">Open menu</span>
                           </Button>
                         </SidebarTrigger>
+                        <Logo />
                       </div>
                     </SidebarHeader>
                     <NewChatButton />
