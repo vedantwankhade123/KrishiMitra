@@ -26,12 +26,14 @@ export function Logo({ className }: { className?: string }) {
       <Leaf className="h-6 w-6" />
       <div className="font-logo text-xl font-bold tracking-tight flex items-center">
         <span>Krishi</span>
-        <span
-            key={dynamicWord}
-            className="text-primary animate-fade-in-out-fast"
-        >
-            {dynamicWord}
-        </span>
+        <div className="w-16 text-left">
+            <span
+                key={dynamicWord}
+                className="text-primary animate-fade-in-out-fast"
+            >
+                {dynamicWord}
+            </span>
+        </div>
       </div>
     </div>
   );
