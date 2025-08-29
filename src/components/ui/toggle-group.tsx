@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -13,7 +14,7 @@ const toggleVariants = cva(
       variant: {
         default: "bg-transparent",
         outline:
-          "border border-input bg-transparent hover:bg-accent hover:text-accent-foreground",
+          "border border-input bg-transparent hover:bg-accent hover:text-accent-foreground data-[state=on]:bg-primary/90 data-[state=on]:text-primary-foreground data-[state=on]:border-primary/90",
       },
       size: {
         default: "h-10 px-3",

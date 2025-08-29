@@ -11,9 +11,11 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Thermometer, Wind, Droplets, Sun, Cloud, CloudRain, CloudSnow, MapPin, LocateFixed } from "lucide-react";
+import { Thermometer, Wind, Droplets, Sun, Cloud, CloudRain, CloudSnow, MapPin, LocateFixed, Map, Waypoints, Bike } from "lucide-react";
 import { useEffect, useState, useCallback } from "react";
 import { cn } from "@/lib/utils";
+import { ToggleGroup, ToggleGroupItem } from "./ui/toggle-group";
+import { ScrollArea } from "./ui/scroll-area";
 
 type WeatherData = {
     temperature: number;
@@ -43,6 +45,7 @@ export function Weather() {
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
+  const [mapLayer, setMapLayer] = useState('mapnik');
 
   const fetchWeatherForLocation = useCallback(async (lat: number, lon: number) => {
     try {
@@ -112,7 +115,7 @@ export function Weather() {
     : '#';
 
   const mapEmbedUrl = location
-    ? `https://www.openstreetmap.org/export/embed.html?bbox=${location.longitude-0.1},${location.latitude-0.1},${location.longitude+0.1},${location.latitude+0.1}&layer=mapnik&marker=${location.latitude},${location.longitude}`
+    ? `https://www.openstreetmap.org/export/embed.html?bbox=${location.longitude-0.1},${location.latitude-0.1},${location.longitude+0.1},${location.latitude+0.1}&layer=${mapLayer}&marker=${location.latitude},${location.longitude}`
     : '';
 
   return (
@@ -139,98 +142,122 @@ export function Weather() {
           </Button>
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-3xl border-primary/20">
+      <DialogContent className="sm:max-w-3xl border-primary/20 flex flex-col max-h-[90vh]">
         <DialogHeader>
           <DialogTitle className="font-bold text-2xl">Current Weather</DialogTitle>
           <DialogDescription>
             {error ? "Could not retrieve weather data." : "Live weather conditions for your current location."}
           </DialogDescription>
         </DialogHeader>
-        <div className="py-4">
-          {loading && !error && (
-             <div className="grid md:grid-cols-2 gap-8">
-                <div>
-                    <Skeleton className="h-64 w-full rounded-lg" />
-                </div>
-                <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                       <Skeleton className="h-12 w-48" />
-                       <Skeleton className="h-6 w-24" />
+        <ScrollArea className="flex-1">
+            <div className="py-4 pr-6">
+              {loading && !error && (
+                 <div className="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <Skeleton className="h-64 w-full rounded-lg" />
                     </div>
-                    <div className="grid grid-cols-3 gap-4">
-                        <Skeleton className="h-24 w-full rounded-lg" />
-                        <Skeleton className="h-24 w-full rounded-lg" />
-                        <Skeleton className="h-24 w-full rounded-lg" />
+                    <div className="space-y-4">
+                        <div className="flex items-center justify-between">
+                           <Skeleton className="h-12 w-48" />
+                           <Skeleton className="h-6 w-24" />
+                        </div>
+                        <div className="grid grid-cols-3 gap-4">
+                            <Skeleton className="h-24 w-full rounded-lg" />
+                            <Skeleton className="h-24 w-full rounded-lg" />
+                            <Skeleton className="h-24 w-full rounded-lg" />
+                        </div>
                     </div>
-                </div>
-             </div>
-          )}
-          {weather && location && !error && (
-            <div className="grid md:grid-cols-2 gap-8">
-                <div className="flex flex-col gap-4">
-                    <div className="rounded-lg border min-h-[300px] overflow-hidden">
-                        <iframe
-                            width="100%"
-                            height="100%"
-                            className="w-full h-full"
-                            src={mapEmbedUrl}
-                            title="Map of current location"
-                            aria-label="Map showing the user's current geographical location"
-                        ></iframe>
+                 </div>
+              )}
+              {weather && location && !error && (
+                <div className="grid md:grid-cols-2 gap-8">
+                    <div className="flex flex-col gap-4">
+                        <div className="rounded-lg border min-h-[300px] overflow-hidden">
+                            <iframe
+                                width="100%"
+                                height="100%"
+                                className="w-full h-full"
+                                src={mapEmbedUrl}
+                                title="Map of current location"
+                                aria-label="Map showing the user's current geographical location"
+                            ></iframe>
+                        </div>
+                         <div className="space-y-3">
+                             <ToggleGroup 
+                                type="single" 
+                                value={mapLayer} 
+                                onValueChange={(value) => value && setMapLayer(value)}
+                                className="justify-center"
+                                variant="outline"
+                            >
+                                <ToggleGroupItem value="mapnik" aria-label="Standard map view" className="gap-2">
+                                    <Map className="h-4 w-4"/>
+                                    Standard
+                                </ToggleGroupItem>
+                                <ToggleGroupItem value="cyclemap" aria-label="Cycle map view" className="gap-2">
+                                    <Bike className="h-4 w-4"/>
+                                    Cycle
+                                </ToggleGroupItem>
+                                <ToggleGroupItem value="transportmap" aria-label="Transport map view" className="gap-2">
+                                    <Waypoints className="h-4 w-4"/>
+                                    Transport
+                                </ToggleGroupItem>
+                            </ToggleGroup>
+                             <Button asChild variant="outline" size="sm">
+                                <a href={openStreetMapUrl} target="_blank" rel="noopener noreferrer">
+                                   <MapPin className="h-4 w-4 mr-2" />
+                                    View on OpenStreetMap
+                                </a>
+                            </Button>
+                         </div>
                     </div>
-                     <Button asChild variant="outline" size="sm">
-                        <a href={openStreetMapUrl} target="_blank" rel="noopener noreferrer">
-                           <MapPin className="h-4 w-4 mr-2" />
-                            View on OpenStreetMap
-                        </a>
-                    </Button>
-                </div>
 
-                <div className="space-y-6">
-                    <div className="flex items-start justify-between">
-                        <div>
-                            <div className="flex items-center gap-4">
-                                 {getWeatherIcon(weather.weathercode, "h-16 w-16")}
-                                 <div>
-                                    <p className="text-5xl font-bold">{weather.temperature}°F</p>
-                                    <p className="text-muted-foreground">Feels Like {weather.feelsLike}°F</p>
-                                 </div>
+                    <div className="space-y-6">
+                        <div className="flex items-start justify-between">
+                            <div>
+                                <div className="flex items-center gap-4">
+                                     {getWeatherIcon(weather.weathercode, "h-16 w-16")}
+                                     <div>
+                                        <p className="text-5xl font-bold">{weather.temperature}°F</p>
+                                        <p className="text-muted-foreground">Feels Like {weather.feelsLike}°F</p>
+                                     </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left">
-                        <div className="bg-primary/5 p-4 rounded-lg flex items-center gap-4">
-                            <Droplets className="h-8 w-8 text-primary flex-shrink-0" />
-                            <div>
-                                <p className="text-sm text-muted-foreground">Precipitation</p>
-                                <p className="font-bold text-lg">{weather.precipitation_probability}%</p>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left">
+                            <div className="bg-primary/5 p-4 rounded-lg flex items-center gap-4">
+                                <Droplets className="h-8 w-8 text-primary flex-shrink-0" />
+                                <div>
+                                    <p className="text-sm text-muted-foreground">Precipitation</p>
+                                    <p className="font-bold text-lg">{weather.precipitation_probability}%</p>
+                                </div>
+                            </div>
+                             <div className="bg-primary/5 p-4 rounded-lg flex items-center gap-4">
+                                <Wind className="h-8 w-8 text-primary flex-shrink-0" />
+                                <div>
+                                    <p className="text-sm text-muted-foreground">Wind</p>
+                                    <p className="font-bold text-lg">{weather.windspeed} mph</p>
+                                </div>
                             </div>
                         </div>
-                         <div className="bg-primary/5 p-4 rounded-lg flex items-center gap-4">
-                            <Wind className="h-8 w-8 text-primary flex-shrink-0" />
-                            <div>
-                                <p className="text-sm text-muted-foreground">Wind</p>
-                                <p className="font-bold text-lg">{weather.windspeed} mph</p>
-                            </div>
-                        </div>
+                        <p className="text-xs text-muted-foreground">
+                            Location data is based on your browser's location services. Weather data is provided by Open-Meteo. Map tiles by OpenStreetMap.
+                        </p>
                     </div>
-                    <p className="text-xs text-muted-foreground">
-                        Location data is based on your browser's location services. Weather data is provided by Open-Meteo.
-                    </p>
                 </div>
+              )}
+              {error && (
+                <div className="text-center py-10 flex flex-col items-center gap-4">
+                  <LocateFixed className="h-12 w-12 text-destructive" />
+                  <p className="text-destructive max-w-sm">{error}</p>
+                  <Button onClick={requestLocation} className="mt-4">
+                    Retry Location Access
+                  </Button>
+                </div>
+              )}
             </div>
-          )}
-          {error && (
-            <div className="text-center py-10 flex flex-col items-center gap-4">
-              <LocateFixed className="h-12 w-12 text-destructive" />
-              <p className="text-destructive max-w-sm">{error}</p>
-              <Button onClick={requestLocation} className="mt-4">
-                Retry Location Access
-              </Button>
-            </div>
-          )}
-        </div>
+        </ScrollArea>
       </DialogContent>
     </Dialog>
   );
