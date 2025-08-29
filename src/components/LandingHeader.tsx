@@ -48,10 +48,6 @@ export function LandingHeader() {
                     <span className="sr-only">Search</span>
                 </Button>
                 <ProfileButton />
-                <Button variant="ghost" size="icon" className="rounded-full text-white/80 hover:text-white hover:bg-white/10">
-                    <MessageSquare className="h-5 w-5" />
-                    <span className="sr-only">Messages</span>
-                </Button>
             </div>
         </div>
     </header>
