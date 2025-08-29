@@ -141,7 +141,7 @@ export function ChatHistory() {
                 <Button 
                     variant="ghost" 
                     size="icon" 
-                    className="h-7 w-7 rounded-full"
+                    className="h-7 w-7 rounded-full hover:bg-muted"
                     onClick={handleToggleDeleteMode}
                     disabled={filteredChatHistory.length === 0}
                 >
