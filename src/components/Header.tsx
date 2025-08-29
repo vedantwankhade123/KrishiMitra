@@ -44,17 +44,13 @@ export function Header() {
                     <span className="ml-2">Home</span>
                   </Link>
                 </Button>
-                <Separator orientation="vertical" className="h-6" />
                 <Weather />
-                <Separator orientation="vertical" className="h-6" />
                 <CropLibrary />
-                <Separator orientation="vertical" className="h-6" />
                  <Button variant="ghost" className="h-9 rounded-full text-foreground hover:bg-primary/10 hover:text-primary px-4" asChild>
                   <Link href="#">
                     Marketplace
                   </Link>
                 </Button>
-                <Separator orientation="vertical" className="h-6" />
                 <LanguageSwitcher />
             </div>
         </div>
