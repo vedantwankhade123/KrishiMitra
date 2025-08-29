@@ -1,7 +1,7 @@
 
 'use client';
 
-import { MessageSquare, Trash2, Pencil, Check, X, Search, MoreHorizontal } from 'lucide-react';
+import { MessageSquare, Trash2, Pencil, Check, X, Search, MoreHorizontal, Edit, MinusCircle } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { ScrollArea } from './ui/scroll-area';
@@ -26,6 +26,7 @@ import {
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
 import { useTranslation } from '@/hooks/useTranslation';
+import { Checkbox } from './ui/checkbox';
 
 export function ChatHistory() {
     const { 
@@ -38,11 +39,18 @@ export function ChatHistory() {
         confirmRename,
         searchTerm,
         setSearchTerm,
+        isDeleteMode,
+        toggleDeleteMode,
+        selectedChatIds,
+        toggleChatSelection,
+        deleteSelectedChats,
+        setSelectedChatIds,
     } = useChatHistory();
     const { t } = useTranslation();
 
     const [editingTitle, setEditingTitle] = useState('');
     const [dialogOpen, setDialogOpen] = useState<string | false>(false);
+    const [bulkDeleteDialogOpen, setBulkDeleteDialogOpen] = useState(false);
 
     const handleRenameStart = (chat: {id: string, title: string}) => {
         startRenaming(chat.id);
@@ -61,6 +69,16 @@ export function ChatHistory() {
         setEditingTitle('');
     };
     
+    const handleToggleDeleteMode = () => {
+        toggleDeleteMode();
+        setSelectedChatIds(new Set()); // Clear selections when toggling mode
+    };
+
+    const handleBulkDelete = () => {
+        deleteSelectedChats();
+        setBulkDeleteDialogOpen(false);
+    }
+
   return (
     <div className='flex flex-col flex-1'>
         <div className='px-2 pb-2'>
@@ -79,6 +97,58 @@ export function ChatHistory() {
             <p className="text-xs text-muted-foreground font-semibold uppercase tracking-wider">
             Recent
             </p>
+             {isDeleteMode ? (
+                <div className='flex items-center gap-2'>
+                    <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        className="h-7 rounded-full text-xs"
+                        onClick={handleToggleDeleteMode}
+                    >
+                        Cancel
+                    </Button>
+                     <AlertDialog open={bulkDeleteDialogOpen} onOpenChange={setBulkDeleteDialogOpen}>
+                        <AlertDialogTrigger asChild>
+                            <Button 
+                                variant="destructive" 
+                                size="sm" 
+                                className="h-7 rounded-full text-xs"
+                                disabled={selectedChatIds.size === 0}
+                            >
+                                Delete ({selectedChatIds.size})
+                            </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                                This will permanently delete {selectedChatIds.size} selected chat(s). This action cannot be undone.
+                            </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction
+                                className="bg-destructive hover:bg-destructive/90"
+                                onClick={handleBulkDelete}
+                            >
+                                Delete
+                            </AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
+                </div>
+            ) : (
+                <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    className="h-7 w-7 rounded-full"
+                    onClick={handleToggleDeleteMode}
+                    disabled={filteredChatHistory.length === 0}
+                >
+                    <Edit className="h-4 w-4 text-muted-foreground" />
+                    <span className="sr-only">Edit chats</span>
+                </Button>
+            )}
         </div>
         <ScrollArea className="flex-1 px-2">
             <div className="space-y-1">
@@ -88,12 +158,21 @@ export function ChatHistory() {
                         key={chat.id}
                         className={cn(
                             "group flex items-center justify-between rounded-md py-2 text-sm text-muted-foreground relative",
-                            !chat.isRenaming && "hover:bg-muted cursor-pointer",
-                            activeChat?.id === chat.id && !chat.isRenaming && "bg-muted text-foreground"
+                            !chat.isRenaming && !isDeleteMode && "hover:bg-muted cursor-pointer",
+                            activeChat?.id === chat.id && !chat.isRenaming && !isDeleteMode && "bg-muted text-foreground"
                         )}
-                        onClick={() => !chat.isRenaming && setActiveChatId(chat.id)}
+                        onClick={() => !chat.isRenaming && !isDeleteMode && setActiveChatId(chat.id)}
                     >
                         <div className="flex items-center w-full pl-3 pr-2">
+                            {isDeleteMode && (
+                                <Checkbox
+                                    variant="circular"
+                                    checked={selectedChatIds.has(chat.id)}
+                                    onCheckedChange={() => toggleChatSelection(chat.id)}
+                                    className="mr-3"
+                                    aria-label={`Select chat titled ${chat.title}`}
+                                />
+                            )}
                             {chat.isRenaming ? (
                                 <div className="flex-1 flex items-center">
                                     <input 
@@ -122,7 +201,7 @@ export function ChatHistory() {
                                 <>
                                     <div className="flex-1 flex items-center justify-between min-w-0">
                                         <span className="truncate">{chat.title}</span>
-                                        <div className="flex items-center flex-shrink-0">
+                                        <div className={cn("flex items-center flex-shrink-0", isDeleteMode && "hidden")}>
                                             <AlertDialog open={dialogOpen === chat.id} onOpenChange={(open) => !open && setDialogOpen(false)}>
                                                 <DropdownMenu>
                                                     <DropdownMenuTrigger asChild>
@@ -142,7 +221,10 @@ export function ChatHistory() {
                                                             Rename
                                                         </DropdownMenuItem>
                                                         <AlertDialogTrigger asChild>
-                                                            <DropdownMenuItem className="text-red-500 focus:text-red-500">
+                                                            <DropdownMenuItem 
+                                                                className="text-red-500 focus:text-red-500"
+                                                                onClick={(e) => { e.stopPropagation(); setDialogOpen(chat.id); }}
+                                                            >
                                                                 <Trash2 className="mr-2 h-4 w-4" />
                                                                 Delete
                                                             </DropdownMenuItem>

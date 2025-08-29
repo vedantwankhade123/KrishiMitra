@@ -20,6 +20,10 @@ type ChatHistoryContextType = {
   toggleDeleteMode: () => void;
   searchTerm: string;
   setSearchTerm: (term: string) => void;
+  selectedChatIds: Set<string>;
+  setSelectedChatIds: React.Dispatch<React.SetStateAction<Set<string>>>;
+  toggleChatSelection: (id: string) => void;
+  deleteSelectedChats: () => void;
 };
 
 const ChatHistoryContext = createContext<ChatHistoryContextType | undefined>(undefined);
@@ -31,6 +35,7 @@ export function ChatHistoryProvider({ children }: { children: ReactNode }) {
   const [activeChatId, setActiveChatId] = useState<string | null>(null);
   const [isDeleteMode, setIsDeleteMode] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedChatIds, setSelectedChatIds] = useState(new Set<string>());
 
   useEffect(() => {
     try {
@@ -96,6 +101,23 @@ export function ChatHistoryProvider({ children }: { children: ReactNode }) {
         setIsDeleteMode(false);
     }
   };
+
+  const deleteSelectedChats = () => {
+    const idsToDelete = Array.from(selectedChatIds);
+    setChatHistory(prev => prev.filter(chat => !idsToDelete.includes(chat.id)));
+
+    if (idsToDelete.includes(activeChatId ?? '')) {
+      const remainingChats = chatHistory.filter(c => !idsToDelete.includes(c.id));
+      if (remainingChats.length > 0) {
+        setActiveChatId(remainingChats[0].id);
+      } else {
+        const newChat = createNewChat();
+        setActiveChatId(newChat.id);
+      }
+    }
+    setSelectedChatIds(new Set());
+    setIsDeleteMode(false);
+  };
   
   const updateActiveChat = (updater: (chat: ChatSession) => ChatSession) => {
     setChatHistory(prevHistory => {
@@ -127,6 +149,19 @@ export function ChatHistoryProvider({ children }: { children: ReactNode }) {
       }
   }
 
+  const toggleChatSelection = (id: string) => {
+    setSelectedChatIds(prev => {
+        const newSet = new Set(prev);
+        if (newSet.has(id)) {
+            newSet.delete(id);
+        } else {
+            newSet.add(id);
+        }
+        return newSet;
+    });
+  };
+
+
   const activeChat = chatHistory.find(chat => chat.id === activeChatId) || null;
 
   const filteredChatHistory = useMemo(() => {
@@ -157,6 +192,10 @@ export function ChatHistoryProvider({ children }: { children: ReactNode }) {
         toggleDeleteMode,
         searchTerm,
         setSearchTerm,
+        selectedChatIds,
+        setSelectedChatIds,
+        toggleChatSelection,
+        deleteSelectedChats,
     }}>
       {children}
     </ChatHistoryContext.Provider>
