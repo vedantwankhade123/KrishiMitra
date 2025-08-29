@@ -13,7 +13,7 @@ import {
 } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
 import { Loader2, ArrowUp } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useTranslation } from '@/hooks/useTranslation';
 
 const formSchema = z.object({
@@ -35,6 +35,7 @@ export function PromptForm({
       prompt: '',
     },
   });
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const { t } = useTranslation();
   const placeholderPrompts = t('promptForm.placeholders', { returnObjects: true }) as string[];
@@ -45,11 +46,11 @@ export function PromptForm({
     let currentPromptIndex = 0;
     let currentText = '';
     let isDeleting = false;
-    let typingSpeed = 100;
     let timeoutId: NodeJS.Timeout;
 
     const type = () => {
       const fullPrompt = placeholderPrompts[currentPromptIndex];
+      const typingSpeed = isDeleting ? 50 : 100;
 
       if (isDeleting) {
         currentText = fullPrompt.substring(0, currentText.length - 1);
@@ -57,9 +58,9 @@ export function PromptForm({
         currentText = fullPrompt.substring(0, currentText.length + 1);
       }
 
-      setPlaceholder(currentText + '|');
+      setPlaceholder(currentText + ' ');
 
-      let nextTypingSpeed = isDeleting ? 50 : 100;
+      let nextTypingSpeed = typingSpeed;
 
       if (!isDeleting && currentText === fullPrompt) {
         nextTypingSpeed = 2000; // Pause at end
@@ -85,6 +86,13 @@ export function PromptForm({
 
   const watchedPrompt = form.watch('prompt');
 
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto';
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+    }
+  }, [watchedPrompt]);
+
   return (
     <div className="px-4">
       <Form {...form}>
@@ -96,9 +104,11 @@ export function PromptForm({
               <FormItem>
               <FormControl>
                   <Textarea
+                    ref={textareaRef}
                     aria-label={t('promptForm.placeholder')}
                     placeholder={!watchedPrompt ? placeholder : t('promptForm.placeholder')}
-                    className="resize-none pr-14 min-h-[52px] text-base rounded-full bg-card border border-primary/10 focus:border-primary/30 flex items-center"
+                    className="resize-none pr-14 text-base rounded-full bg-card border-2 border-primary/10 focus-visible:border-primary/50 focus-visible:ring-0 focus-visible:ring-offset-0 transition-all duration-300 overflow-y-hidden max-h-48 py-3"
+                    rows={1}
                     {...field}
                     onKeyDown={(e) => {
                         if (e.key === 'Enter' && !e.shiftKey) {
@@ -117,7 +127,7 @@ export function PromptForm({
           <Button 
               type="submit" 
               size="icon" 
-              className="absolute right-2 top-1/2 -translate-y-1/2 h-10 w-10 rounded-full bg-primary hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2" 
+              className="absolute right-2 bottom-2 h-10 w-10 rounded-full bg-primary hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2" 
               disabled={disabled || !watchedPrompt}
               aria-label={t('promptForm.send')}
           >
