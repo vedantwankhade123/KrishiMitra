@@ -19,6 +19,7 @@ import { Badge } from "./ui/badge";
 import { getCropsFromLibrary } from "@/app/actions";
 import { useDebounce } from "@/hooks/use-debounce";
 import { Skeleton } from "./ui/skeleton";
+import { cn } from "@/lib/utils";
 
 type Crop = {
     name: string;
@@ -185,7 +186,8 @@ export function CropLibrary() {
                                 <h3 className="text-xl font-bold text-primary">{crop.name}</h3>
                                 <p className="text-sm text-muted-foreground line-clamp-2 flex-grow">{crop.description}</p>
                                 <Button 
-                                    className="mt-4 w-full rounded-full"
+                                    variant="outline"
+                                    className="mt-4 w-full rounded-full text-muted-foreground border-primary/20 hover:bg-primary/10 hover:text-primary"
                                     onClick={() => setSelectedCrop(crop)}
                                     aria-label={`View details for ${crop.name}`}
                                 >
@@ -202,7 +204,12 @@ export function CropLibrary() {
             </div>
              {hasMore && (
                 <div className="flex justify-center py-4">
-                    <Button onClick={handleLoadMore} disabled={loading}>
+                    <Button 
+                        variant="outline" 
+                        onClick={handleLoadMore} 
+                        disabled={loading}
+                        className="rounded-full text-muted-foreground border-primary/20 hover:bg-primary/10 hover:text-primary"
+                    >
                         {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : "Load More"}
                     </Button>
                 </div>
