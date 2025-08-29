@@ -22,7 +22,7 @@ export function Logo({ className }: { className?: string }) {
 
 
   return (
-    <div className={cn("flex items-center gap-2 text-white", className)}>
+    <div className={cn("flex items-center gap-2 text-foreground", className)}>
       <Leaf className="h-6 w-6" />
       <div className="font-logo text-xl font-bold tracking-tight flex items-center">
         <span className="text-foreground">Krishi</span>
