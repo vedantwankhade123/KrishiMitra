@@ -9,7 +9,7 @@ export function ProfileButton() {
     <Button
       variant="ghost"
       size="icon"
-      className="h-9 w-9 rounded-full text-muted-foreground hover:text-foreground"
+      className="h-9 w-9 rounded-full text-muted-foreground hover:text-foreground hover:bg-primary/10 transition-all duration-200 hover:scale-110"
     >
       <User className="h-5 w-5" />
       <span className="sr-only">User Profile</span>
