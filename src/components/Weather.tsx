@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from "@/components/ui/button";
@@ -10,14 +11,16 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Thermometer, Wind, Droplets, Sun, Cloud, CloudRain, CloudSnow, MapPin } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Thermometer, Wind, Droplets, Sun, Cloud, CloudRain, CloudSnow, MapPin, LocateFixed } from "lucide-react";
+import { useEffect, useState, useCallback } from "react";
+import { cn } from "@/lib/utils";
 
 type WeatherData = {
     temperature: number;
     windspeed: number;
     precipitation_probability: number;
     weathercode: number;
+    feelsLike: number;
 }
 
 type Location = {
@@ -33,50 +36,57 @@ function getWeatherIcon(code: number, className: string = "h-6 w-6") {
     return <Sun className={cn(className, "text-yellow-400")} aria-label="Clear sky" />;
 }
 
-import { cn } from "@/lib/utils";
 
 export function Weather() {
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [location, setLocation] = useState<Location | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
 
-  useEffect(() => {
-    if (!isOpen) return;
-
-    const fetchWeather = () => {
-        navigator.geolocation.getCurrentPosition(
-            async (position) => {
-                const { latitude, longitude } = position.coords;
-                setLocation({ latitude, longitude });
-                try {
-                    const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=temperature_2m,precipitation_probability,weather_code,wind_speed_10m&temperature_unit=fahrenheit`);
-                    if (!response.ok) {
-                        throw new Error('Failed to fetch weather data');
-                    }
-                    const data = await response.json();
-                    setWeather({
-                        temperature: Math.round(data.current.temperature_2m),
-                        windspeed: Math.round(data.current.wind_speed_10m),
-                        precipitation_probability: data.current.precipitation_probability,
-                        weathercode: data.current.weather_code,
-                    });
-                    setError(null);
-                } catch (e) {
-                     setError("Could not fetch weather data.");
-                     console.error(e);
-                }
-            },
-            (err) => {
-                setError("Could not access location. Please enable location services in your browser.");
-                console.error(err);
-            }
-        );
+  const fetchWeatherForLocation = useCallback(async (lat: number, lon: number) => {
+    try {
+        const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,apparent_temperature,precipitation_probability,weather_code,wind_speed_10m&temperature_unit=fahrenheit`);
+        if (!response.ok) {
+            throw new Error('Failed to fetch weather data');
+        }
+        const data = await response.json();
+        setWeather({
+            temperature: Math.round(data.current.temperature_2m),
+            feelsLike: Math.round(data.current.apparent_temperature),
+            windspeed: Math.round(data.current.wind_speed_10m),
+            precipitation_probability: data.current.precipitation_probability,
+            weathercode: data.current.weather_code,
+        });
+        setError(null);
+    } catch (e) {
+         setError("Could not fetch weather data.");
+         console.error(e);
+    } finally {
+        setLoading(false);
     }
-    
-    fetchWeather();
+  }, []);
 
-  }, [isOpen]);
+  const requestLocation = useCallback(() => {
+    navigator.geolocation.getCurrentPosition(
+        (position) => {
+            const { latitude, longitude } = position.coords;
+            setLocation({ latitude, longitude });
+            fetchWeatherForLocation(latitude, longitude);
+        },
+        (err) => {
+            setError("Location access denied. Please enable it in your browser settings.");
+            console.error(err);
+            setLoading(false);
+        },
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+    );
+  }, [fetchWeatherForLocation]);
+
+  useEffect(() => {
+    setLoading(true);
+    requestLocation();
+  }, [requestLocation]);
 
   const openStreetMapUrl = location
     ? `https://www.openstreetmap.org/?mlat=${location.latitude}&mlon=${location.longitude}#map=15/${location.latitude}/${location.longitude}`
@@ -90,14 +100,19 @@ export function Weather() {
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
           <Button variant="ghost" className="h-9 rounded-full text-muted-foreground hover:bg-primary/10 hover:text-primary px-4">
-              {weather ? (
+              {loading ? (
+                 <>
+                    <Skeleton className="h-5 w-5 rounded-full" />
+                    <Skeleton className="h-4 w-12 ml-2" />
+                 </>
+              ) : weather ? (
                   <>
                       {getWeatherIcon(weather.weathercode, "h-5 w-5")}
                       <span className="ml-2 font-semibold">{weather.temperature}°F</span>
                   </>
               ) : (
                   <>
-                      <Sun className="h-5 w-5" />
+                      <LocateFixed className="h-5 w-5" />
                       <span className="ml-2">Weather</span>
                   </>
               )}
@@ -109,12 +124,11 @@ export function Weather() {
         <DialogHeader>
           <DialogTitle className="font-bold text-2xl">Current Weather</DialogTitle>
           <DialogDescription>
-            Live weather conditions for your current location.
+            {error ? error : "Live weather conditions for your current location."}
           </DialogDescription>
         </DialogHeader>
         <div className="py-4">
-          {error && <p className="text-red-500" role="alert">{error}</p>}
-          {(!weather || !location) && !error && (
+          {loading && !error && (
              <div className="grid md:grid-cols-2 gap-8">
                 <div>
                     <Skeleton className="h-64 w-full rounded-lg" />
@@ -132,7 +146,7 @@ export function Weather() {
                 </div>
              </div>
           )}
-          {weather && location && (
+          {weather && location && !error && (
             <div className="grid md:grid-cols-2 gap-8">
                 <div className="flex flex-col gap-4">
                     <iframe
@@ -158,7 +172,7 @@ export function Weather() {
                                  {getWeatherIcon(weather.weathercode, "h-16 w-16")}
                                  <div>
                                     <p className="text-5xl font-bold">{weather.temperature}°F</p>
-                                    <p className="text-muted-foreground">Feels Like {weather.temperature}°F</p>
+                                    <p className="text-muted-foreground">Feels Like {weather.feelsLike}°F</p>
                                  </div>
                             </div>
                         </div>
@@ -184,6 +198,15 @@ export function Weather() {
                         Location data is based on your browser's location services. Weather data is provided by Open-Meteo.
                     </p>
                 </div>
+            </div>
+          )}
+          {error && (
+            <div className="text-center py-10 flex flex-col items-center gap-4">
+              <LocateFixed className="h-12 w-12 text-destructive" />
+              <p className="text-destructive max-w-sm">{error}</p>
+              <Button onClick={requestLocation} className="mt-4">
+                Retry Location Access
+              </Button>
             </div>
           )}
         </div>
