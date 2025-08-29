@@ -168,14 +168,16 @@ export function Weather() {
           {weather && location && !error && (
             <div className="grid md:grid-cols-2 gap-8">
                 <div className="flex flex-col gap-4">
-                    <iframe
-                        width="100%"
-                        height="100%"
-                        className="rounded-lg border min-h-[300px]"
-                        src={mapEmbedUrl}
-                        title="Map of current location"
-                        aria-label="Map showing the user's current geographical location"
-                    ></iframe>
+                    <div className="rounded-lg border min-h-[300px] overflow-hidden">
+                        <iframe
+                            width="100%"
+                            height="100%"
+                            className="w-full h-full"
+                            src={mapEmbedUrl}
+                            title="Map of current location"
+                            aria-label="Map showing the user's current geographical location"
+                        ></iframe>
+                    </div>
                      <Button asChild variant="outline" size="sm">
                         <a href={openStreetMapUrl} target="_blank" rel="noopener noreferrer">
                            <MapPin className="h-4 w-4 mr-2" />
