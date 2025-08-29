@@ -84,42 +84,7 @@ export function ChatHistory() {
                         onClick={() => !chat.isRenaming && !isDeleteMode && setActiveChatId(chat.id)}
                     >
                         <div className="flex items-center w-full">
-                            {isDeleteMode && (
-                                <AlertDialog>
-                                    <AlertDialogTrigger asChild>
-                                         <Button
-                                            variant="ghost"
-                                            size="icon"
-                                            className="h-7 w-7 ml-1 rounded-full text-red-500/80 hover:bg-red-500/10 hover:text-red-500"
-                                            onClick={(e) => e.stopPropagation()}
-                                        >
-                                            <Trash2 className="h-4 w-4" />
-                                            <span className="sr-only">Delete chat</span>
-                                        </Button>
-                                    </AlertDialogTrigger>
-                                    <AlertDialogContent>
-                                        <AlertDialogHeader>
-                                        <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                                        <AlertDialogDescription>
-                                            This will permanently delete the chat "{chat.title}". This action cannot be undone.
-                                        </AlertDialogDescription>
-                                        </AlertDialogHeader>
-                                        <AlertDialogFooter>
-                                        <AlertDialogCancel onClick={(e) => e.stopPropagation()}>Cancel</AlertDialogCancel>
-                                        <AlertDialogAction
-                                            className="bg-destructive hover:bg-destructive/90"
-                                            onClick={(e) => {
-                                                e.stopPropagation();
-                                                deleteChat(chat.id);
-                                            }}
-                                        >
-                                            Delete
-                                        </AlertDialogAction>
-                                        </AlertDialogFooter>
-                                    </AlertDialogContent>
-                                </AlertDialog>
-                            )}
-                            <div className={cn("flex-1 flex items-center truncate", isDeleteMode ? 'pl-1' : 'pl-4')}>
+                            <div className={cn("flex-1 flex items-center truncate pl-4")}>
                                 {chat.isRenaming ? (
                                     <>
                                         <input 
@@ -148,7 +113,7 @@ export function ChatHistory() {
                                     <>
                                         <MessageSquare className="h-4 w-4 mr-2 flex-shrink-0" />
                                         <span className="truncate flex-1">{chat.title}</span>
-                                        <div className="pr-2">
+                                        <div className="pr-2 flex items-center">
                                              <Button
                                                 variant="ghost"
                                                 size="icon"
@@ -158,6 +123,38 @@ export function ChatHistory() {
                                                 <Pencil className="h-4 w-4" />
                                                 <span className="sr-only">Rename chat</span>
                                             </Button>
+                                            {isDeleteMode && (
+                                                <AlertDialog>
+                                                    <AlertDialogTrigger asChild>
+                                                        <Button
+                                                            variant="ghost"
+                                                            size="icon"
+                                                            className="h-7 w-7 rounded-full text-red-500/80 hover:bg-red-500/10 hover:text-red-500"
+                                                            onClick={(e) => e.stopPropagation()}
+                                                        >
+                                                            <Trash2 className="h-4 w-4" />
+                                                            <span className="sr-only">Delete chat</span>
+                                                        </Button>
+                                                    </AlertDialogTrigger>
+                                                    <AlertDialogContent>
+                                                        <AlertDialogHeader>
+                                                        <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                                                        <AlertDialogDescription>
+                                                            This will permanently delete the chat "{chat.title}". This action cannot be undone.
+                                                        </AlertDialogDescription>
+                                                        </AlertDialogHeader>
+                                                        <AlertDialogFooter>
+                                                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                                        <AlertDialogAction
+                                                            className="bg-destructive hover:bg-destructive/90"
+                                                            onClick={() => deleteChat(chat.id)}
+                                                        >
+                                                            Delete
+                                                        </AlertDialogAction>
+                                                        </AlertDialogFooter>
+                                                    </AlertDialogContent>
+                                                </AlertDialog>
+                                            )}
                                         </div>
                                     </>
                                 )}
