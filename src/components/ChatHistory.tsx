@@ -140,6 +140,7 @@ export function ChatHistory() {
                                         "absolute right-0 h-9 w-9 rounded-full text-red-500/80 hover:bg-red-500/10 hover:text-red-500 transition-transform duration-300 ease-in-out",
                                         isDeleteMode ? "translate-x-0" : "translate-x-full"
                                     )}
+                                    onClick={(e) => e.stopPropagation()}
                                 >
                                     <Trash2 className="h-4 w-4" />
                                     <span className="sr-only">Delete chat</span>
