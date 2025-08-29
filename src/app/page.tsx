@@ -46,7 +46,7 @@ export default function LandingPage() {
           />
           <div className="relative z-10 container mx-auto px-4 py-32 md:py-48 text-center">
             <div className="grid grid-cols-1 gap-8 items-center">
-              <div className="space-y-6 text-white max-w-3xl mx-auto flex flex-col items-center">
+              <div className="space-y-4 text-white max-w-3xl mx-auto flex flex-col items-center">
                 <div className="min-h-[160px] md:min-h-[180px] flex items-center justify-center">
                     <h1 
                         key={headlineIndex} 
