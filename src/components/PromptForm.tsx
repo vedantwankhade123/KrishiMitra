@@ -52,7 +52,7 @@ export function PromptForm({
                   <Textarea
                     aria-label="What is on your mind?"
                     placeholder="What is on your mind?"
-                    className="resize-none pr-14 min-h-[52px] text-base rounded-full bg-input border-2 border-transparent focus:border-primary/30"
+                    className="resize-none pr-14 min-h-[52px] text-base rounded-2xl bg-card border border-primary/10 focus:border-primary/30"
                     {...field}
                     onKeyDown={(e) => {
                         if (e.key === 'Enter' && !e.shiftKey) {
@@ -71,7 +71,7 @@ export function PromptForm({
           <Button 
               type="submit" 
               size="icon" 
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full bg-primary hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2" 
+              className="absolute right-3 top-1/2 -translate-y-1/2 h-9 w-9 rounded-lg bg-primary hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2" 
               disabled={disabled || !form.watch('prompt')}
               aria-label="Send"
           >
