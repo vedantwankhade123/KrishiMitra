@@ -8,6 +8,7 @@ import type { RecommendationResult, ChatMessage } from '@/lib/types';
 import { getRecommendationsFromPrompt } from '@/app/actions';
 import { useToast } from '@/hooks/use-toast';
 import type { OptimalCropsInput } from '@/ai/schemas';
+import { SuggestionPrompts } from '@/components/SuggestionPrompts';
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
@@ -90,6 +91,7 @@ export default function Home() {
         </div>
         <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-background via-background/80 to-transparent">
           <div className="container mx-auto max-w-2xl px-4 pt-8 pb-4">
+            <SuggestionPrompts onSuggestionClick={handleGetRecommendations} />
             <PromptForm
               onSubmit={handleGetRecommendations}
               disabled={loading}

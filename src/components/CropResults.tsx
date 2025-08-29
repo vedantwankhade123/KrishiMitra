@@ -6,8 +6,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { CropCard } from "@/components/CropCard";
-import { Bot, User, Sprout, BrainCircuit } from "lucide-react";
-import { Button } from './ui/button';
+import { Bot, User } from "lucide-react";
 import { useEffect, useRef } from 'react';
 
 type CropResultsProps = {
@@ -15,12 +14,6 @@ type CropResultsProps = {
   conversation: ChatMessage[];
   onSuggestionClick: (prompt: string) => void;
 };
-
-const suggestionPrompts = [
-    { icon: <Sprout/>, title: "Profitability", prompt: "I have sandy loam soil and want to maximize profit." },
-    { icon: <BrainCircuit/>, title: "Soil Health", prompt: "What can I plant to improve soil nitrogen in clay soil?" },
-    { icon: <Sprout/>, title: "Resilience", prompt: "Show me drought-resistant crops for a short, cool growing season." }
-];
 
 function LoadingSkeleton() {
   return (
@@ -76,14 +69,6 @@ export function CropResults({ loading, conversation, onSuggestionClick }: CropRe
             <div className="text-center pt-16">
                 <h1 className="text-3xl font-bold tracking-tighter mb-2">HI JOSH!</h1>
                 <p className="text-muted-foreground mb-10">What Do You Want To Chat About Today?</p>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-lg mx-auto">
-                    {suggestionPrompts.map(({icon, title, prompt}) => (
-                        <button key={title} onClick={() => onSuggestionClick(prompt)} className="p-4 rounded-lg bg-card hover:bg-primary/10 border border-transparent hover:border-primary/20 transition-all text-left space-y-1 focus:outline-none focus:ring-2 focus:ring-primary">
-                           <div className="flex items-center gap-2 text-primary">{icon}<span className="font-semibold text-foreground">{title}</span></div>
-                           <p className="text-xs text-muted-foreground">{prompt}</p>
-                        </button>
-                    ))}
-                </div>
             </div>
         )}
 
