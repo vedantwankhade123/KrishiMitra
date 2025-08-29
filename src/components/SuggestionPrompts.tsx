@@ -36,7 +36,7 @@ export function SuggestionPrompts({ onSuggestionClick }: SuggestionPromptsProps)
                       <div className="p-1">
                         <button 
                             onClick={() => onSuggestionClick(prompt)} 
-                            className="w-full h-full p-3 rounded-lg bg-card/50 hover:bg-primary/10 border border-transparent hover:border-primary/20 transition-all text-left space-y-1 focus:outline-none focus:ring-1 focus:ring-primary/50"
+                            className="w-full h-full p-3 rounded-full bg-card/50 hover:bg-primary/10 border border-transparent hover:border-primary/20 transition-all text-left space-y-1 focus:outline-none focus:ring-1 focus:ring-primary/50"
                         >
                           <div className="flex items-center gap-2 text-primary text-xs">{icon}<span className="font-semibold text-foreground">{title}</span></div>
                           <p className="text-xs text-muted-foreground">{prompt}</p>
