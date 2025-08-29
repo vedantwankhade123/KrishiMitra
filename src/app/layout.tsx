@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { Toaster } from '@/components/ui/toaster';
 import './globals.css';
 import { cn } from '@/lib/utils';
-import { Inter, Yatra_One } from 'next/font/google';
+import { Inter, Righteous } from 'next/font/google';
 import { LanguageProvider } from '@/context/LanguageContext';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarTrigger, SidebarInset, SidebarSeparator } from '@/components/ui/sidebar';
@@ -16,7 +16,7 @@ import { Logo } from '@/components/Logo';
 
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
-const yatra = Yatra_One({ subsets: ['latin', 'devanagari'], weight: '400', variable: '--font-logo' });
+const righteous = Righteous({ subsets: ['latin'], weight: '400', variable: '--font-logo' });
 
 
 export const metadata: Metadata = {
@@ -33,7 +33,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
       </head>
-      <body className={cn('font-sans antialiased', inter.variable, yatra.variable, 'min-h-screen font-sans')} suppressHydrationWarning={true}>
+      <body className={cn('font-sans antialiased', inter.variable, righteous.variable, 'min-h-screen font-sans')} suppressHydrationWarning={true}>
         <ThemeProvider
             attribute="class"
             defaultTheme="system"
