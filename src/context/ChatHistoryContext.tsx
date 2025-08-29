@@ -16,6 +16,8 @@ type ChatHistoryContextType = {
   startRenaming: (id: string) => void;
   cancelRenaming: (id: string) => void;
   confirmRename: (id: string, newTitle: string) => void;
+  isDeleteMode: boolean;
+  toggleDeleteMode: () => void;
 };
 
 const ChatHistoryContext = createContext<ChatHistoryContextType | undefined>(undefined);
@@ -25,6 +27,7 @@ const LS_KEY = 'agriassist_chat_history';
 export function ChatHistoryProvider({ children }: { children: ReactNode }) {
   const [chatHistory, setChatHistory] = useState<ChatSession[]>([]);
   const [activeChatId, setActiveChatId] = useState<string | null>(null);
+  const [isDeleteMode, setIsDeleteMode] = useState(false);
 
   useEffect(() => {
     try {
@@ -75,11 +78,16 @@ export function ChatHistoryProvider({ children }: { children: ReactNode }) {
   const deleteChat = (id: string) => {
     setChatHistory(prev => prev.filter(chat => chat.id !== id));
     if (activeChatId === id) {
-      setActiveChatId(chatHistory.length > 1 ? chatHistory.find(c => c.id !== id)!.id : null);
-       if (chatHistory.length <= 1) {
-          const newChat = createNewChat();
-          setActiveChatId(newChat.id);
-       }
+      const remainingChats = chatHistory.filter(c => c.id !== id);
+      if (remainingChats.length > 0) {
+        setActiveChatId(remainingChats[0].id);
+      } else {
+        const newChat = createNewChat();
+        setActiveChatId(newChat.id);
+      }
+    }
+    if(chatHistory.length <= 1) {
+        setIsDeleteMode(false);
     }
   };
 
@@ -88,6 +96,7 @@ export function ChatHistoryProvider({ children }: { children: ReactNode }) {
     setActiveChatId(null);
     const newChat = createNewChat();
     setActiveChatId(newChat.id);
+    setIsDeleteMode(false);
   };
   
   const updateActiveChat = (updater: (chat: ChatSession) => ChatSession) => {
@@ -112,11 +121,30 @@ export function ChatHistoryProvider({ children }: { children: ReactNode }) {
   const confirmRename = (id: string, newTitle: string) => {
     setChatHistory(prev => prev.map(chat => chat.id === id ? { ...chat, title: newTitle, isRenaming: false } : chat));
   }
+  
+  const toggleDeleteMode = () => {
+      if (chatHistory.length > 0) {
+        setIsDeleteMode(prev => !prev);
+      }
+  }
 
   const activeChat = chatHistory.find(chat => chat.id === activeChatId) || null;
 
   return (
-    <ChatHistoryContext.Provider value={{ chatHistory, activeChat, setActiveChatId, createNewChat, deleteChat, clearAllChats, updateActiveChat, startRenaming, cancelRenaming, confirmRename }}>
+    <ChatHistoryContext.Provider value={{ 
+        chatHistory, 
+        activeChat, 
+        setActiveChatId, 
+        createNewChat, 
+        deleteChat, 
+        clearAllChats, 
+        updateActiveChat, 
+        startRenaming, 
+        cancelRenaming, 
+        confirmRename,
+        isDeleteMode,
+        toggleDeleteMode
+    }}>
       {children}
     </ChatHistoryContext.Provider>
   );
