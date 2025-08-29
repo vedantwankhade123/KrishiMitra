@@ -14,6 +14,11 @@ export type RecommendationResult = {
   summary: string;
 };
 
+export type Attachment = {
+  url: string;
+  type: string;
+}
+
 export type ChatMessage = {
   id: string;
   role: 'user' | 'bot';
@@ -21,4 +26,5 @@ export type ChatMessage = {
   recommendation?: RecommendationResult | null;
   inputs?: OptimalCropsInput | null;
   error?: string | null;
+  attachment?: Attachment | null;
 };

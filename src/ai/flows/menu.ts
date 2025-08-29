@@ -17,6 +17,7 @@ import {z} from 'genkit';
 const MenuInputSchema = z.object({
   prompt: z.string().describe('The user prompt.'),
   language: z.string().describe('The language to respond in.'),
+  imageUrl: z.string().optional().describe('A data URI of an image uploaded by the user.'),
 });
 export type MenuInput = z.infer<typeof MenuInputSchema>;
 
@@ -53,13 +54,22 @@ const menuFlow = ai.defineFlow(
     inputSchema: MenuInputSchema,
     outputSchema: MenuOutputSchema,
   },
-  async ({ prompt, language }) => {
-    const llmResponse = await ai.generate({
-      prompt: `You are an expert AI assistant for farmers.
+  async ({ prompt, language, imageUrl }) => {
+
+    const llmPrompt = [
+        {text: `You are an expert AI assistant for farmers.
       If the user is asking for a recommendation, use the recommendOptimalCrops tool.
       Otherwise, simply answer their question.
       Respond in the following language: ${language}.
-      USER_PROMPT: ${prompt}`,
+      USER_PROMPT: ${prompt}`}
+    ];
+
+    if (imageUrl) {
+        llmPrompt.push({media: {url: imageUrl}});
+    }
+
+    const llmResponse = await ai.generate({
+      prompt: llmPrompt,
       model: 'googleai/gemini-2.5-flash',
       tools: [recommendOptimalCropsTool],
     });

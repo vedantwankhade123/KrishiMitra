@@ -13,6 +13,7 @@ import { OptimalCropsInputSchema, type OptimalCropsInput } from '@/ai/schemas';
 
 const ExtractFarmDataInputSchema = z.object({
   prompt: z.string().describe("The user's natural language description of their farm and conditions."),
+  imageUrl: z.string().optional().describe("A data URI of an image of the farm or crop."),
 });
 export type ExtractFarmDataInput = z.infer<typeof ExtractFarmDataInputSchema>;
 export type ExtractFarmDataOutput = OptimalCropsInput;
@@ -25,14 +26,18 @@ const prompt = ai.definePrompt({
   name: 'extractFarmDataPrompt',
   input: {schema: ExtractFarmDataInputSchema},
   output: {schema: OptimalCropsInputSchema},
-  prompt: `You are an expert agricultural assistant. Your task is to extract structured data from a user's natural language prompt.
+  prompt: `You are an expert agricultural assistant. Your task is to extract structured data from a user's natural language prompt and an accompanying image if provided.
 The user will describe their farm, including soil conditions, weather, crop history, and market prices.
 You must parse this information and populate the fields of the output schema accordingly.
+If an image is provided, use it to infer details about the soil, crop health, or other relevant factors.
 
 If a piece of information is not provided, make a reasonable assumption or leave it blank if no assumption can be made.
 
 User prompt:
 "{{{prompt}}}"
+{{#if imageUrl}}
+[IMAGE: {{media url=imageUrl}}]
+{{/if}}
 `,
 });
 

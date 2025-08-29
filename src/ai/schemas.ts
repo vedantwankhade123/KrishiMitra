@@ -3,13 +3,14 @@ import {z} from 'genkit';
 export const OptimalCropsInputSchema = z.object({
   soilData: z
     .string()
-    .describe('The data about the soil properties (pH, moisture, nutrient content).'),
+    .describe('The data about the soil properties (pH, moisture, nutrient content). This can be inferred from text or images.'),
   weatherForecast: z.string().describe('The localized weather forecast data.'),
   cropRotationHistory: z
     .string()
     .describe('The past crop rotation data for the field.'),
   marketPrices: z.string().describe('The current market prices for various crops.'),
   language: z.string().describe('The language for the AI to respond in.').optional(),
+  imageUrl: z.string().optional().describe('A data URI of an image of the farm or crop.'),
 });
 export type OptimalCropsInput = z.infer<typeof OptimalCropsInputSchema>;
 

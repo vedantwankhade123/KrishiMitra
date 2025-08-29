@@ -4,10 +4,9 @@ import { useState } from 'react';
 import { Header } from '@/components/Header';
 import { PromptForm } from '@/components/PromptForm';
 import { CropResults } from '@/components/CropResults';
-import type { RecommendationResult, ChatMessage } from '@/lib/types';
+import type { RecommendationResult, ChatMessage, Attachment } from '@/lib/types';
 import { getRecommendationsFromPrompt } from '@/app/actions';
 import { useToast } from '@/hooks/use-toast';
-import type { OptimalCropsInput } from '@/ai/schemas';
 import { SuggestionPrompts } from '@/components/SuggestionPrompts';
 import { useLanguage } from '@/context/LanguageContext';
 import { useTranslation } from '@/hooks/useTranslation';
@@ -21,7 +20,7 @@ export default function Home() {
 
   const { toast } = useToast();
 
-  const handleGetRecommendations = async (prompt: string) => {
+  const handleGetRecommendations = async (prompt: string, attachment?: Attachment | null) => {
     setLoading(true);
     setError(null);
 
@@ -29,11 +28,12 @@ export default function Home() {
       id: `user-${Date.now()}`,
       role: 'user',
       text: prompt,
+      attachment: attachment
     };
     setConversation(prev => [...prev, userMessage]);
 
     try {
-      const { recommendation, parsedInput, generalResponse } = await getRecommendationsFromPrompt(prompt, language);
+      const { recommendation, parsedInput, generalResponse } = await getRecommendationsFromPrompt(prompt, language, attachment?.url);
       
       let botMessage: ChatMessage;
 
@@ -82,20 +82,24 @@ export default function Home() {
     }
   };
 
+  const handleSuggestionClick = (prompt: string) => {
+    handleGetRecommendations(prompt, null);
+  }
+
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
       <main className="flex-1 flex flex-col container mx-auto w-full max-w-2xl py-8">
-        <div className="flex-1 pb-40">
+        <div className="flex-1 pb-48">
           <CropResults
             loading={loading}
             conversation={conversation}
-            onSuggestionClick={handleGetRecommendations}
+            onSuggestionClick={handleSuggestionClick}
           />
         </div>
         <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-background via-background/80 to-transparent">
           <div className="container mx-auto max-w-2xl px-4 pt-8 pb-4">
-            <SuggestionPrompts onSuggestionClick={handleGetRecommendations} />
+            <SuggestionPrompts onSuggestionClick={handleSuggestionClick} />
             <PromptForm
               onSubmit={handleGetRecommendations}
               disabled={loading}

@@ -3,6 +3,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -12,19 +13,20 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
-import { Loader2, ArrowUp, Mic, Square, BrainCircuit } from 'lucide-react';
-import { useEffect, useState, useRef } from 'react';
+import { Loader2, ArrowUp, Mic, Square, BrainCircuit, Paperclip, X } from 'lucide-react';
+import { useEffect, useState, useRef, type ChangeEvent } from 'react';
 import { useTranslation } from '@/hooks/useTranslation';
 import { useRecorder } from '@/hooks/use-recorder';
 import { getTranscription } from '@/app/actions';
 import { useLanguage } from '@/context/LanguageContext';
+import type { Attachment } from '@/lib/types';
 
 const formSchema = z.object({
-  prompt: z.string().min(1, "Prompt cannot be empty."),
+  prompt: z.string(),
 });
 
 type PromptFormProps = {
-  onSubmit: (prompt: string) => void;
+  onSubmit: (prompt: string, attachment?: Attachment | null) => void;
   disabled: boolean;
 };
 
@@ -39,6 +41,7 @@ export function PromptForm({
     },
   });
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const { t } = useTranslation();
   const { language } = useLanguage();
@@ -47,6 +50,7 @@ export function PromptForm({
   const [placeholder, setPlaceholder] = useState(t('promptForm.placeholder'));
   const { isRecording, startRecording, stopRecording, audioData } = useRecorder();
   const [isTranscribing, setIsTranscribing] = useState(false);
+  const [attachment, setAttachment] = useState<Attachment | null>(null);
 
   useEffect(() => {
     let currentPromptIndex = 0;
@@ -104,9 +108,28 @@ export function PromptForm({
     transcribe();
   }, [audioData, form, language]);
 
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        setAttachment({
+          url: e.target?.result as string,
+          type: file.type,
+        });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSubmit = (data: z.infer<typeof formSchema>) => {
-    onSubmit(data.prompt);
+    if (!data.prompt && !attachment) {
+        form.setError("prompt", { message: "Prompt or attachment is required." });
+        return;
+    }
+    onSubmit(data.prompt, attachment);
     form.reset();
+    setAttachment(null);
   }
 
   const watchedPrompt = form.watch('prompt');
@@ -121,11 +144,32 @@ export function PromptForm({
   }, [watchedPrompt]);
   
   const isMicDisabled = disabled || isTranscribing;
+  const isSubmitDisabled = disabled || (!watchedPrompt && !attachment);
 
   return (
     <div className="px-4">
       <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="relative">
+          {attachment && (
+            <div className="relative mb-2 w-fit">
+              <Image
+                src={attachment.url}
+                alt="Attachment preview"
+                width={80}
+                height={80}
+                className="rounded-lg object-cover"
+              />
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                className="absolute -top-2 -right-2 h-6 w-6 rounded-full bg-muted text-muted-foreground hover:bg-destructive hover:text-destructive-foreground"
+                onClick={() => setAttachment(null)}
+              >
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+          )}
           <FormField
           control={form.control}
           name="prompt"
@@ -136,13 +180,13 @@ export function PromptForm({
                     ref={textareaRef}
                     aria-label={t('promptForm.placeholder')}
                     placeholder={!watchedPrompt ? placeholder : t('promptForm.placeholder')}
-                    className="resize-none pr-24 text-base rounded-full bg-card border-2 border-primary/10 focus-visible:border-primary/50 focus-visible:ring-0 focus-visible:ring-offset-0 transition-all duration-300 overflow-y-auto max-h-48 py-3.5 pl-5"
+                    className="resize-none pr-32 text-base rounded-full bg-card border-2 border-primary/10 focus-visible:border-primary/50 focus-visible:ring-0 focus-visible:ring-offset-0 transition-all duration-300 overflow-y-auto max-h-48 py-3.5 pl-5"
                     rows={1}
                     {...field}
                     onKeyDown={(e) => {
                         if (e.key === 'Enter' && !e.shiftKey) {
                             e.preventDefault();
-                            if (form.formState.isValid) {
+                            if (!isSubmitDisabled) {
                               form.handleSubmit(handleSubmit)();
                             }
                         }
@@ -154,6 +198,24 @@ export function PromptForm({
           )}
           />
           <div className="absolute right-1.5 bottom-1.5 flex items-center gap-1.5">
+            <input
+              type="file"
+              ref={fileInputRef}
+              className="hidden"
+              onChange={handleFileChange}
+              accept="image/*"
+            />
+            <Button
+                type="button"
+                size="icon"
+                variant="ghost"
+                className="h-10 w-10 rounded-full text-muted-foreground hover:bg-primary/10 hover:text-primary"
+                disabled={disabled}
+                onClick={() => fileInputRef.current?.click()}
+                aria-label="Attach file"
+            >
+                <Paperclip className="h-5 w-5" />
+            </Button>
             <Button 
                 type="button" 
                 size="icon" 
@@ -177,7 +239,7 @@ export function PromptForm({
                 type="submit" 
                 size="icon" 
                 className="h-10 w-10 rounded-full bg-primary hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2" 
-                disabled={disabled || !watchedPrompt}
+                disabled={isSubmitDisabled}
                 aria-label={t('promptForm.send')}
             >
                 {disabled ? <Loader2 className="h-5 w-5 animate-spin" /> : <ArrowUp className="h-5 w-5" />}

@@ -45,7 +45,7 @@ function ChatBubble({ children, variant }: { children: React.ReactNode, variant:
     return (
         <div className={`flex items-start gap-4 ${variant === 'user' ? 'justify-end' : ''}`}>
             {variant === 'bot' && avatar}
-            <div className={`max-w-[85%] w-full flex flex-col space-y-4 ${variant === 'user' ? 'items-end' : ''}`}>
+            <div className={`max-w-[85%] w-full flex flex-col space-y-2 ${variant === 'user' ? 'items-end' : ''}`}>
                 {children}
             </div>
             {variant === 'user' && avatar}
@@ -76,9 +76,12 @@ export function CropResults({ loading, conversation, onSuggestionClick }: CropRe
 
         {conversation.map((message) => (
             <ChatBubble key={message.id} variant={message.role}>
-                {message.role === 'user' && message.text && (
-                    <div className="bg-primary text-primary-foreground p-4 rounded-2xl rounded-br-none">
-                        <p>{message.text}</p>
+                {message.role === 'user' && (
+                    <div className="bg-primary text-primary-foreground p-4 rounded-2xl rounded-br-none space-y-2">
+                        {message.attachment && (
+                            <Image src={message.attachment.url} alt="User attachment" width={200} height={200} className="rounded-lg" />
+                        )}
+                        {message.text && <p>{message.text}</p>}
                     </div>
                 )}
                 {message.role === 'bot' && (

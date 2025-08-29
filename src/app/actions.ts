@@ -27,12 +27,12 @@ export async function getRecommendations(input: OptimalCropsInput): Promise<Reco
   return parseRecommendations(result);
 }
 
-export async function getRecommendationsFromPrompt(prompt: string, language: string): Promise<{recommendation: RecommendationResult | null, parsedInput: OptimalCropsInput | null, generalResponse: string | null}> {
-  const result = await menu({prompt, language});
+export async function getRecommendationsFromPrompt(prompt: string, language: string, imageUrl?: string): Promise<{recommendation: RecommendationResult | null, parsedInput: OptimalCropsInput | null, generalResponse: string | null}> {
+  const result = await menu({prompt, language, imageUrl});
 
   if (result.toolRecommended && result.structuredOutput) {
     const recommendation = parseRecommendations(result.structuredOutput);
-    const parsedInput = await extractFarmData({prompt});
+    const parsedInput = await extractFarmData({prompt, imageUrl});
     // Pass language to the parsed input for the explainer
     parsedInput.language = language; 
     return { recommendation, parsedInput, generalResponse: result.response };
