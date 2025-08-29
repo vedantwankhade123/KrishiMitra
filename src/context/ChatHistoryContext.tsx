@@ -2,22 +2,24 @@
 'use client';
 
 import type { ChatSession, ChatMessage } from '@/lib/types';
-import { createContext, useContext, useState, type ReactNode, useEffect, useCallback } from 'react';
+import { createContext, useContext, useState, type ReactNode, useEffect, useCallback, useMemo } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 type ChatHistoryContextType = {
   chatHistory: ChatSession[];
+  filteredChatHistory: ChatSession[];
   activeChat: ChatSession | null;
   setActiveChatId: (id: string | null) => void;
   createNewChat: () => void;
   deleteChat: (id: string) => void;
-  clearAllChats: () => void;
   updateActiveChat: (updater: (chat: ChatSession) => ChatSession) => void;
   startRenaming: (id: string) => void;
   cancelRenaming: (id: string) => void;
   confirmRename: (id: string, newTitle: string) => void;
   isDeleteMode: boolean;
   toggleDeleteMode: () => void;
+  searchTerm: string;
+  setSearchTerm: (term: string) => void;
 };
 
 const ChatHistoryContext = createContext<ChatHistoryContextType | undefined>(undefined);
@@ -28,6 +30,7 @@ export function ChatHistoryProvider({ children }: { children: ReactNode }) {
   const [chatHistory, setChatHistory] = useState<ChatSession[]>([]);
   const [activeChatId, setActiveChatId] = useState<string | null>(null);
   const [isDeleteMode, setIsDeleteMode] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     try {
@@ -80,7 +83,10 @@ export function ChatHistoryProvider({ children }: { children: ReactNode }) {
     if (activeChatId === id) {
       const remainingChats = chatHistory.filter(c => c.id !== id);
       if (remainingChats.length > 0) {
-        setActiveChatId(remainingChats[0].id);
+        const currentIndex = chatHistory.findIndex(c => c.id === id);
+        const nextIndex = Math.max(0, currentIndex -1);
+        setActiveChatId(chatHistory[nextIndex]?.id || remainingChats[0].id);
+
       } else {
         const newChat = createNewChat();
         setActiveChatId(newChat.id);
@@ -89,14 +95,6 @@ export function ChatHistoryProvider({ children }: { children: ReactNode }) {
     if(chatHistory.length <= 1) {
         setIsDeleteMode(false);
     }
-  };
-
-  const clearAllChats = () => {
-    setChatHistory([]);
-    setActiveChatId(null);
-    const newChat = createNewChat();
-    setActiveChatId(newChat.id);
-    setIsDeleteMode(false);
   };
   
   const updateActiveChat = (updater: (chat: ChatSession) => ChatSession) => {
@@ -130,20 +128,33 @@ export function ChatHistoryProvider({ children }: { children: ReactNode }) {
 
   const activeChat = chatHistory.find(chat => chat.id === activeChatId) || null;
 
+  const filteredChatHistory = useMemo(() => {
+    if (!searchTerm) {
+        return chatHistory;
+    }
+    return chatHistory.filter(chat => 
+        chat.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        chat.messages.some(msg => msg.text?.toLowerCase().includes(searchTerm.toLowerCase()))
+    );
+  }, [chatHistory, searchTerm]);
+
+
   return (
     <ChatHistoryContext.Provider value={{ 
         chatHistory, 
+        filteredChatHistory,
         activeChat, 
         setActiveChatId, 
         createNewChat, 
         deleteChat, 
-        clearAllChats, 
         updateActiveChat, 
         startRenaming, 
         cancelRenaming, 
         confirmRename,
         isDeleteMode,
-        toggleDeleteMode
+        toggleDeleteMode,
+        searchTerm,
+        setSearchTerm,
     }}>
       {children}
     </ChatHistoryContext.Provider>

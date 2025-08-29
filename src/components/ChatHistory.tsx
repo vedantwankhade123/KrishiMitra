@@ -1,8 +1,9 @@
 
 'use client';
 
-import { MessageSquare, Trash2, Pencil, Check, X } from 'lucide-react';
+import { MessageSquare, Trash2, Pencil, Check, X, Search } from 'lucide-react';
 import { Button } from './ui/button';
+import { Input } from './ui/input';
 import { ScrollArea } from './ui/scroll-area';
 import { useChatHistory } from '@/context/ChatHistoryContext';
 import {
@@ -18,10 +19,11 @@ import {
 } from "@/components/ui/alert-dialog"
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
+import { useTranslation } from '@/hooks/useTranslation';
 
 export function ChatHistory() {
     const { 
-        chatHistory, 
+        filteredChatHistory, 
         activeChat, 
         setActiveChatId, 
         deleteChat, 
@@ -29,8 +31,11 @@ export function ChatHistory() {
         cancelRenaming, 
         confirmRename,
         isDeleteMode,
-        toggleDeleteMode
+        toggleDeleteMode,
+        searchTerm,
+        setSearchTerm,
     } = useChatHistory();
+    const { t } = useTranslation();
 
     const [editingTitle, setEditingTitle] = useState('');
 
@@ -53,6 +58,18 @@ export function ChatHistory() {
     
   return (
     <div className='flex flex-col flex-1'>
+        <div className='px-2 pb-2'>
+            <div className="relative">
+                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                 <Input
+                    placeholder="Search chats..."
+                    className="pl-9 h-9 rounded-full bg-primary/5 border-primary/10"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                />
+            </div>
+        </div>
+
         <div className='flex items-center justify-between px-4 py-1'>
             <p className="text-xs text-muted-foreground font-semibold uppercase tracking-wider">
             Recent
@@ -72,8 +89,8 @@ export function ChatHistory() {
         </div>
         <ScrollArea className="flex-1 px-2">
             <div className="space-y-1">
-                {chatHistory.length > 0 ? (
-                    chatHistory.map((chat) => (
+                {filteredChatHistory.length > 0 ? (
+                    filteredChatHistory.map((chat) => (
                     <div
                         key={chat.id}
                         className={cn(
@@ -118,7 +135,7 @@ export function ChatHistory() {
                                                  <Button
                                                     variant="ghost"
                                                     size="icon"
-                                                    className="h-7 w-7 rounded-full text-muted-foreground hover:bg-primary/10 hover:text-primary opacity-100 transition-opacity group-hover:opacity-100"
+                                                    className="h-7 w-7 rounded-full text-muted-foreground hover:bg-primary/10 hover:text-primary opacity-0 transition-opacity group-hover:opacity-100"
                                                     onClick={(e) => { e.stopPropagation(); handleRenameStart(chat); }}
                                                 >
                                                     <Pencil className="h-4 w-4" />
@@ -169,7 +186,7 @@ export function ChatHistory() {
                     ))
                 ) : (
                     <div className='text-center text-sm text-muted-foreground p-4'>
-                        No chat history.
+                        {searchTerm ? t('header.noChatsFound') : t('header.noChats')}
                     </div>
                 )}
             </div>

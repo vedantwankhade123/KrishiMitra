@@ -3,6 +3,8 @@ export const dictionary = {
   en: {
     header: {
       newChat: "NEW CHAT",
+      noChats: "No chat history.",
+      noChatsFound: "No chats found."
     },
     welcome: {
       title: "HI JOSH!",
@@ -52,6 +54,8 @@ export const dictionary = {
   hi: {
     header: {
       newChat: "नई चैट",
+      noChats: "कोई चैट इतिहास नहीं।",
+      noChatsFound: "कोई चैट नहीं मिली।"
     },
     welcome: {
       title: "नमस्ते जोश!",
@@ -101,6 +105,8 @@ export const dictionary = {
   mr: {
     header: {
       newChat: "नवीन चॅट",
+      noChats: "चॅट इतिहास नाही.",
+      noChatsFound: "कोणतेही चॅट आढळले नाहीत."
     },
     welcome: {
       title: "नमस्कार जोश!",
