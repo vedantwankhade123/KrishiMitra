@@ -68,6 +68,14 @@ export function Weather() {
   }, []);
 
   const requestLocation = useCallback(() => {
+    setLoading(true);
+    setError(null);
+    if (!navigator.geolocation) {
+        setError("Geolocation is not supported by your browser.");
+        setLoading(false);
+        return;
+    }
+
     navigator.geolocation.getCurrentPosition(
         (position) => {
             const { latitude, longitude } = position.coords;
@@ -75,7 +83,20 @@ export function Weather() {
             fetchWeatherForLocation(latitude, longitude);
         },
         (err) => {
-            setError("Location access denied. Please enable it in your browser settings.");
+            switch(err.code) {
+                case err.PERMISSION_DENIED:
+                    setError("Location access denied. Please enable it in your browser settings to see local weather.");
+                    break;
+                case err.POSITION_UNAVAILABLE:
+                    setError("Location information is unavailable.");
+                    break;
+                case err.TIMEOUT:
+                    setError("The request to get user location timed out.");
+                    break;
+                default:
+                    setError("An unknown error occurred while accessing location.");
+                    break;
+            }
             console.error(err);
             setLoading(false);
         },
@@ -84,7 +105,6 @@ export function Weather() {
   }, [fetchWeatherForLocation]);
 
   useEffect(() => {
-    setLoading(true);
     requestLocation();
   }, [requestLocation]);
 
@@ -124,7 +144,7 @@ export function Weather() {
         <DialogHeader>
           <DialogTitle className="font-bold text-2xl">Current Weather</DialogTitle>
           <DialogDescription>
-            {error ? error : "Live weather conditions for your current location."}
+            {error ? "Could not retrieve weather data." : "Live weather conditions for your current location."}
           </DialogDescription>
         </DialogHeader>
         <div className="py-4">
