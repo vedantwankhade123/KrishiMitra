@@ -157,7 +157,7 @@ export function ChatHistory() {
                     <div
                         key={chat.id}
                         className={cn(
-                            "group flex items-center justify-between rounded-md p-2 text-sm text-muted-foreground relative",
+                            "group flex items-center justify-between rounded-full h-9 px-3 text-sm text-muted-foreground relative",
                             !chat.isRenaming && !isDeleteMode && "hover:bg-muted cursor-pointer",
                             activeChat?.id === chat.id && !chat.isRenaming && !isDeleteMode && "bg-muted text-foreground"
                         )}
@@ -207,6 +207,7 @@ export function ChatHistory() {
                         {!chat.isRenaming && !isDeleteMode && (
                             <div className={cn(
                                 "flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity",
+                                activeChat?.id === chat.id && "opacity-100"
                             )}>
                                 <AlertDialog open={dialogOpen === chat.id} onOpenChange={(open) => !open && setDialogOpen(false)}>
                                     <DropdownMenu>
