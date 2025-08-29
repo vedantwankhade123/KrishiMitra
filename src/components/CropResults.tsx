@@ -1,22 +1,18 @@
 'use client';
 
 import Image from 'next/image';
-import type { OptimalCropsInput } from "@/ai/schemas";
-import type { RecommendationResult } from "@/lib/types";
+import type { ChatMessage } from "@/lib/types";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { CropCard } from "@/components/CropCard";
 import { Bot, User, Sprout, BrainCircuit } from "lucide-react";
 import { Button } from './ui/button';
+import { useEffect, useRef } from 'react';
 
 type CropResultsProps = {
   loading: boolean;
-  error: string | null;
-  result: RecommendationResult | null;
-  generalResponse: string | null;
-  formInputs: OptimalCropsInput | null;
-  lastPrompt: string;
+  conversation: ChatMessage[];
   onSuggestionClick: (prompt: string) => void;
 };
 
@@ -28,19 +24,16 @@ const suggestionPrompts = [
 
 function LoadingSkeleton() {
   return (
-    <div className="space-y-6 w-full">
-      <div className="flex items-start gap-4">
-        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary flex-shrink-0">
-          <Bot className="h-5 w-5" />
+    <ChatBubble variant="bot">
+        <div className="flex items-start gap-4">
+            <Card className="w-full">
+            <CardContent className="p-4 space-y-3">
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-5/6" />
+            </CardContent>
+            </Card>
         </div>
-        <Card className="w-full">
-          <CardContent className="p-4 space-y-3">
-            <Skeleton className="h-4 w-full" />
-            <Skeleton className="h-4 w-5/6" />
-          </CardContent>
-        </Card>
-      </div>
-    </div>
+    </ChatBubble>
   );
 }
 
@@ -66,10 +59,16 @@ function ChatBubble({ children, variant }: { children: React.ReactNode, variant:
     );
 }
 
-export function CropResults({ loading, error, result, generalResponse, formInputs, lastPrompt, onSuggestionClick }: CropResultsProps) {
+export function CropResults({ loading, conversation, onSuggestionClick }: CropResultsProps) {
+  const scrollRef = useRef<HTMLDivElement>(null);
 
-  const showWelcome = !loading && !error && !result && !lastPrompt;
-  const showResults = !loading && !error && (result || generalResponse);
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [conversation, loading]);
+
+  const showWelcome = conversation.length === 0 && !loading;
 
   return (
       <div className="space-y-8">
@@ -88,53 +87,40 @@ export function CropResults({ loading, error, result, generalResponse, formInput
             </div>
         )}
 
-        {lastPrompt && (
-          <ChatBubble variant="user">
-            <div className="bg-primary text-primary-foreground p-4 rounded-2xl rounded-br-none">
-              <p>{lastPrompt}</p>
-            </div>
-          </ChatBubble>
-        )}
+        {conversation.map((message) => (
+            <ChatBubble key={message.id} variant={message.role}>
+                {message.role === 'user' && message.text && (
+                    <div className="bg-primary text-primary-foreground p-4 rounded-2xl rounded-br-none">
+                        <p>{message.text}</p>
+                    </div>
+                )}
+                {message.role === 'bot' && (
+                  <>
+                    {message.text && (
+                      <div className="bg-card p-4 rounded-2xl rounded-bl-none">
+                        <p className="text-muted-foreground leading-relaxed">{message.text}</p>
+                      </div>
+                    )}
+                    {message.recommendation && message.recommendation.crops.length > 0 && (
+                      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                        {message.recommendation.crops.map(crop => (
+                            <CropCard key={crop.name} crop={crop} formInputs={message.inputs || null} />
+                        ))}
+                      </div>
+                    )}
+                    {message.error && (
+                       <Alert variant="destructive" className="bg-destructive/10 border-destructive/30">
+                            <AlertTitle className="font-bold text-lg">Error</AlertTitle>
+                            <AlertDescription>{message.error}</AlertDescription>
+                        </Alert>
+                    )}
+                  </>
+                )}
+            </ChatBubble>
+        ))}
         
         {loading && <LoadingSkeleton />}
-
-        {error && (
-            <ChatBubble variant="bot">
-                <Alert variant="destructive" className="bg-destructive/10 border-destructive/30">
-                    <AlertTitle className="font-bold text-lg">Error</AlertTitle>
-                    <AlertDescription>{error}</AlertDescription>
-                </Alert>
-            </ChatBubble>
-        )}
-
-        {showResults && (
-            <ChatBubble variant="bot">
-                {generalResponse && (
-                  <div className="bg-card p-4 rounded-2xl rounded-bl-none">
-                    <p className="text-muted-foreground leading-relaxed">{generalResponse}</p>
-                  </div>
-                )}
-                {result?.summary && (
-                  <div className="bg-card p-4 rounded-2xl rounded-bl-none">
-                    <p className="text-muted-foreground leading-relaxed">{result.summary}</p>
-                  </div>
-                )}
-                
-                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                {result && result.crops.length > 0 ? (
-                    result.crops.map(crop => (
-                        <CropCard key={crop.name} crop={crop} formInputs={formInputs} />
-                    ))
-                    ) : (
-                      result && (
-                        <p className="text-muted-foreground md:col-span-2 lg:col-span-3 text-center py-8">
-                            No crops were recommended. Try adjusting your prompt.
-                        </p>
-                      )
-                    )}
-                </div>
-            </ChatBubble>
-        )}
+        <div ref={scrollRef} />
       </div>
   )
 }

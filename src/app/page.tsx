@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { Header } from '@/components/Header';
 import { PromptForm } from '@/components/PromptForm';
 import { CropResults } from '@/components/CropResults';
-import type { RecommendationResult } from '@/lib/types';
+import type { RecommendationResult, ChatMessage } from '@/lib/types';
 import { getRecommendationsFromPrompt } from '@/app/actions';
 import { useToast } from '@/hooks/use-toast';
 import type { OptimalCropsInput } from '@/ai/schemas';
@@ -12,38 +12,61 @@ import type { OptimalCropsInput } from '@/ai/schemas';
 export default function Home() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [result, setResult] = useState<RecommendationResult | null>(null);
-  const [formInputs, setFormInputs] = useState<OptimalCropsInput | null>(null);
-  const [lastPrompt, setLastPrompt] = useState<string>('');
-  const [generalResponse, setGeneralResponse] = useState<string | null>(null);
+  const [conversation, setConversation] = useState<ChatMessage[]>([]);
 
   const { toast } = useToast();
 
   const handleGetRecommendations = async (prompt: string) => {
     setLoading(true);
     setError(null);
-    setResult(null);
-    setFormInputs(null);
-    setGeneralResponse(null);
-    setLastPrompt(prompt);
+
+    const userMessage: ChatMessage = {
+      id: `user-${Date.now()}`,
+      role: 'user',
+      text: prompt,
+    };
+    setConversation(prev => [...prev, userMessage]);
+
     try {
       const { recommendation, parsedInput, generalResponse } = await getRecommendationsFromPrompt(prompt);
+      
+      let botMessage: ChatMessage;
 
       if (recommendation) {
-        setFormInputs(parsedInput);
         if (recommendation.crops.length === 0) {
-          setError("The AI couldn't find any suitable crops based on your prompt. Please try adjusting the inputs.");
-          setResult(null);
+           botMessage = {
+            id: `bot-error-${Date.now()}`,
+            role: 'bot',
+            error: "The AI couldn't find any suitable crops based on your prompt. Please try adjusting the inputs."
+          };
         } else {
-          setResult(recommendation);
+          botMessage = {
+            id: `bot-${Date.now()}`,
+            role: 'bot',
+            recommendation,
+            inputs: parsedInput,
+            text: generalResponse
+          };
         }
       } else {
-         setGeneralResponse(generalResponse);
+         botMessage = {
+          id: `bot-${Date.now()}`,
+          role: 'bot',
+          text: generalResponse,
+        };
       }
+      setConversation(prev => [...prev, botMessage]);
 
     } catch (e) {
       console.error(e);
-      setError("An unexpected error occurred while getting recommendations. The AI model might have returned an unparsable response. Please check the console for details and try again.");
+      const errorMsg = "An unexpected error occurred while getting recommendations. The AI model might have returned an unparsable response. Please check the console for details and try again.";
+      setError(errorMsg);
+      const errorBotMessage: ChatMessage = {
+        id: `bot-error-${Date.now()}`,
+        role: 'bot',
+        error: errorMsg
+      };
+      setConversation(prev => [...prev, errorBotMessage]);
       toast({
         title: "Error",
         description: "Failed to get recommendations. Please try again.",
@@ -61,11 +84,7 @@ export default function Home() {
         <div className="flex-1 pb-40">
           <CropResults
             loading={loading}
-            error={error}
-            result={result}
-            generalResponse={generalResponse}
-            formInputs={formInputs}
-            lastPrompt={lastPrompt}
+            conversation={conversation}
             onSuggestionClick={handleGetRecommendations}
           />
         </div>
