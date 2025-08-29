@@ -16,7 +16,7 @@ import {
 
 export default function LandingPage() {
   return (
-    <div className="flex flex-col min-h-screen bg-background text-foreground overflow-hidden">
+    <div className="flex flex-col min-h-screen bg-background text-foreground overflow-x-hidden">
       <main className="flex-1">
         <div className="relative bg-black rounded-b-3xl">
           <LandingHeader />
@@ -28,17 +28,16 @@ export default function LandingPage() {
             data-ai-hint="farmers field"
             priority
           />
-          <div className="relative z-10 container mx-auto px-4 py-32 md:py-48">
-            <div className="grid md:grid-cols-2 gap-8 items-center">
-              <div className="space-y-6 text-white">
-                <Leaf className="w-16 h-16 text-primary animate-float" />
+          <div className="relative z-10 container mx-auto px-4 py-32 md:py-48 text-center">
+            <div className="grid grid-cols-1 gap-8 items-center">
+              <div className="space-y-6 text-white max-w-3xl mx-auto flex flex-col items-center">
                 <h1 className="text-5xl md:text-7xl font-bold tracking-tighter">
                   Smart Solutions for Farmers
                 </h1>
                 <p className="text-lg md:text-xl text-white/80">
                   Save more with sustainable farming tools.
                 </p>
-                <div className="flex justify-start gap-4">
+                <div className="flex justify-center gap-4">
                   <Button asChild size="lg" className="rounded-full text-lg h-14 px-8 group bg-primary hover:bg-primary/90 text-primary-foreground">
                     <Link href="/chat">
                       Get Started
@@ -46,8 +45,6 @@ export default function LandingPage() {
                     </Link>
                   </Button>
                 </div>
-              </div>
-              <div className="space-y-4">
               </div>
             </div>
           </div>
