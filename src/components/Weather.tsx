@@ -140,7 +140,7 @@ export function Weather() {
           </Button>
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-3xl bg-card border-primary/20">
+      <DialogContent className="sm:max-w-3xl border-primary/20 dark:bg-gradient-radial-primary">
         <DialogHeader>
           <DialogTitle className="font-bold text-2xl">Current Weather</DialogTitle>
           <DialogDescription>

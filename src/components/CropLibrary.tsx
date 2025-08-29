@@ -141,7 +141,7 @@ export function CropLibrary() {
   const renderListView = () => (
     <>
         <DialogHeader>
-          <div className="flex flex-col sm:flex-row sm:items-center gap-4 sm:justify-between">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4">
             <div className="flex items-center gap-2">
                 <Sprout className="h-7 w-7 text-primary" />
                 <div>
@@ -246,11 +246,9 @@ export function CropLibrary() {
           </Button>
       </DialogTrigger>
 
-      <DialogContent className="max-w-4xl h-[90vh] bg-card border-primary/20 flex flex-col">
+      <DialogContent className="max-w-4xl h-[90vh] border-primary/20 flex flex-col dark:bg-gradient-radial-primary">
         {selectedCrop ? renderDetailView(selectedCrop) : renderListView()}
       </DialogContent>
     </Dialog>
   );
 }
-
-    
