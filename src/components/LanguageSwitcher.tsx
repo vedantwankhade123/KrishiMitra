@@ -29,7 +29,7 @@ export function LanguageSwitcher() {
 
   return (
     <Select defaultValue={language} onValueChange={handleValueChange}>
-      <SelectTrigger asChild>
+      <SelectTrigger className="w-auto h-auto p-0 border-none bg-transparent focus:ring-0 focus:ring-offset-0">
           <Button variant="ghost" size="icon" className="text-muted-foreground hover:text-foreground h-9 w-9 rounded-full">
             <Globe className="h-5 w-5" />
             <span className="sr-only">Switch Language, current: {languages[language]}</span>
