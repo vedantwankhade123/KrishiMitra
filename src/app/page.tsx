@@ -90,17 +90,37 @@ export default function LandingPage() {
 
         <section className="py-16 md:py-24">
             <div className="container mx-auto px-4">
-                <div className="grid md:grid-cols-2 gap-8 items-center">
+                <div className="grid md:grid-cols-2 gap-12 items-center">
                     <div>
-                        <p className="text-primary font-semibold mb-2">Farm Types</p>
-                        <h2 className="text-4xl font-bold mb-4">Smart Farming Support for All Types of Farms</h2>
-                        <p className="text-muted-foreground">From small family plots to large-scale agriculture - our focus is to support you. We make sure that our product will fit every step of the way.</p>
+                        <p className="text-primary font-semibold mb-2">All-in-One Platform</p>
+                        <h2 className="text-4xl font-bold mb-4">Your Complete Farming Toolkit</h2>
+                        <p className="text-muted-foreground mb-6">Our platform integrates cutting-edge technology to bring you a seamless farming experience. Get instant advice, browse detailed crop information, and explore the latest farming equipment—all in one place.</p>
+                        <ul className="space-y-4">
+                            <li className="flex items-start gap-3">
+                                <BrainCircuit className="h-6 w-6 text-primary mt-1" />
+                                <div>
+                                    <h3 className="font-semibold text-lg">AI Chat Interface</h3>
+                                    <p className="text-muted-foreground">Converse with our advanced AI to get personalized solutions for your farming challenges, from pest control to irrigation schedules.</p>
+                                </div>
+                            </li>
+                             <li className="flex items-start gap-3">
+                                <Database className="h-6 w-6 text-primary mt-1" />
+                                <div>
+                                    <h3 className="font-semibold text-lg">Comprehensive Crop Library</h3>
+                                    <p className="text-muted-foreground">Access a vast database of crops to learn about planting seasons, soil requirements, and best practices for a successful harvest.</p>
+                                </div>
+                            </li>
+                             <li className="flex items-start gap-3">
+                                <Users className="h-6 w-6 text-primary mt-1" />
+                                <div>
+                                    <h3 className="font-semibold text-lg">Farmer's Marketplace</h3>
+                                    <p className="text-muted-foreground">Coming soon: A dedicated marketplace to buy, sell, or rent farming machinery and equipment from a community of trusted vendors.</p>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
-                    <div className="grid grid-cols-2 gap-4">
-                        <Image src="https://picsum.photos/seed/farm1/400/400" alt="Close up of a crop" width={400} height={400} className="rounded-3xl object-cover aspect-square" data-ai-hint="crop close-up" />
-                        <Image src="https://picsum.photos/seed/farm2/400/400" alt="Vineyard" width={400} height={400} className="rounded-3xl object-cover aspect-square mt-8" data-ai-hint="vineyard" />
-                        <Image src="https://picsum.photos/seed/farm3/400/400" alt="Lush green crops" width={400} height={400} className="rounded-3xl object-cover aspect-square" data-ai-hint="green crops" />
-                        <Image src="https://picsum.photos/seed/farm4/400/400" alt="Apple orchard" width={400} height={400} className="rounded-3xl object-cover aspect-square mt-8" data-ai-hint="apple orchard" />
+                    <div>
+                        <Image src="https://picsum.photos/seed/farm-features/800/1000" alt="Farmer using a tablet in a field" width={800} height={1000} className="rounded-3xl object-cover aspect-[4/5]" data-ai-hint="farmer tablet field" />
                     </div>
                 </div>
             </div>
@@ -203,7 +223,3 @@ export default function LandingPage() {
     </div>
   );
 }
-
-    
-
-    
