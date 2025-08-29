@@ -9,12 +9,15 @@ import { ThemeToggle } from './ThemeToggle';
 import { ProfileButton } from './ProfileButton';
 import { Button } from './ui/button';
 import { Menu } from 'lucide-react';
-import { SidebarTrigger } from './ui/sidebar';
+import { SidebarTrigger, useSidebar } from './ui/sidebar';
 
 export function Header() {
+  const { open } = useSidebar();
+
   return (
     <header className="sticky top-0 z-50 w-full p-4">
         <div className="absolute top-4 left-4 flex items-center gap-2 h-16">
+          {!open && (
             <SidebarTrigger asChild>
               <Button
                 variant="ghost"
@@ -25,6 +28,7 @@ export function Header() {
                 <span className="sr-only">Open menu</span>
               </Button>
             </SidebarTrigger>
+          )}
         </div>
         <div className="container relative flex h-16 items-center justify-center mx-auto max-w-4xl">
             {/* Middle Group */}
