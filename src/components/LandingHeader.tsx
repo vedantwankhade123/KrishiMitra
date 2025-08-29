@@ -9,7 +9,7 @@ import Link from 'next/link';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
 import { ChevronDown, Search } from 'lucide-react';
 import { CropLibrary } from './CropLibrary';
-import { Dialog, DialogTrigger } from './ui/dialog';
+import { DialogTrigger } from './ui/dialog';
 
 export function LandingHeader() {
   return (
@@ -33,7 +33,13 @@ export function LandingHeader() {
                         </DropdownMenuItem>
                         <DropdownMenuItem className="cursor-pointer hover:!bg-primary/20">Marketplace</DropdownMenuItem>
                         <DropdownMenuItem className="cursor-pointer hover:!bg-primary/20">Farm Analytics</DropdownMenuItem>
-                         <CropLibrary />
+                        <CropLibrary trigger={
+                            <DropdownMenuItem 
+                                onSelect={(e) => e.preventDefault()}
+                                className="cursor-pointer hover:!bg-primary/20">
+                                Crop Library
+                            </DropdownMenuItem>
+                        } />
                     </DropdownMenuContent>
                 </DropdownMenu>
                  <Button variant="pill" visual="ghost" asChild>

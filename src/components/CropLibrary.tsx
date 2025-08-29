@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Sprout, ArrowLeft, Search, Loader2, Share2, Download, Library } from "lucide-react";
 import Image from "next/image";
-import { useState, useMemo, useEffect, useCallback } from "react";
+import { useState, useMemo, useEffect, useCallback, ReactNode } from "react";
 import { Badge } from "./ui/badge";
 import { getCropsFromLibrary } from "@/app/actions";
 import { useDebounce } from "@/hooks/use-debounce";
@@ -34,8 +34,12 @@ type Crop = {
     soil: string;
 };
 
+type CropLibraryProps = {
+    trigger?: ReactNode;
+}
 
-export function CropLibrary() {
+
+export function CropLibrary({ trigger }: CropLibraryProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedCrop, setSelectedCrop] = useState<Crop | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
@@ -240,16 +244,7 @@ export function CropLibrary() {
     </>
   )
 
-  const trigger = (
-      <DropdownMenuItem
-        onSelect={(e) => e.preventDefault()}
-        className="cursor-pointer hover:!bg-primary/20"
-      >
-        Crop Library
-      </DropdownMenuItem>
-  )
-
-  const triggerInHeader = (
+  const defaultTrigger = (
      <Button variant="ghost" className="h-9 rounded-full text-foreground hover:bg-primary/10 hover:text-primary px-4">
         <Library className="h-5 w-5" />
         <span className="ml-2">Crop Library</span>
@@ -260,7 +255,7 @@ export function CropLibrary() {
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
-        { trigger }
+        { trigger || defaultTrigger }
       </DialogTrigger>
 
       <DialogContent className="max-w-4xl h-[90vh] border-primary/20 flex flex-col">
