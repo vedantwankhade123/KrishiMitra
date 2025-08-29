@@ -25,13 +25,15 @@ type Location = {
     longitude: number;
 }
 
-function getWeatherIcon(code: number) {
-    if (code === 0) return <Sun className="h-5 w-5 text-yellow-400" />;
-    if (code >= 1 && code <= 3) return <Cloud className="h-5 w-5 text-gray-400" />;
-    if ((code >= 51 && code <= 67) || (code >= 80 && code <= 82)) return <CloudRain className="h-5 w-5 text-blue-400" />;
-    if ((code >= 71 && code <= 77) || (code >= 85 && code <= 86)) return <CloudSnow className="h-5 w-5 text-white" />;
-    return <Sun className="h-5 w-5 text-yellow-400" />;
+function getWeatherIcon(code: number, className: string = "h-6 w-6") {
+    if (code === 0) return <Sun className={cn(className, "text-yellow-400")} aria-label="Clear sky" />;
+    if (code >= 1 && code <= 3) return <Cloud className={cn(className, "text-gray-400")} aria-label="Cloudy" />;
+    if ((code >= 51 && code <= 67) || (code >= 80 && code <= 82)) return <CloudRain className={cn(className, "text-blue-400")} aria-label="Rainy" />;
+    if ((code >= 71 && code <= 77) || (code >= 85 && code <= 86)) return <CloudSnow className={cn(className, "text-white")} aria-label="Snowy" />;
+    return <Sun className={cn(className, "text-yellow-400")} aria-label="Clear sky" />;
 }
+
+import { cn } from "@/lib/utils";
 
 export function Weather() {
   const [weather, setWeather] = useState<WeatherData | null>(null);
@@ -77,9 +79,12 @@ export function Weather() {
   }, [isOpen]);
 
   const openStreetMapUrl = location
-    ? `https://www.openstreetmap.org/#map=15/${location.latitude}/${location.longitude}`
+    ? `https://www.openstreetmap.org/?mlat=${location.latitude}&mlon=${location.longitude}#map=15/${location.latitude}/${location.longitude}`
     : '#';
 
+  const mapEmbedUrl = location
+    ? `https://www.openstreetmap.org/export/embed.html?bbox=${location.longitude-0.1},${location.latitude-0.1},${location.longitude+0.1},${location.latitude+0.1}&layer=mapnik&marker=${location.latitude},${location.longitude}`
+    : '';
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -87,7 +92,7 @@ export function Weather() {
           <Button variant="ghost" className="h-9 rounded-full text-muted-foreground hover:text-foreground px-4">
               {weather ? (
                   <>
-                      {getWeatherIcon(weather.weathercode)}
+                      {getWeatherIcon(weather.weathercode, "h-5 w-5")}
                       <span className="ml-2 font-semibold">{weather.temperature}°F</span>
                   </>
               ) : (
@@ -100,7 +105,7 @@ export function Weather() {
           </Button>
       </DialogTrigger>
 
-      <DialogContent className="sm:max-w-[425px] bg-card border-primary/20">
+      <DialogContent className="sm:max-w-3xl bg-card border-primary/20">
         <DialogHeader>
           <DialogTitle className="font-bold text-2xl">Current Weather</DialogTitle>
           <DialogDescription>
@@ -108,52 +113,77 @@ export function Weather() {
           </DialogDescription>
         </DialogHeader>
         <div className="py-4">
-          {error && <p className="text-red-500">{error}</p>}
-          {!weather && !error && (
-             <div className="space-y-4">
-                <Skeleton className="h-10 w-10 rounded-full" />
-                <Skeleton className="h-6 w-24" />
-                <Skeleton className="h-4 w-full" />
-                <Skeleton className="h-4 w-full" />
-                <Skeleton className="h-4 w-full" />
+          {error && <p className="text-red-500" role="alert">{error}</p>}
+          {(!weather || !location) && !error && (
+             <div className="grid md:grid-cols-2 gap-8">
+                <div>
+                    <Skeleton className="h-64 w-full rounded-lg" />
+                </div>
+                <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                       <Skeleton className="h-12 w-48" />
+                       <Skeleton className="h-6 w-24" />
+                    </div>
+                    <div className="grid grid-cols-3 gap-4">
+                        <Skeleton className="h-24 w-full rounded-lg" />
+                        <Skeleton className="h-24 w-full rounded-lg" />
+                        <Skeleton className="h-24 w-full rounded-lg" />
+                    </div>
+                </div>
              </div>
           )}
-          {weather && (
-            <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                    <div>
-                        <div className="flex items-center gap-2">
-                             {getWeatherIcon(weather.weathercode)}
-                             <p className="text-5xl font-bold">{weather.temperature}°F</p>
-                        </div>
-                       
-                    </div>
-                    <div className="text-right">
-                         <a href={openStreetMapUrl} target="_blank" rel="noopener noreferrer" className="text-sm text-primary hover:underline flex items-center gap-1">
-                            <MapPin className="h-4 w-4" />
-                            View on Map
+          {weather && location && (
+            <div className="grid md:grid-cols-2 gap-8">
+                <div className="flex flex-col gap-4">
+                    <iframe
+                        width="100%"
+                        height="100%"
+                        className="rounded-lg border min-h-[300px]"
+                        src={mapEmbedUrl}
+                        title="Map of current location"
+                        aria-label="Map showing the user's current geographical location"
+                    ></iframe>
+                     <Button asChild variant="outline" size="sm">
+                        <a href={openStreetMapUrl} target="_blank" rel="noopener noreferrer">
+                           <MapPin className="h-4 w-4 mr-2" />
+                            View on OpenStreetMap
                         </a>
+                    </Button>
+                </div>
+
+                <div className="space-y-6">
+                    <div className="flex items-start justify-between">
+                        <div>
+                            <div className="flex items-center gap-4">
+                                 {getWeatherIcon(weather.weathercode, "h-16 w-16")}
+                                 <div>
+                                    <p className="text-5xl font-bold">{weather.temperature}°F</p>
+                                    <p className="text-muted-foreground">Feels Like {weather.temperature}°F</p>
+                                 </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
 
-
-              <div className="grid grid-cols-3 gap-4 text-center">
-                <div className="bg-primary/5 p-3 rounded-lg">
-                    <Droplets className="mx-auto h-6 w-6 text-primary" />
-                    <p className="text-sm mt-1 text-muted-foreground">Precipitation</p>
-                    <p className="font-bold">{weather.precipitation_probability}%</p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left">
+                        <div className="bg-primary/5 p-4 rounded-lg flex items-center gap-4">
+                            <Droplets className="h-8 w-8 text-primary flex-shrink-0" />
+                            <div>
+                                <p className="text-sm text-muted-foreground">Precipitation</p>
+                                <p className="font-bold text-lg">{weather.precipitation_probability}%</p>
+                            </div>
+                        </div>
+                         <div className="bg-primary/5 p-4 rounded-lg flex items-center gap-4">
+                            <Wind className="h-8 w-8 text-primary flex-shrink-0" />
+                            <div>
+                                <p className="text-sm text-muted-foreground">Wind</p>
+                                <p className="font-bold text-lg">{weather.windspeed} mph</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                        Location data is based on your browser's location services. Weather data is provided by Open-Meteo.
+                    </p>
                 </div>
-                 <div className="bg-primary/5 p-3 rounded-lg">
-                    <Wind className="mx-auto h-6 w-6 text-primary" />
-                    <p className="text-sm mt-1 text-muted-foreground">Wind</p>
-                    <p className="font-bold">{weather.windspeed} mph</p>
-                </div>
-                 <div className="bg-primary/5 p-3 rounded-lg">
-                    <Thermometer className="mx-auto h-6 w-6 text-primary" />
-                    <p className="text-sm mt-1 text-muted-foreground">Feels Like</p>
-                    <p className="font-bold">{weather.temperature}°F</p>
-                </div>
-              </div>
             </div>
           )}
         </div>
