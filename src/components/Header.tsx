@@ -36,7 +36,7 @@ export function Header() {
         </div>
         <div className="container relative flex h-16 items-center justify-center mx-auto max-w-4xl">
             {/* Middle Group */}
-            <div className="flex items-center gap-2 bg-card border border-primary/10 rounded-full p-2">
+            <div className="flex items-center gap-2 bg-card/50 backdrop-blur-sm border border-primary/10 rounded-full p-2">
                 <Weather />
                 <Separator orientation="vertical" className="h-6" />
                 <CropLibrary />
