@@ -12,7 +12,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Textarea } from '@/components/ui/textarea';
-import { Loader2, ArrowUp, Zap } from 'lucide-react';
+import { Loader2, ArrowUp } from 'lucide-react';
 
 const formSchema = z.object({
   prompt: z.string().min(1, "Prompt cannot be empty."),
@@ -40,7 +40,7 @@ export function PromptForm({
   }
 
   return (
-    <div>
+    <div className="px-4">
       <Form {...form}>
       <form onSubmit={form.handleSubmit(handleSubmit)} className="relative">
           <FormField
@@ -52,7 +52,7 @@ export function PromptForm({
                   <Textarea
                     aria-label="What is on your mind?"
                     placeholder="What is on your mind?"
-                    className="resize-none pr-14 min-h-[52px] text-base rounded-full bg-input border-2 border-transparent focus:border-primary"
+                    className="resize-none pr-14 min-h-[52px] text-base rounded-full bg-input border-2 border-transparent focus:border-primary/30"
                     {...field}
                     onKeyDown={(e) => {
                         if (e.key === 'Enter' && !e.shiftKey) {
@@ -71,7 +71,7 @@ export function PromptForm({
           <Button 
               type="submit" 
               size="icon" 
-              className="absolute right-2 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full bg-primary hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2" 
+              className="absolute right-2.5 top-1/2 -translate-y-1/2 h-9 w-9 rounded-full bg-primary hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2" 
               disabled={disabled || !form.watch('prompt')}
               aria-label="Send"
           >
@@ -80,6 +80,9 @@ export function PromptForm({
           </Button>
       </form>
       </Form>
+       <p className="text-center text-xs text-muted-foreground/50 pt-3">
+          AgriAssist can make mistakes. Consider checking important information.
+      </p>
     </div>
   );
 }
