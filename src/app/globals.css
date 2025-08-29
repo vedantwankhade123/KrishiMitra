@@ -56,6 +56,8 @@
     background-color: hsl(var(--background));
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--primary) / 0.5) transparent;
   }
 
   .prose-sm {
@@ -100,12 +102,31 @@
   .dark .prose-invert ul {
       @apply text-muted-foreground;
   }
-
 }
 
 @layer utilities {
   .animate-float {
     animation: float 6s ease-in-out infinite;
+  }
+
+  /* Custom scrollbar for Webkit browsers */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--primary) / 0.3);
+    border-radius: 10px;
+    transition: background-color 0.2s;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: hsl(var(--primary) / 0.5);
+  }
+  *:hover::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--primary) / 0.5);
   }
 }
 
