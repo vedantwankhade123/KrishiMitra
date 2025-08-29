@@ -93,7 +93,7 @@ export default function Home() {
       updateActiveChat(chat => ({
           ...chat,
           messages: finalConversation,
-          title: isNewChat ? (prompt.substring(0, 40) || t('header.newChat')) : chat.title,
+          title: isNewChat ? (chat.title || t('header.newChat')) : chat.title,
       }));
 
     } catch (e) {
