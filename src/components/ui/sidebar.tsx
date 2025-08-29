@@ -1,3 +1,5 @@
+// This component is not used in the current layout.
+// You can remove this file if it's no longer needed.
 "use client"
 
 import * as React from "react"
