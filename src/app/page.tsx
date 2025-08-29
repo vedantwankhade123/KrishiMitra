@@ -3,7 +3,7 @@
 
 import { LandingHeader } from '@/components/LandingHeader';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Play, Award, BarChart, Users, CheckCircle, Rss } from 'lucide-react';
+import { ArrowRight, Play, Award, BarChart, Users, CheckCircle, Rss, Database, BrainCircuit, Repeat } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Logo } from '@/components/Logo';
@@ -113,38 +113,32 @@ export default function LandingPage() {
 
         <section className="py-16 md:py-24">
             <div className="container mx-auto px-4">
-                 <div className="text-center max-w-2xl mx-auto mb-12">
-                    <p className="text-primary font-semibold mb-2">Our Work</p>
-                    <h2 className="text-4xl font-bold mb-4">See How We Complete the Work</h2>
+                <div className="text-center max-w-2xl mx-auto mb-12">
+                    <p className="text-primary font-semibold mb-2">Our Process</p>
+                    <h2 className="text-4xl font-bold mb-4">How Our System Works</h2>
+                    <p className="text-muted-foreground">We combine data, AI, and continuous support to help you succeed.</p>
                 </div>
-                <div className="grid md:grid-cols-2 gap-12 items-center">
-                    <div className="relative">
-                        <Image src="https://picsum.photos/seed/work-process/800/1000" alt="Farmer examining crops" width={800} height={1000} className="rounded-3xl object-cover" data-ai-hint="farmer examining crops" />
-                        <Button variant="ghost" size="icon" className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-20 w-20 bg-white/30 backdrop-blur-sm rounded-full text-white hover:bg-white/50">
-                            <Play className="h-8 w-8 fill-current" />
-                        </Button>
+                <div className="grid md:grid-cols-3 gap-8">
+                    <div className="text-center p-8 border border-primary/10 bg-card/50 rounded-2xl">
+                        <div className="flex-shrink-0 h-16 w-16 mx-auto mb-4 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+                            <Database className="h-8 w-8" />
+                        </div>
+                        <h3 className="text-xl font-semibold mb-2">1. Data Analysis</h3>
+                        <p className="text-muted-foreground">Expert analysis of your farm's soil conditions, weather patterns, and historical data to establish a baseline for improvement.</p>
                     </div>
-                    <div>
-                        <Accordion type="single" collapsible defaultValue="item-1">
-                          <AccordionItem value="item-1">
-                            <AccordionTrigger className="text-xl font-semibold">Beginning of Agriculture</AccordionTrigger>
-                            <AccordionContent className="text-muted-foreground">
-                              Expert analysis of your farm's current soil conditions and historical data. We provide a baseline for improvement and a clear path forward to regenerative practices.
-                            </AccordionContent>
-                          </AccordionItem>
-                          <AccordionItem value="item-2">
-                            <AccordionTrigger className="text-xl font-semibold">Design and Planning</AccordionTrigger>
-                            <AccordionContent className="text-muted-foreground">
-                              Our AI platform creates a customized crop rotation and soil amendment plan to maximize your yield, profitability, and long-term soil health, tailored to your specific farm.
-                            </AccordionContent>
-                          </AccordionItem>
-                          <AccordionItem value="item-3">
-                            <AccordionTrigger className="text-xl font-semibold">Maintenance</AccordionTrigger>
-                            <AccordionContent className="text-muted-foreground">
-                              Continuous monitoring with real-time alerts and recommendations. We provide ongoing support to help you adapt to changing conditions and ensure a successful harvest.
-                            </AccordionContent>
-                          </AccordionItem>
-                        </Accordion>
+                    <div className="text-center p-8 border border-primary/10 bg-card/50 rounded-2xl">
+                        <div className="flex-shrink-0 h-16 w-16 mx-auto mb-4 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+                            <BrainCircuit className="h-8 w-8" />
+                        </div>
+                        <h3 className="text-xl font-semibold mb-2">2. AI-Powered Planning</h3>
+                        <p className="text-muted-foreground">Our AI platform creates a customized crop rotation and soil amendment plan to maximize yield, profitability, and long-term soil health.</p>
+                    </div>
+                    <div className="text-center p-8 border border-primary/10 bg-card/50 rounded-2xl">
+                        <div className="flex-shrink-0 h-16 w-16 mx-auto mb-4 rounded-full bg-primary/10 text-primary flex items-center justify-center">
+                            <Repeat className="h-8 w-8" />
+                        </div>
+                        <h3 className="text-xl font-semibold mb-2">3. Continuous Support</h3>
+                        <p className="text-muted-foreground">Receive ongoing monitoring, real-time alerts, and adaptive recommendations to ensure a successful harvest, season after season.</p>
                     </div>
                 </div>
             </div>
