@@ -157,13 +157,13 @@ export function ChatHistory() {
                     <div
                         key={chat.id}
                         className={cn(
-                            "group flex items-center justify-between rounded-md py-2 text-sm text-muted-foreground relative",
+                            "group flex items-center justify-between rounded-md p-2 text-sm text-muted-foreground relative",
                             !chat.isRenaming && !isDeleteMode && "hover:bg-muted cursor-pointer",
                             activeChat?.id === chat.id && !chat.isRenaming && !isDeleteMode && "bg-muted text-foreground"
                         )}
                         onClick={() => !chat.isRenaming && !isDeleteMode && setActiveChatId(chat.id)}
                     >
-                        <div className="flex items-center w-full pl-3 pr-2">
+                        <div className="flex items-center flex-1 min-w-0">
                             {isDeleteMode && (
                                 <Checkbox
                                     variant="circular"
@@ -198,65 +198,65 @@ export function ChatHistory() {
                                     </div>
                                 </div>
                             ) : (
-                                <>
-                                    <div className="flex-1 flex items-center justify-between min-w-0">
-                                        <span className="truncate">{chat.title}</span>
-                                        <div className={cn(
-                                            "flex items-center flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity", 
-                                            isDeleteMode && "hidden"
-                                        )}>
-                                            <AlertDialog open={dialogOpen === chat.id} onOpenChange={(open) => !open && setDialogOpen(false)}>
-                                                <DropdownMenu>
-                                                    <DropdownMenuTrigger asChild>
-                                                        <Button
-                                                            variant="ghost"
-                                                            size="icon"
-                                                            className="h-7 w-7 rounded-full text-muted-foreground hover:bg-primary/10 hover:text-primary"
-                                                            onClick={(e) => e.stopPropagation()}
-                                                        >
-                                                            <MoreHorizontal className="h-4 w-4" />
-                                                            <span className="sr-only">More options</span>
-                                                        </Button>
-                                                    </DropdownMenuTrigger>
-                                                    <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()}>
-                                                        <DropdownMenuItem onClick={() => handleRenameStart(chat)}>
-                                                            <Pencil className="mr-2 h-4 w-4" />
-                                                            Rename
-                                                        </DropdownMenuItem>
-                                                        <AlertDialogTrigger asChild>
-                                                            <DropdownMenuItem 
-                                                                className="text-red-500 focus:text-red-500"
-                                                                onClick={(e) => { e.stopPropagation(); setDialogOpen(chat.id); }}
-                                                            >
-                                                                <Trash2 className="mr-2 h-4 w-4" />
-                                                                Delete
-                                                            </DropdownMenuItem>
-                                                        </AlertDialogTrigger>
-                                                    </DropdownMenuContent>
-                                                </DropdownMenu>
-                                                <AlertDialogContent>
-                                                    <AlertDialogHeader>
-                                                    <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                                                    <AlertDialogDescription>
-                                                        This will permanently delete the chat "{chat.title}". This action cannot be undone.
-                                                    </AlertDialogDescription>
-                                                    </AlertDialogHeader>
-                                                    <AlertDialogFooter>
-                                                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                                    <AlertDialogAction
-                                                        className="bg-destructive hover:bg-destructive/90"
-                                                        onClick={() => deleteChat(chat.id)}
-                                                    >
-                                                        Delete
-                                                    </AlertDialogAction>
-                                                    </AlertDialogFooter>
-                                                </AlertDialogContent>
-                                            </AlertDialog>
-                                        </div>
-                                    </div>
-                                </>
+                                <div className='flex-1 min-w-0'>
+                                    <span className="truncate">{chat.title}</span>
+                                </div>
                             )}
                         </div>
+                        
+                        {!chat.isRenaming && !isDeleteMode && (
+                            <div className={cn(
+                                "flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity",
+                            )}>
+                                <AlertDialog open={dialogOpen === chat.id} onOpenChange={(open) => !open && setDialogOpen(false)}>
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger asChild>
+                                            <Button
+                                                variant="ghost"
+                                                size="icon"
+                                                className="h-7 w-7 rounded-full text-muted-foreground hover:bg-primary/10 hover:text-primary"
+                                                onClick={(e) => e.stopPropagation()}
+                                            >
+                                                <MoreHorizontal className="h-4 w-4" />
+                                                <span className="sr-only">More options</span>
+                                            </Button>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent align="end" onClick={(e) => e.stopPropagation()}>
+                                            <DropdownMenuItem onClick={() => handleRenameStart(chat)}>
+                                                <Pencil className="mr-2 h-4 w-4" />
+                                                Rename
+                                            </DropdownMenuItem>
+                                            <AlertDialogTrigger asChild>
+                                                <DropdownMenuItem 
+                                                    className="text-red-500 focus:text-red-500"
+                                                    onClick={(e) => { e.stopPropagation(); setDialogOpen(chat.id); }}
+                                                >
+                                                    <Trash2 className="mr-2 h-4 w-4" />
+                                                    Delete
+                                                </DropdownMenuItem>
+                                            </AlertDialogTrigger>
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
+                                    <AlertDialogContent>
+                                        <AlertDialogHeader>
+                                        <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                                        <AlertDialogDescription>
+                                            This will permanently delete the chat "{chat.title}". This action cannot be undone.
+                                        </AlertDialogDescription>
+                                        </AlertDialogHeader>
+                                        <AlertDialogFooter>
+                                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                        <AlertDialogAction
+                                            className="bg-destructive hover:bg-destructive/90"
+                                            onClick={() => deleteChat(chat.id)}
+                                        >
+                                            Delete
+                                        </AlertDialogAction>
+                                        </AlertDialogFooter>
+                                    </AlertDialogContent>
+                                </AlertDialog>
+                            </div>
+                        )}
                     </div>
                     ))
                 ) : (
