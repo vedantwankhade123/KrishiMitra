@@ -99,9 +99,9 @@ export default {
           },
         },
         'fade-in-out': {
-          '0%': { opacity: '0', transform: 'translateY(10px)' },
-          '25%, 75%': { opacity: '1', transform: 'translateY(0)' },
-          '100%': { opacity: '0', transform: 'translateY(-10px)' },
+          '0%': { opacity: '0', transform: 'translateY(10px) scale(0.98)' },
+          '25%, 75%': { opacity: '1', transform: 'translateY(0) scale(1)' },
+          '100%': { opacity: '0', transform: 'translateY(-10px) scale(0.98)' },
         },
         'fade-in-out-fast': {
           '0%': { opacity: '0', transform: 'translateY(8px) scale(0.95)' },

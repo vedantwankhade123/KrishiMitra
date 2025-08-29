@@ -3,7 +3,7 @@
 
 import { LandingHeader } from '@/components/LandingHeader';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Leaf, Play, Award, BarChart, Users, CheckCircle, Rss } from 'lucide-react';
+import { ArrowRight, Play, Award, BarChart, Users, CheckCircle, Rss } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Logo } from '@/components/Logo';
@@ -13,8 +13,24 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
+import { useEffect, useState } from 'react';
 
 export default function LandingPage() {
+  const [headlineIndex, setHeadlineIndex] = useState(0);
+  const headlines = [
+    "Smart Solutions for Farmers",
+    "Sustainable Farming, Higher Yields",
+    "Data-Driven Agriculture"
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setHeadlineIndex(prevIndex => (prevIndex + 1) % headlines.length);
+    }, 4000); // Change text every 4 seconds
+
+    return () => clearInterval(interval);
+  }, [headlines.length]);
+
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground overflow-x-hidden">
       <main className="flex-1">
@@ -31,9 +47,11 @@ export default function LandingPage() {
           <div className="relative z-10 container mx-auto px-4 py-32 md:py-48 text-center">
             <div className="grid grid-cols-1 gap-8 items-center">
               <div className="space-y-6 text-white max-w-3xl mx-auto flex flex-col items-center">
-                <h1 className="text-5xl md:text-7xl font-bold tracking-tighter">
-                  Smart Solutions for Farmers
-                </h1>
+                <div className="min-h-[160px] md:min-h-[180px] flex items-center justify-center">
+                    <h1 key={headlineIndex} className="text-5xl md:text-7xl font-bold tracking-tighter animate-fade-in-out">
+                        {headlines[headlineIndex]}
+                    </h1>
+                </div>
                 <p className="text-lg md:text-xl text-white/80">
                   Save more with sustainable farming tools.
                 </p>
