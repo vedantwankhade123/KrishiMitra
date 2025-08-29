@@ -21,7 +21,7 @@ export default function RootLayout({
     <html lang="en" className="dark" suppressHydrationWarning>
       <head>
       </head>
-      <body className={cn('font-sans antialiased', inter.variable, 'min-h-screen bg-background font-sans')}>
+      <body className={cn('font-sans antialiased', inter.variable, 'min-h-screen bg-background font-sans')} suppressHydrationWarning={true}>
         <div className="absolute top-0 left-0 w-full h-[400px] bg-gradient-to-b from-primary/20 via-primary/5 to-transparent -z-10" />
         {children}
         <Toaster />
