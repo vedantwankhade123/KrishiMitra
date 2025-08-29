@@ -100,87 +100,85 @@ export function ChatHistory() {
                         )}
                         onClick={() => !chat.isRenaming && setActiveChatId(chat.id)}
                     >
-                        <div className="flex items-center w-full">
-                            <div className={cn("flex-1 flex items-center truncate pl-4")}>
-                                {chat.isRenaming ? (
-                                    <>
-                                        <input 
-                                            type="text"
-                                            value={editingTitle}
-                                            onChange={(e) => setEditingTitle(e.target.value)}
-                                            onKeyDown={(e) => {
-                                                if (e.key === 'Enter') handleRenameConfirm(chat.id);
-                                                if (e.key === 'Escape') handleRenameCancel(chat.id);
-                                            }}
-                                            className="bg-transparent border-b border-primary/50 focus:outline-none flex-1 text-sm h-7"
-                                            autoFocus
-                                            onFocus={(e) => e.target.select()}
-                                            onClick={(e) => e.stopPropagation()}
-                                        />
-                                        <div className='flex items-center pr-2'>
-                                            <Button variant="ghost" size="icon" className="h-7 w-7 rounded-full" onClick={(e) => { e.stopPropagation(); handleRenameConfirm(chat.id); }}>
-                                                <Check className="h-4 w-4 text-green-500" />
-                                            </Button>
-                                            <Button variant="ghost" size="icon" className="h-7 w-7 rounded-full" onClick={(e) => { e.stopPropagation(); handleRenameCancel(chat.id); }}>
-                                                <X className="h-4 w-4 text-red-500" />
+                        <div className="flex items-center w-full pl-4 pr-2">
+                            {chat.isRenaming ? (
+                                <div className="flex-1 flex items-center">
+                                    <input 
+                                        type="text"
+                                        value={editingTitle}
+                                        onChange={(e) => setEditingTitle(e.target.value)}
+                                        onKeyDown={(e) => {
+                                            if (e.key === 'Enter') handleRenameConfirm(chat.id);
+                                            if (e.key === 'Escape') handleRenameCancel(chat.id);
+                                        }}
+                                        className="bg-transparent border-b border-primary/50 focus:outline-none flex-1 text-sm h-7"
+                                        autoFocus
+                                        onFocus={(e) => e.target.select()}
+                                        onClick={(e) => e.stopPropagation()}
+                                    />
+                                    <div className='flex items-center'>
+                                        <Button variant="ghost" size="icon" className="h-7 w-7 rounded-full" onClick={(e) => { e.stopPropagation(); handleRenameConfirm(chat.id); }}>
+                                            <Check className="h-4 w-4 text-green-500" />
+                                        </Button>
+                                        <Button variant="ghost" size="icon" className="h-7 w-7 rounded-full" onClick={(e) => { e.stopPropagation(); handleRenameCancel(chat.id); }}>
+                                            <X className="h-4 w-4 text-red-500" />
+                                        </Button>
+                                    </div>
+                                </div>
+                            ) : (
+                                <>
+                                    <MessageSquare className="h-4 w-4 mr-2 flex-shrink-0" />
+                                    <span className="truncate flex-1">{chat.title}</span>
+                                    <div className="flex items-center flex-shrink-0">
+                                        <div className={cn("transition-transform duration-300 ease-in-out", isDeleteMode && "-translate-x-8")}>
+                                                <Button
+                                                variant="ghost"
+                                                size="icon"
+                                                className="h-7 w-7 rounded-full text-muted-foreground hover:bg-primary/10 hover:text-primary opacity-0 transition-opacity group-hover:opacity-100"
+                                                onClick={(e) => { e.stopPropagation(); handleRenameStart(chat); }}
+                                            >
+                                                <Pencil className="h-4 w-4" />
+                                                <span className="sr-only">Rename chat</span>
                                             </Button>
                                         </div>
-                                    </>
-                                ) : (
-                                    <>
-                                        <MessageSquare className="h-4 w-4 mr-2 flex-shrink-0" />
-                                        <span className="truncate flex-1">{chat.title}</span>
-                                        <div className="pr-2 flex items-center">
-                                            <div className={cn("transition-transform duration-300 ease-in-out", isDeleteMode && "-translate-x-8")}>
-                                                 <Button
-                                                    variant="ghost"
-                                                    size="icon"
-                                                    className="h-7 w-7 rounded-full text-muted-foreground hover:bg-primary/10 hover:text-primary opacity-0 transition-opacity group-hover:opacity-100"
-                                                    onClick={(e) => { e.stopPropagation(); handleRenameStart(chat); }}
-                                                >
-                                                    <Pencil className="h-4 w-4" />
-                                                    <span className="sr-only">Rename chat</span>
-                                                </Button>
-                                            </div>
-                                            <div className={cn(
-                                                "absolute right-2 transition-all duration-300 ease-in-out",
-                                                isDeleteMode ? "opacity-100 scale-100" : "opacity-0 scale-0"
-                                            )}>
-                                                <AlertDialog>
-                                                    <AlertDialogTrigger asChild>
-                                                        <Button
-                                                            variant="ghost"
-                                                            size="icon"
-                                                            className="h-7 w-7 rounded-full text-red-500/80 hover:bg-red-500/10 hover:text-red-500"
-                                                            onClick={(e) => e.stopPropagation()}
-                                                        >
-                                                            <Trash2 className="h-4 w-4" />
-                                                            <span className="sr-only">Delete chat</span>
-                                                        </Button>
-                                                    </AlertDialogTrigger>
-                                                    <AlertDialogContent>
-                                                        <AlertDialogHeader>
-                                                        <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                                                        <AlertDialogDescription>
-                                                            This will permanently delete the chat "{chat.title}". This action cannot be undone.
-                                                        </AlertDialogDescription>
-                                                        </AlertDialogHeader>
-                                                        <AlertDialogFooter>
-                                                        <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                                        <AlertDialogAction
-                                                            className="bg-destructive hover:bg-destructive/90"
-                                                            onClick={() => deleteChat(chat.id)}
-                                                        >
-                                                            Delete
-                                                        </AlertDialogAction>
-                                                        </AlertDialogFooter>
-                                                    </AlertDialogContent>
-                                                </AlertDialog>
-                                            </div>
+                                        <div className={cn(
+                                            "absolute right-2 transition-all duration-300 ease-in-out",
+                                            isDeleteMode ? "opacity-100 scale-100" : "opacity-0 scale-0"
+                                        )}>
+                                            <AlertDialog>
+                                                <AlertDialogTrigger asChild>
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="icon"
+                                                        className="h-7 w-7 rounded-full text-red-500/80 hover:bg-red-500/10 hover:text-red-500"
+                                                        onClick={(e) => e.stopPropagation()}
+                                                    >
+                                                        <Trash2 className="h-4 w-4" />
+                                                        <span className="sr-only">Delete chat</span>
+                                                    </Button>
+                                                </AlertDialogTrigger>
+                                                <AlertDialogContent>
+                                                    <AlertDialogHeader>
+                                                    <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                                                    <AlertDialogDescription>
+                                                        This will permanently delete the chat "{chat.title}". This action cannot be undone.
+                                                    </AlertDialogDescription>
+                                                    </AlertDialogHeader>
+                                                    <AlertDialogFooter>
+                                                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                                    <AlertDialogAction
+                                                        className="bg-destructive hover:bg-destructive/90"
+                                                        onClick={() => deleteChat(chat.id)}
+                                                    >
+                                                        Delete
+                                                    </AlertDialogAction>
+                                                    </AlertDialogFooter>
+                                                </AlertDialogContent>
+                                            </AlertDialog>
                                         </div>
-                                    </>
-                                )}
-                            </div>
+                                    </div>
+                                </>
+                            )}
                         </div>
                     </div>
                     ))
