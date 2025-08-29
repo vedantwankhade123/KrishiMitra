@@ -32,9 +32,7 @@ export function LanguageSwitcher() {
       <SelectTrigger asChild>
         <Button variant="ghost" className="h-9 rounded-full text-muted-foreground hover:text-foreground px-4">
             <Globe className="h-5 w-5" />
-            <SelectValue asChild>
-                <span className="ml-2">{languages[language]}</span>
-            </SelectValue>
+            <span className="ml-2">{languages[language]}</span>
         </Button>
       </SelectTrigger>
       <SelectContent>
