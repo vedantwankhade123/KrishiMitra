@@ -102,7 +102,7 @@ export function ChatHistory() {
                     <Button 
                         variant="ghost" 
                         size="sm" 
-                        className="h-7 rounded-full text-xs"
+                        className="h-7 rounded-full text-xs hover:bg-muted"
                         onClick={handleToggleDeleteMode}
                     >
                         Cancel
