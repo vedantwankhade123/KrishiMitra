@@ -7,7 +7,9 @@ import { Button } from './ui/button';
 import { Logo } from './Logo';
 import Link from 'next/link';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
-import { ChevronDown, MessageSquare, Search } from 'lucide-react';
+import { ChevronDown, Search } from 'lucide-react';
+import { CropLibrary } from './CropLibrary';
+import { Dialog, DialogTrigger } from './ui/dialog';
 
 export function LandingHeader() {
   return (
@@ -26,10 +28,12 @@ export function LandingHeader() {
                         </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="center" className="bg-black/50 backdrop-blur-md border-white/10 text-white">
-                        <DropdownMenuItem className="cursor-pointer hover:!bg-primary/20">Krishi AI</DropdownMenuItem>
+                        <DropdownMenuItem asChild className="cursor-pointer hover:!bg-primary/20">
+                           <Link href="/chat">Krishi AI</Link>
+                        </DropdownMenuItem>
                         <DropdownMenuItem className="cursor-pointer hover:!bg-primary/20">Marketplace</DropdownMenuItem>
                         <DropdownMenuItem className="cursor-pointer hover:!bg-primary/20">Farm Analytics</DropdownMenuItem>
-                        <DropdownMenuItem className="cursor-pointer hover:!bg-primary/20">Crop Library</DropdownMenuItem>
+                         <CropLibrary />
                     </DropdownMenuContent>
                 </DropdownMenu>
                  <Button variant="pill" visual="ghost" asChild>
