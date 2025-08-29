@@ -287,7 +287,7 @@ export default function LandingPage() {
         </div>
         <div className="border-t border-white/10">
             <div className="container mx-auto px-4 py-6 flex flex-col md:flex-row justify-between items-center text-sm text-white/50">
-                <p>&copy; {new Date().getFullYear()} AgriTech. All rights reserved.</p>
+                <p>&copy; {new Date().getFullYear()} KrishiMitra. All rights reserved.</p>
                 <div className="flex gap-4 mt-4 md:mt-0">
                    <Link href="#"><Rss className="h-5 w-5 hover:text-white transition-colors" /></Link>
                 </div>
