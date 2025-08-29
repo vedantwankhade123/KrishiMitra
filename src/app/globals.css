@@ -25,7 +25,7 @@
     --ring: 150 80% 45%;
   }
   .dark {
-    --background: 150 15% 5%;
+    --background: 150 15% 5% / 0;
     --foreground: 180 10% 95%;
     --card: 180 12% 12%;
     --card-foreground: 180 10% 95%;
@@ -51,12 +51,13 @@
   }
   body {
     @apply text-foreground;
-    background: hsl(var(--background));
+    background-color: hsl(var(--background));
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
   .dark body {
-    background: radial-gradient(ellipse 80% 50% at 50% -20%, hsl(var(--primary) / 0.3), hsl(var(--background)));
+    background-image: radial-gradient(ellipse 80% 50% at 50% -20%, hsl(var(--primary) / 0.3), transparent);
+    background-attachment: fixed;
   }
 
   .prose-sm {
