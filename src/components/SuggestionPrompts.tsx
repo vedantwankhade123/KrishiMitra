@@ -9,12 +9,6 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { useTranslation } from "@/hooks/useTranslation";
 import { Badge } from "@/components/ui/badge";
 
@@ -30,40 +24,31 @@ export function SuggestionPrompts({ onSuggestionClick }: SuggestionPromptsProps)
 
     return (
         <div className="mb-4 px-10">
-            <TooltipProvider>
-                <Carousel
-                  opts={{
-                    align: "start",
-                  }}
-                  className="w-full"
-                >
-                  <CarouselContent>
-                    {suggestionPrompts.map(({title, prompt}, index) => (
-                        <CarouselItem key={title} className="basis-auto">
-                          <div className="p-1">
-                            <Tooltip>
-                                <TooltipTrigger asChild>
-                                    <Badge 
-                                        variant="outline" 
-                                        className="font-normal border-primary/20 bg-primary/5 hover:bg-primary/10 hover:border-primary/30 transition-all text-muted-foreground hover:text-foreground cursor-pointer"
-                                        onClick={() => onSuggestionClick(prompt)}
-                                    >
-                                        {icons[index]}
-                                        {title}
-                                    </Badge>
-                                </TooltipTrigger>
-                                <TooltipContent>
-                                    <p className="max-w-xs">{prompt}</p>
-                                </TooltipContent>
-                            </Tooltip>
-                          </div>
-                        </CarouselItem>
-                    ))}
-                  </CarouselContent>
-                  <CarouselPrevious className="hidden sm:flex"/>
-                  <CarouselNext className="hidden sm:flex"/>
-                </Carousel>
-            </TooltipProvider>
+            <Carousel
+              opts={{
+                align: "start",
+              }}
+              className="w-full"
+            >
+              <CarouselContent>
+                {suggestionPrompts.map(({title, prompt}, index) => (
+                    <CarouselItem key={title} className="basis-auto">
+                      <div className="p-1">
+                        <Badge 
+                            variant="outline" 
+                            className="font-normal border-primary/20 bg-primary/5 hover:bg-primary/10 hover:border-primary/30 transition-all text-muted-foreground hover:text-foreground cursor-pointer"
+                            onClick={() => onSuggestionClick(prompt)}
+                        >
+                            {icons[index]}
+                            {title}
+                        </Badge>
+                      </div>
+                    </CarouselItem>
+                ))}
+              </CarouselContent>
+              <CarouselPrevious className="hidden sm:flex"/>
+              <CarouselNext className="hidden sm:flex"/>
+            </Carousel>
         </div>
     );
 }
