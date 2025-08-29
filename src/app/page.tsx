@@ -12,7 +12,8 @@ import { useToast } from '@/hooks/use-toast';
 import { SuggestionPrompts } from '@/components/SuggestionPrompts';
 import { useLanguage } from '@/context/LanguageContext';
 import { useTranslation } from '@/hooks/useTranslation';
-import { SidebarInset } from '@/components/ui/sidebar';
+import { SidebarInset, useSidebar } from '@/components/ui/sidebar';
+import { cn } from '@/lib/utils';
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
@@ -21,6 +22,8 @@ export default function Home() {
   const { language } = useLanguage();
   const { t } = useTranslation();
   const { toast } = useToast();
+  const { open: sidebarOpen, isMobile } = useSidebar();
+
 
   const handlePromptSubmit = async (prompt: string, attachment?: Attachment | null) => {
     setLoading(true);
@@ -101,7 +104,11 @@ export default function Home() {
                 onSuggestionClick={handleSuggestionClick}
               />
             </div>
-            <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-background via-background/80 to-transparent">
+            <div className={cn(
+                "fixed bottom-0 right-0 bg-gradient-to-t from-background via-background/80 to-transparent",
+                "transition-[left] duration-200 ease-linear",
+                sidebarOpen && !isMobile ? "left-[16rem]" : "left-0"
+              )}>
               <div className="container mx-auto max-w-2xl px-4 pt-8 pb-4 flex flex-col items-center">
                 <SuggestionPrompts onSuggestionClick={handleSuggestionClick} />
                 <PromptForm
