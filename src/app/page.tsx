@@ -14,6 +14,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 import { useEffect, useState } from 'react';
+import { AnimatedButton } from '@/components/AnimatedButton';
 
 export default function LandingPage() {
   const [headlineIndex, setHeadlineIndex] = useState(0);
@@ -58,12 +59,7 @@ export default function LandingPage() {
                   Save more with sustainable farming tools.
                 </p>
                 <div className="flex justify-center gap-4">
-                  <Button asChild size="lg" className="rounded-full text-lg h-14 px-8 group bg-gradient-green text-primary-foreground shadow-lg hover:shadow-primary/40 hover:brightness-110 transition-all duration-300 transform hover:-translate-y-1">
-                    <Link href="/chat">
-                      Get Started
-                      <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-                    </Link>
-                  </Button>
+                  <AnimatedButton href="/chat" text="Get Started" />
                 </div>
               </div>
             </div>
