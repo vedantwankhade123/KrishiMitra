@@ -128,7 +128,7 @@ export function ChatHistory() {
                             ) : (
                                 <>
                                     <MessageSquare className="h-4 w-4 mr-2 flex-shrink-0" />
-                                    <span className="truncate flex-1">{chat.title}</span>
+                                    <span className="truncate flex-1 min-w-0">{chat.title}</span>
                                     <div className="flex items-center flex-shrink-0">
                                         <div className={cn("transition-transform duration-300 ease-in-out", isDeleteMode && "-translate-x-8")}>
                                                 <Button
