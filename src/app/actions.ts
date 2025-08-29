@@ -20,6 +20,7 @@ import {
 } from '@/ai/flows/transcribe-audio';
 import { parseRecommendations } from '@/lib/parsers';
 import type { RecommendationResult } from '@/lib/types';
+import cropData from '@/lib/crop-data.json';
 
 export async function getRecommendations(input: OptimalCropsInput): Promise<RecommendationResult> {
   const result = await recommendOptimalCrops(input);
@@ -46,4 +47,21 @@ export async function getExplanation(input: CropRecommendationExplainerInput): P
 
 export async function getTranscription(input: TranscribeAudioInput): Promise<TranscribeAudioOutput> {
   return await transcribeAudio(input);
+}
+
+export async function getCropsFromLibrary({ page = 1, limit = 8, searchTerm = '' }: { page?: number; limit?: number; searchTerm?: string }) {
+  const allCrops = cropData;
+
+  const filteredCrops = searchTerm
+    ? allCrops.filter(crop => crop.name.toLowerCase().includes(searchTerm.toLowerCase()))
+    : allCrops;
+
+  const start = (page - 1) * limit;
+  const end = start + limit;
+  const paginatedCrops = filteredCrops.slice(start, end);
+
+  return {
+    crops: paginatedCrops,
+    hasMore: end < filteredCrops.length,
+  };
 }

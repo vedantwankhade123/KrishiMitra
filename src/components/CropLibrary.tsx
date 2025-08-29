@@ -12,37 +12,83 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Sprout, ArrowLeft, Search } from "lucide-react";
+import { Sprout, ArrowLeft, Search, Loader2 } from "lucide-react";
 import Image from "next/image";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect, useCallback } from "react";
 import { Badge } from "./ui/badge";
-import cropData from '@/lib/crop-data.json';
+import { getCropsFromLibrary } from "@/app/actions";
+import { useDebounce } from "@/hooks/use-debounce";
+import { Skeleton } from "./ui/skeleton";
 
-type Crop = (typeof cropData)[0];
+type Crop = {
+    name: string;
+    image: string;
+    description: string;
+    planting: string;
+    yield: string;
+    varieties: string[];
+    climate: string;
+    soil: string;
+};
 
 
 export function CropLibrary() {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedCrop, setSelectedCrop] = useState<Crop | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const debouncedSearchTerm = useDebounce(searchTerm, 300);
 
-  const handleOpenChange = (open: boolean) => {
-    if (!open) {
-        // Reset view when closing the dialog
-        setTimeout(() => {
-            setSelectedCrop(null)
-            setSearchTerm("")
-        }, 300);
+  const [crops, setCrops] = useState<Crop[]>([]);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [initialLoading, setInitialLoading] = useState(true);
+
+
+  const fetchCrops = useCallback(async (term: string, pageNum: number) => {
+    if (pageNum === 1) {
+        setInitialLoading(true);
+    } else {
+        setLoading(true);
     }
+    
+    const { crops: newCrops, hasMore: newHasMore } = await getCropsFromLibrary({ 
+      page: pageNum, 
+      searchTerm: term 
+    });
+    
+    setCrops(prev => pageNum === 1 ? newCrops : [...prev, ...newCrops]);
+    setHasMore(newHasMore);
+    
+    setLoading(false);
+    setInitialLoading(false);
+  }, []);
+
+  useEffect(() => {
+    if (isOpen) {
+        setPage(1);
+        fetchCrops(debouncedSearchTerm, 1);
+    } else {
+        // Reset state when dialog is closed
+        setCrops([]);
+        setPage(1);
+        setSearchTerm('');
+        setSelectedCrop(null);
+    }
+  }, [debouncedSearchTerm, isOpen, fetchCrops]);
+
+
+  const handleLoadMore = () => {
+    if (!loading && hasMore) {
+      const nextPage = page + 1;
+      setPage(nextPage);
+      fetchCrops(debouncedSearchTerm, nextPage);
+    }
+  }
+  
+  const handleOpenChange = (open: boolean) => {
     setIsOpen(open);
   }
-
-  const filteredCrops = useMemo(() => {
-    return cropData.filter(crop => 
-        crop.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  }, [searchTerm]);
-
 
   const renderDetailView = (crop: Crop) => (
     <div className="flex flex-col h-full">
@@ -119,27 +165,48 @@ export function CropLibrary() {
         </DialogHeader>
         <ScrollArea className="flex-1 -mx-6 px-6">
             <div className="py-4 grid grid-cols-1 md:grid-cols-2 gap-6">
-                {filteredCrops.length > 0 ? filteredCrops.map((crop) => (
-                    <div key={crop.name} className="bg-muted/50 rounded-xl p-4 flex flex-col gap-4">
-                        <Image src={crop.image} alt={crop.name} width={400} height={200} className="rounded-lg object-cover w-full h-40" data-ai-hint="crop image"/>
-                        <div className="space-y-2 flex-1 flex flex-col">
-                            <h3 className="text-xl font-bold text-primary">{crop.name}</h3>
-                            <p className="text-sm text-muted-foreground line-clamp-2 flex-grow">{crop.description}</p>
-                            <Button 
-                                className="mt-4 w-full rounded-full"
-                                onClick={() => setSelectedCrop(crop)}
-                                aria-label={`View details for ${crop.name}`}
-                            >
-                                View Details
-                            </Button>
+                {initialLoading ? (
+                    Array.from({ length: 8 }).map((_, i) => (
+                        <div key={i} className="bg-muted/50 rounded-xl p-4 flex flex-col gap-4">
+                           <Skeleton className="w-full h-40 rounded-lg" />
+                           <div className="space-y-2">
+                                <Skeleton className="h-6 w-1/2" />
+                                <Skeleton className="h-4 w-full" />
+                                <Skeleton className="h-4 w-4/5" />
+                                <Skeleton className="h-9 w-full rounded-full mt-4" />
+                           </div>
                         </div>
-                    </div>
-                )) : (
+                    ))
+                ) : crops.length > 0 ? (
+                    crops.map((crop) => (
+                        <div key={crop.name} className="bg-muted/50 rounded-xl p-4 flex flex-col gap-4">
+                            <Image src={crop.image} alt={crop.name} width={400} height={200} className="rounded-lg object-cover w-full h-40" data-ai-hint="crop image"/>
+                            <div className="space-y-2 flex-1 flex flex-col">
+                                <h3 className="text-xl font-bold text-primary">{crop.name}</h3>
+                                <p className="text-sm text-muted-foreground line-clamp-2 flex-grow">{crop.description}</p>
+                                <Button 
+                                    className="mt-4 w-full rounded-full"
+                                    onClick={() => setSelectedCrop(crop)}
+                                    aria-label={`View details for ${crop.name}`}
+                                >
+                                    View Details
+                                </Button>
+                            </div>
+                        </div>
+                    ))
+                ) : (
                     <div className="text-center text-muted-foreground col-span-2 py-10">
-                        <p>No crops found for "{searchTerm}"</p>
+                        <p>No crops found for "{debouncedSearchTerm}"</p>
                     </div>
                 )}
             </div>
+             {hasMore && (
+                <div className="flex justify-center py-4">
+                    <Button onClick={handleLoadMore} disabled={loading}>
+                        {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : "Load More"}
+                    </Button>
+                </div>
+            )}
         </ScrollArea>
     </>
   )
