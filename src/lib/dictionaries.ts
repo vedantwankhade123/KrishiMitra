@@ -7,8 +7,10 @@ export const dictionary = {
       noChatsFound: "No chats found."
     },
     welcome: {
-      title: "HI JOSH!",
-      subtitle: "What Do You Want To Chat About Today?",
+      title: "Hello, Farmer!",
+      title2: "Welcome, Josh!",
+      title3: "Ask me anything!",
+      subtitle: "What can I help you with today?",
     },
     promptForm: {
       placeholder: "What is on your mind?",
@@ -20,7 +22,7 @@ export const dictionary = {
         "Show me profitable crops for a cool climate.",
       ],
       send: "Send",
-      disclaimer: "AgriAssist can make mistakes. Consider checking important information.",
+      disclaimer: "KrishiMitra can make mistakes. Consider checking important information.",
       startRecording: "Start recording",
       stopRecording: "Stop recording",
     },
@@ -58,8 +60,10 @@ export const dictionary = {
       noChatsFound: "कोई चैट नहीं मिली।"
     },
     welcome: {
-      title: "नमस्ते जोश!",
-      subtitle: "आज आप किस बारे में बात करना चाहते हैं?",
+      title: "नमस्ते किसान!",
+      title2: "जोश, आपका स्वागत है!",
+      title3: "मुझसे कुछ भी पूछें!",
+      subtitle: "आज मैं आपकी क्या मदद कर सकता हूँ?",
     },
     promptForm: {
       placeholder: "आपके मन में क्या है?",
@@ -71,7 +75,7 @@ export const dictionary = {
         "मुझे ठंडी जलवायु के लिए लाभदायक फसलें दिखाएं।",
       ],
       send: "भेजें",
-      disclaimer: "एग्रीअसिस्ट गलतियाँ कर सकता है। महत्वपूर्ण जानकारी की जाँच करने पर विचार करें।",
+      disclaimer: "कृषि मित्र गलतियाँ कर सकता है। महत्वपूर्ण जानकारी की जाँच करने पर विचार करें।",
       startRecording: "रिकॉर्डिंग शुरू करें",
       stopRecording: "रिकॉर्डिंग बंद करें",
     },
@@ -109,8 +113,10 @@ export const dictionary = {
       noChatsFound: "कोणतेही चॅट आढळले नाहीत."
     },
     welcome: {
-      title: "नमस्कार जोश!",
-      subtitle: "आज तुम्हाला कशाबद्दल बोलायचे आहे?",
+      title: "नमस्कार, शेतकरी!",
+      title2: "जोश, स्वागत आहे!",
+      title3: "मला काहीही विचारा!",
+      subtitle: "आज मी तुमची काय मदत करू शकतो?",
     },
     promptForm: {
       placeholder: "तुमच्या मनात काय आहे?",
@@ -122,7 +128,7 @@ export const dictionary = {
         "थंड हवामानासाठी मला फायदेशीर पिके दाखवा.",
       ],
       send: "पाठवा",
-      disclaimer: "ऍग्रीअसिस्ट चुका करू शकते. महत्वाची माहिती तपासण्याचा विचार करा.",
+      disclaimer: "कृषिमित्र चुका करू शकते. महत्वाची माहिती तपासण्याचा विचार करा.",
       startRecording: "रेकॉर्डिंग सुरू करा",
       stopRecording: "रेकॉर्डिंग थांबवा",
     },

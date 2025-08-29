@@ -10,6 +10,7 @@ import { Sparkles, User } from "lucide-react";
 import { useEffect, useRef } from 'react';
 import { useTranslation } from '@/hooks/useTranslation';
 import { cn } from '@/lib/utils';
+import { Welcome } from './Welcome';
 
 type CropResultsProps = {
   loading: boolean;
@@ -55,10 +56,7 @@ export function CropResults({ loading, conversation, onSuggestionClick }: CropRe
   return (
       <div className="space-y-8">
         {showWelcome && (
-            <div className="text-center pt-16">
-                <h1 className="text-3xl font-bold tracking-tighter mb-2">{t('welcome.title')}</h1>
-                <p className="text-muted-foreground mb-10">{t('welcome.subtitle')}</p>
-            </div>
+            <Welcome />
         )}
 
         {conversation.map((message) => (
