@@ -29,7 +29,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
       </head>
-      <body className={cn('font-sans antialiased', inter.variable, 'min-h-screen bg-background font-sans')} suppressHydrationWarning={true}>
+      <body className={cn('font-sans antialiased', inter.variable, 'min-h-screen font-sans')} suppressHydrationWarning={true}>
         <ThemeProvider
             attribute="class"
             defaultTheme="system"
@@ -55,7 +55,6 @@ export default function RootLayout({
                   </SidebarHeader>
                 </SidebarContent>
               </Sidebar>
-              <div className="fixed top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,hsl(var(--primary)/0.3),transparent)] -z-10" />
               {children}
               <Toaster />
             </SidebarProvider>
