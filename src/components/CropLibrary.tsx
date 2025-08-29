@@ -136,7 +136,7 @@ export function CropLibrary() {
   const renderListView = () => (
     <>
         <DialogHeader>
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-4">
             <div className="flex items-center gap-2">
                 <Sprout className="h-7 w-7 text-primary" />
                 <div>
