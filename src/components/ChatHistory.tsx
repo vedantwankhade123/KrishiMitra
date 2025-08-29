@@ -112,7 +112,7 @@ export function ChatHistory() {
                                 <Button
                                     variant="ghost"
                                     size="icon"
-                                    className="h-7 w-7 rounded-full"
+                                    className="h-7 w-7 rounded-full text-muted-foreground hover:bg-primary/10 hover:text-primary"
                                     onClick={(e) => { e.stopPropagation(); handleRenameStart(chat); }}
                                 >
                                     <Pencil className="h-4 w-4" />
