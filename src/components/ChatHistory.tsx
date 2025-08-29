@@ -122,7 +122,7 @@ export function ChatHistory() {
                                 <>
                                     <div className="flex-1 flex items-center justify-between min-w-0">
                                         <span className="whitespace-normal break-words">{chat.title}</span>
-                                        <div className="flex items-center flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <div className="flex items-center flex-shrink-0 transition-opacity">
                                             <AlertDialog open={dialogOpen === chat.id} onOpenChange={(open) => !open && setDialogOpen(false)}>
                                                 <DropdownMenu>
                                                     <DropdownMenuTrigger asChild>
