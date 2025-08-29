@@ -6,10 +6,8 @@ import { ProfileButton } from './ProfileButton';
 import { Button } from './ui/button';
 import { Logo } from './Logo';
 import Link from 'next/link';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from './ui/dropdown-menu';
-import { ChevronDown, Search } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { CropLibrary } from './CropLibrary';
-import { DialogTrigger } from './ui/dialog';
 
 export function LandingHeader() {
   return (
@@ -19,29 +17,19 @@ export function LandingHeader() {
             
             <div className="hidden md:flex items-center justify-center gap-2 bg-black/30 backdrop-blur-sm border border-white/10 rounded-full px-4 py-2">
                 <Button variant="pill" asChild>
-                    <Link href="#">Home</Link>
+                    <Link href="/">Home</Link>
                 </Button>
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="pill" visual="ghost">
-                            Products <ChevronDown className="ml-1 h-4 w-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="center" className="bg-black/50 backdrop-blur-md border-white/10 text-white">
-                        <DropdownMenuItem asChild className="cursor-pointer hover:!bg-primary/20">
-                           <Link href="/chat">Krishi AI</Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem className="cursor-pointer hover:!bg-primary/20">Marketplace</DropdownMenuItem>
-                        <DropdownMenuItem className="cursor-pointer hover:!bg-primary/20">Farm Analytics</DropdownMenuItem>
-                        <CropLibrary trigger={
-                            <DropdownMenuItem 
-                                onSelect={(e) => e.preventDefault()}
-                                className="cursor-pointer hover:!bg-primary/20">
-                                Crop Library
-                            </DropdownMenuItem>
-                        } />
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                 <Button variant="pill" visual="ghost" asChild>
+                    <Link href="/chat">Krishi AI</Link>
+                </Button>
+                 <Button variant="pill" visual="ghost" asChild>
+                    <Link href="#">Marketplace</Link>
+                </Button>
+                <CropLibrary trigger={
+                    <Button variant="pill" visual="ghost">
+                        Crop Library
+                    </Button>
+                } />
                  <Button variant="pill" visual="ghost" asChild>
                     <Link href="#">About Us</Link>
                 </Button>
