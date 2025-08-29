@@ -188,22 +188,21 @@ export function Weather() {
                                 value={mapLayer} 
                                 onValueChange={(value) => value && setMapLayer(value)}
                                 className="justify-center flex-wrap"
-                                variant="outline"
                             >
-                                <ToggleGroupItem value="mapnik" aria-label="Standard map view" className="gap-2 rounded-full">
+                                <ToggleGroupItem value="mapnik" aria-label="Standard map view" className="gap-2 rounded-full border border-primary/20 bg-transparent text-muted-foreground hover:bg-primary/10 hover:text-primary data-[state=on]:bg-primary/10 data-[state=on]:text-primary">
                                     <Map className="h-4 w-4"/>
                                     Standard
                                 </ToggleGroupItem>
-                                <ToggleGroupItem value="cyclemap" aria-label="Cycle map view" className="gap-2 rounded-full">
+                                <ToggleGroupItem value="cyclemap" aria-label="Cycle map view" className="gap-2 rounded-full border border-primary/20 bg-transparent text-muted-foreground hover:bg-primary/10 hover:text-primary data-[state=on]:bg-primary/10 data-[state=on]:text-primary">
                                     <Bike className="h-4 w-4"/>
                                     Cycle
                                 </ToggleGroupItem>
-                                <ToggleGroupItem value="transportmap" aria-label="Transport map view" className="gap-2 rounded-full">
+                                <ToggleGroupItem value="transportmap" aria-label="Transport map view" className="gap-2 rounded-full border border-primary/20 bg-transparent text-muted-foreground hover:bg-primary/10 hover:text-primary data-[state=on]:bg-primary/10 data-[state=on]:text-primary">
                                     <Waypoints className="h-4 w-4"/>
                                     Transport
                                 </ToggleGroupItem>
                             </ToggleGroup>
-                             <Button asChild variant="outline" size="sm" className="w-full rounded-full">
+                             <Button asChild variant="outline" size="sm" className="w-full rounded-full border-primary/20 text-muted-foreground hover:bg-primary/10 hover:text-primary">
                                 <a href={openStreetMapUrl} target="_blank" rel="noopener noreferrer">
                                    <MapPin className="h-4 w-4 mr-2" />
                                     View on OpenStreetMap
