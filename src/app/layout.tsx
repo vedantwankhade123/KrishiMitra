@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 import { Inter } from 'next/font/google';
 import { LanguageProvider } from '@/context/LanguageContext';
 import { ThemeProvider } from '@/components/ThemeProvider';
-import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarTrigger } from '@/components/ui/sidebar';
+import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarTrigger, SidebarInset } from '@/components/ui/sidebar';
 import { NewChatButton } from '@/components/NewChatButton';
 import { Button } from '@/components/ui/button';
 import { Menu } from 'lucide-react';
@@ -37,25 +37,29 @@ export default function RootLayout({
             disableTransitionOnChange
         >
           <LanguageProvider>
-            <SidebarProvider defaultOpen={false}>
-              <Sidebar className="m-2.5 rounded-xl">
+            <SidebarProvider defaultOpen={true}>
+              <Sidebar>
                 <SidebarContent>
                   <SidebarHeader>
-                    <SidebarTrigger asChild>
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-9 w-9 rounded-full text-muted-foreground hover:text-foreground hover:bg-primary/10 transition-all duration-200 hover:scale-110"
-                      >
-                        <Menu className="h-5 w-5" />
-                        <span className="sr-only">Open menu</span>
-                      </Button>
-                    </SidebarTrigger>
-                    <NewChatButton />
+                    <div className="flex items-center justify-between w-full">
+                      <SidebarTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-9 w-9 rounded-full text-muted-foreground hover:text-foreground hover:bg-primary/10 transition-all duration-200 hover:scale-110"
+                        >
+                          <Menu className="h-5 w-5" />
+                          <span className="sr-only">Open menu</span>
+                        </Button>
+                      </SidebarTrigger>
+                    </div>
                   </SidebarHeader>
+                  <NewChatButton />
                 </SidebarContent>
               </Sidebar>
-              {children}
+              <SidebarInset>
+                {children}
+              </SidebarInset>
               <Toaster />
             </SidebarProvider>
           </LanguageProvider>
