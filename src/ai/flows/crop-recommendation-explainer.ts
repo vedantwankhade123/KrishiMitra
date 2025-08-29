@@ -44,6 +44,7 @@ const prompt = ai.definePrompt({
   Market Prices: {{marketPrices}}
 
   Provide a concise explanation understandable to a farmer. Focus on the most important factors.
+  Use Markdown formatting for clear presentation (e.g., headings, bold text, bullet points).
 `,
 });
 

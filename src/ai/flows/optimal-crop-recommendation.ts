@@ -34,6 +34,7 @@ Market Prices: {{{marketPrices}}}
 Consider all these factors holistically to recommend the best crops, predict their yield, estimate profit margins, and provide a sustainability score. Also provide a summary of key factors that influenced the recommendation.
 
 Ensure the output is formatted in a way that is easily understandable for a farmer.
+Use Markdown formatting for clear presentation (e.g., headings, bold text, bullet points, and tables if needed).
 `,
 });
 

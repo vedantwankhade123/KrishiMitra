@@ -72,7 +72,8 @@ export function CropResults({ loading, conversation, onSuggestionClick }: CropRe
                         )}
                         {message.text && (
                           <p className={cn(
-                            "p-2 text-primary-foreground"
+                            "p-2",
+                            !message.attachment && "text-primary-foreground"
                           )}>{message.text}</p>
                         )}
                     </div>
