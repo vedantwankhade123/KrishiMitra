@@ -2,7 +2,7 @@
 'use client';
 
 import { Weather } from './Weather';
-import { Gallery } from './Gallery';
+import { CropLibrary } from './CropLibrary';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { Separator } from './ui/separator';
 import { ThemeToggle } from './ThemeToggle';
@@ -39,7 +39,7 @@ export function Header() {
             <div className="flex items-center gap-2 bg-card/50 backdrop-blur-sm border border-primary/10 rounded-full p-2">
                 <Weather />
                 <Separator orientation="vertical" className="h-6" />
-                <Gallery />
+                <CropLibrary />
                 <Separator orientation="vertical" className="h-6" />
                 <LanguageSwitcher />
             </div>
