@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { Toaster } from '@/components/ui/toaster';
 import './globals.css';
 import { cn } from '@/lib/utils';
-import { Inter } from 'next/font/google';
+import { Inter, Baloo_2 } from 'next/font/google';
 import { LanguageProvider } from '@/context/LanguageContext';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarTrigger, SidebarInset, SidebarSeparator } from '@/components/ui/sidebar';
@@ -16,10 +16,11 @@ import { Logo } from '@/components/Logo';
 
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
+const baloo = Baloo_2({ subsets: ['latin'], variable: '--font-logo' });
 
 
 export const metadata: Metadata = {
-  title: 'AgriAI',
+  title: 'KrishiMitra',
   description: 'AI-Based Crop Recommendation for Farmers',
 };
 
@@ -32,7 +33,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
       </head>
-      <body className={cn('font-sans antialiased', inter.variable, 'min-h-screen font-sans')} suppressHydrationWarning={true}>
+      <body className={cn('font-sans antialiased', inter.variable, baloo.variable, 'min-h-screen font-sans')} suppressHydrationWarning={true}>
         <ThemeProvider
             attribute="class"
             defaultTheme="system"
