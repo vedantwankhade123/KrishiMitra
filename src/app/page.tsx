@@ -127,7 +127,7 @@ export default function Home() {
               />
             </div>
             <div className={cn(
-                "fixed bottom-0 right-0 bg-gradient-to-t from-background via-background/80 to-transparent",
+                "fixed bottom-0 right-0 bg-gradient-to-t from-background to-background/0",
                 "transition-[left] duration-200 ease-linear",
                 sidebarOpen && !isMobile ? "left-[16rem]" : "left-0"
               )}>
