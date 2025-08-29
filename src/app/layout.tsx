@@ -38,7 +38,7 @@ export default function RootLayout({
         >
           <LanguageProvider>
             <SidebarProvider defaultOpen={false}>
-              <Sidebar>
+              <Sidebar variant="floating" className="m-2.5 rounded-xl">
                 <SidebarContent>
                   <SidebarHeader>
                     <SidebarTrigger asChild>
