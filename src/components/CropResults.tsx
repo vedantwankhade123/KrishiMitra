@@ -6,7 +6,7 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { CropCard } from "@/components/CropCard";
-import { Bot, User } from "lucide-react";
+import { Sparkles, User } from "lucide-react";
 import { useEffect, useRef } from 'react';
 import { useTranslation } from '@/hooks/useTranslation';
 
@@ -33,12 +33,12 @@ function LoadingSkeleton() {
 
 function ChatBubble({ children, variant }: { children: React.ReactNode, variant: 'user' | 'bot' }) {
     const avatar = variant === 'user' ? (
-        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-card flex-shrink-0 overflow-hidden" data-ai-hint="user avatar">
-            <Image src="https://picsum.photos/100/100" alt="User avatar" width={32} height={32} />
+        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-muted text-muted-foreground flex-shrink-0" data-ai-hint="user avatar">
+            <User className="h-5 w-5" />
         </div>
     ) : (
         <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary flex-shrink-0">
-            <Bot className="h-5 w-5" />
+            <Sparkles className="h-5 w-5" />
         </div>
     );
 
