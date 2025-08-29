@@ -18,7 +18,7 @@ export default {
     },
     extend: {
       backgroundImage: {
-        'gradient-radial-primary': 'radial-gradient(ellipse 80% 50% at 50% -20%, hsl(var(--primary) / 0.3), transparent)',
+        'gradient-radial-primary': 'radial-gradient(ellipse 80% 50% at 50% 120%, hsl(var(--primary) / 0.3), transparent)',
       },
       fontFamily: {
         sans: ['var(--font-sans)', 'sans-serif'],
@@ -103,6 +103,11 @@ export default {
           '25%, 75%': { opacity: '1', transform: 'translateY(0)' },
           '100%': { opacity: '0', transform: 'translateY(-10px)' },
         },
+        'fade-in-out-fast': {
+          '0%': { opacity: '0', transform: 'translateY(8px) scale(0.95)' },
+          '25%, 75%': { opacity: '1', transform: 'translateY(0) scale(1)' },
+          '100%': { opacity: '0', transform: 'translateY(-8px) scale(0.95)' },
+        },
         shimmer: {
           '100%': {
             transform: 'translateX(100%)',
@@ -118,6 +123,7 @@ export default {
         'accordion-up': 'accordion-up 0.2s ease-out',
         'fade-in-up': 'fade-in-up 0.5s ease-out forwards',
         'fade-in-out': 'fade-in-out 4s ease-in-out infinite',
+        'fade-in-out-fast': 'fade-in-out-fast 2s ease-in-out infinite',
         'shimmer': 'shimmer 2s infinite',
         'dot-pulse': 'dot-pulse 1.4s infinite',
       },
