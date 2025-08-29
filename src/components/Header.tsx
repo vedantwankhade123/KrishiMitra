@@ -4,11 +4,10 @@
 import { Weather } from './Weather';
 import { CropLibrary } from './CropLibrary';
 import { LanguageSwitcher } from './LanguageSwitcher';
-import { Separator } from './ui/separator';
 import { ThemeToggle } from './ThemeToggle';
 import { ProfileButton } from './ProfileButton';
 import { Button } from './ui/button';
-import { Menu, Home, BrainCircuit } from 'lucide-react';
+import { Menu, Home } from 'lucide-react';
 import { SidebarTrigger, useSidebar } from './ui/sidebar';
 import { Logo } from './Logo';
 import Link from 'next/link';
@@ -37,7 +36,7 @@ export function Header() {
         </div>
         <div className="container relative flex h-16 items-center justify-center mx-auto max-w-4xl">
             {/* Middle Group */}
-            <div className="flex items-center gap-2 bg-card/80 backdrop-blur-md border border-primary/20 rounded-full p-2">
+            <div className="flex items-center gap-2 bg-white/10 dark:bg-black/10 backdrop-blur-xl border border-neutral-200/50 dark:border-neutral-800/50 rounded-full p-2">
                 <Button variant="ghost" className="h-9 rounded-full text-foreground hover:bg-primary/10 hover:text-primary px-4" asChild>
                   <Link href="/">
                     <Home className="h-5 w-5" />
