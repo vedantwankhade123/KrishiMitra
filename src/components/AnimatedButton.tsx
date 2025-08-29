@@ -11,7 +11,7 @@ type AnimatedButtonProps = {
 export function AnimatedButton({ href, text }: AnimatedButtonProps) {
   return (
     <Link href={href} passHref>
-      <button className="neumorphic-button">
+      <button className="neumorphic-button flex items-center justify-center">
         {text}
       </button>
     </Link>
