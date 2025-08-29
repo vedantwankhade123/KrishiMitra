@@ -58,7 +58,7 @@ export default function LandingPage() {
                   Save more with sustainable farming tools.
                 </p>
                 <div className="flex justify-center gap-4">
-                  <Button asChild size="lg" className="rounded-full text-lg h-14 px-8 group bg-primary hover:bg-primary/90 text-primary-foreground">
+                  <Button asChild size="lg" className="rounded-full text-lg h-14 px-8 group bg-gradient-green text-primary-foreground shadow-lg hover:shadow-primary/40 hover:brightness-110 transition-all duration-300 transform hover:-translate-y-1">
                     <Link href="/chat">
                       Get Started
                       <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
@@ -88,7 +88,7 @@ export default function LandingPage() {
             </div>
         </section>
 
-        <section className="bg-primary text-primary-foreground py-16">
+        <section className="bg-primary text-primary-foreground py-16 m-[10px] rounded-2xl">
             <div className="container mx-auto px-4">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
                     <div>

@@ -19,6 +19,7 @@ export default {
     extend: {
       backgroundImage: {
         'gradient-radial-primary': 'radial-gradient(ellipse 80% 50% at 50% 120%, hsl(var(--primary) / 0.3), transparent)',
+        'gradient-green': 'linear-gradient(to right, hsl(var(--primary) / 0.8), hsl(var(--primary)))',
       },
       fontFamily: {
         sans: ['var(--font-sans)', 'sans-serif'],
