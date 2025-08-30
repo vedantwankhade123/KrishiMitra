@@ -133,9 +133,6 @@ export default function ChatPage() {
 
   return (
     <div className='flex flex-col h-full flex-1'>
-      <header className='p-4 border-b'>
-        <h2 className='font-semibold text-lg'>{activeChat?.title || 'Chat'}</h2>
-      </header>
       <main className="flex-1 overflow-y-auto">
         <div className="container mx-auto max-w-4xl py-8">
             <CropResults

@@ -1,9 +1,7 @@
 
-
 'use client';
 
 import { Toaster } from '@/components/ui/toaster';
-import { ThemeProvider } from '@/components/ThemeProvider';
 import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarTrigger, SidebarInset, SidebarSeparator } from '@/components/ui/sidebar';
 import { NewChatButton } from '@/components/NewChatButton';
 import { Button } from '@/components/ui/button';
@@ -11,7 +9,7 @@ import { Menu } from 'lucide-react';
 import { ChatHistory } from '@/components/ChatHistory';
 import { ChatHistoryProvider } from '@/context/ChatHistoryContext';
 import { Logo } from '@/components/Logo';
-import { RightSidebar } from '@/components/RightSidebar';
+import { Header } from '@/components/Header';
 
 export default function ChatLayout({
   children,
@@ -43,9 +41,9 @@ export default function ChatLayout({
               <NewChatButton />
             </SidebarContent>
           </Sidebar>
-          <SidebarInset className='flex overflow-hidden'>
+          <SidebarInset className='flex flex-col overflow-hidden'>
+             <Header />
             {children}
-            <RightSidebar />
           </SidebarInset>
           <Toaster />
         </SidebarProvider>

@@ -15,7 +15,6 @@ import ReactMarkdown from 'react-markdown';
 import { Button } from './ui/button';
 import { getAudioForText } from '@/app/actions';
 import { useToast } from '@/hooks/use-toast';
-import { Card, CardContent, CardFooter, CardHeader } from './ui/card';
 
 
 function ActionButtons({ messageText }: { messageText: string | null | undefined }) {
@@ -153,39 +152,29 @@ export function CropResults({ loading, conversation, onSuggestionClick }: CropRe
                         </div>
                     )}
                     {message.role === 'bot' && (
-                        <Card className="w-full bg-card/50">
-                            <CardHeader className="p-3">
-                                <div className="flex items-center gap-2 text-sm font-semibold">
-                                    <Sparkles className="h-4 w-4 text-primary" />
-                                    AI Response
-                                </div>
-                            </CardHeader>
-                            <CardContent className="p-3 pt-0 space-y-4">
-                                {message.text && (
-                                    <div className="prose prose-sm dark:prose-invert prose-headings:font-semibold prose-p:text-muted-foreground prose-strong:text-foreground dark:text-white">
-                                        <ReactMarkdown>{message.text}</ReactMarkdown>
-                                    </div>
-                                )}
-                                {message.recommendation && message.recommendation.crops.length > 0 && (
-                                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                                        {message.recommendation.crops.map(crop => (
-                                            <CropCard key={crop.name} crop={crop} formInputs={message.inputs || null} />
-                                        ))}
-                                    </div>
-                                )}
-                                {message.error && (
-                                    <Alert variant="destructive" className="bg-destructive/10 border-destructive/30">
-                                        <AlertTitle className="font-bold text-lg">{t('errors.errorTitle')}</AlertTitle>
-                                        <AlertDescription>{message.error}</AlertDescription>
-                                    </Alert>
-                                )}
-                            </CardContent>
+                        <div className='w-full space-y-2'>
                             {message.text && (
-                                <CardFooter className="p-3">
-                                    <ActionButtons messageText={message.text} />
-                                </CardFooter>
+                                <div className="prose prose-sm dark:prose-invert prose-headings:font-semibold prose-p:text-muted-foreground prose-strong:text-foreground dark:text-white">
+                                    <ReactMarkdown>{message.text}</ReactMarkdown>
+                                </div>
                             )}
-                        </Card>
+                            {message.recommendation && message.recommendation.crops.length > 0 && (
+                                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                                    {message.recommendation.crops.map(crop => (
+                                        <CropCard key={crop.name} crop={crop} formInputs={message.inputs || null} />
+                                    ))}
+                                </div>
+                            )}
+                            {message.error && (
+                                <Alert variant="destructive" className="bg-destructive/10 border-destructive/30">
+                                    <AlertTitle className="font-bold text-lg">{t('errors.errorTitle')}</AlertTitle>
+                                    <AlertDescription>{message.error}</AlertDescription>
+                                </Alert>
+                            )}
+                             {message.text && (
+                                <ActionButtons messageText={message.text} />
+                            )}
+                        </div>
                     )}
                 </ChatBubble>
             )
@@ -193,18 +182,16 @@ export function CropResults({ loading, conversation, onSuggestionClick }: CropRe
 
         {loading && (
           <ChatBubble variant="bot">
-            <Card className="w-full bg-card/50">
-                <CardContent className="p-4">
-                    <div className="flex items-center space-x-2">
-                      <p className="text-muted-foreground text-sm">Thinking</p>
-                       <div className="flex space-x-1">
-                           <span className="h-1.5 w-1.5 bg-muted-foreground rounded-full animate-dot-pulse [animation-delay:0s]"></span>
-                           <span className="h-1.5 w-1.5 bg-muted-foreground rounded-full animate-dot-pulse [animation-delay:0.2s]"></span>
-                           <span className="h-1.5 w-1.5 bg-muted-foreground rounded-full animate-dot-pulse [animation-delay:0.4s]"></span>
-                       </div>
+            <div className="bg-muted rounded-2xl p-4 w-full">
+                <div className="flex items-center space-x-2">
+                  <p className="text-muted-foreground text-sm">Thinking</p>
+                   <div className="flex space-x-1">
+                       <span className="h-1.5 w-1.5 bg-muted-foreground rounded-full animate-dot-pulse [animation-delay:0s]"></span>
+                       <span className="h-1.5 w-1.5 bg-muted-foreground rounded-full animate-dot-pulse [animation-delay:0.2s]"></span>
+                       <span className="h-1.5 w-1.5 bg-muted-foreground rounded-full animate-dot-pulse [animation-delay:0.4s]"></span>
                    </div>
-                </CardContent>
-            </Card>
+               </div>
+            </div>
           </ChatBubble>
         )}
         
