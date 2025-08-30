@@ -170,7 +170,7 @@ const Sidebar = React.forwardRef<
     {
       side = "left",
       variant = "sidebar",
-      collapsible = "icon", // Changed default to "icon" to better match the new UI
+      collapsible = "offcanvas",
       className,
       children,
       ...props
