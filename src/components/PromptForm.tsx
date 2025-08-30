@@ -161,18 +161,18 @@ export function PromptForm({
               <Image
                 src={attachment.url}
                 alt="Attachment preview"
-                width={80}
-                height={80}
-                className="rounded-lg object-cover"
+                width={60}
+                height={60}
+                className="rounded-lg object-cover sm:w-20 sm:h-20"
               />
               <Button
                 type="button"
                 variant="ghost"
                 size="icon"
-                className="absolute -top-2 -right-2 h-6 w-6 rounded-full bg-muted text-muted-foreground hover:bg-destructive hover:text-destructive-foreground"
+                className="absolute -top-1 -right-1 sm:-top-2 sm:-right-2 h-5 w-5 sm:h-6 sm:w-6 rounded-full bg-muted text-muted-foreground hover:bg-destructive hover:text-destructive-foreground"
                 onClick={() => setAttachment(null)}
               >
-                <X className="h-4 w-4" />
+                <X className="h-3 w-3 sm:h-4 sm:w-4" />
               </Button>
             </div>
           )}
@@ -186,7 +186,7 @@ export function PromptForm({
                     ref={textareaRef}
                     aria-label={t('promptForm.placeholder')}
                     placeholder={!watchedPrompt ? placeholder : t('promptForm.placeholder')}
-                    className="resize-none pr-32 text-base rounded-full bg-card border-2 border-primary/10 focus-visible:border-primary/50 focus-visible:ring-0 focus-visible:ring-offset-0 transition-all duration-300 overflow-y-auto max-h-48 py-3.5 pl-5"
+                    className="resize-none pr-24 sm:pr-32 text-sm sm:text-base rounded-2xl sm:rounded-full bg-card border-2 border-primary/10 focus-visible:border-primary/50 focus-visible:ring-0 focus-visible:ring-offset-0 transition-all duration-300 overflow-y-auto max-h-32 sm:max-h-48 py-3 sm:py-3.5 pl-4 sm:pl-5"
                     rows={1}
                     {...field}
                     onKeyDown={(e) => {
@@ -203,7 +203,7 @@ export function PromptForm({
               </FormItem>
           )}
           />
-          <div className="absolute right-1.5 bottom-1.5 flex items-center gap-1.5">
+          <div className="absolute right-1 sm:right-1.5 bottom-1 sm:bottom-1.5 flex items-center gap-1 sm:gap-1.5">
             <input
               type="file"
               ref={fileInputRef}
@@ -215,28 +215,28 @@ export function PromptForm({
                 type="button"
                 size="icon"
                 variant="ghost"
-                className="h-10 w-10 rounded-full text-muted-foreground hover:bg-primary/10 hover:text-primary"
+                className="h-8 w-8 sm:h-10 sm:w-10 rounded-full text-muted-foreground hover:bg-primary/10 hover:text-primary"
                 disabled={disabled}
                 onClick={() => fileInputRef.current?.click()}
                 aria-label="Attach file"
             >
-                <Paperclip className="h-5 w-5" />
+                <Paperclip className="h-4 w-4 sm:h-5 sm:w-5" />
             </Button>
             <Button 
                 type="button" 
                 size="icon" 
                 variant="ghost"
-                className="h-10 w-10 rounded-full text-muted-foreground hover:bg-primary/10 hover:text-primary"
+                className="h-8 w-8 sm:h-10 sm:w-10 rounded-full text-muted-foreground hover:bg-primary/10 hover:text-primary"
                 disabled={isMicDisabled}
                 onClick={isRecording ? stopRecording : startRecording}
                 aria-label={isRecording ? "Stop recording" : "Start recording"}
             >
                 {isRecording ? (
-                  <Square className="h-5 w-5 text-red-500 fill-red-500" />
+                  <Square className="h-4 w-4 sm:h-5 sm:w-5 text-red-500 fill-red-500" />
                 ) : isTranscribing ? (
-                  <BrainCircuit className="h-5 w-5 animate-pulse" />
+                  <BrainCircuit className="h-4 w-4 sm:h-5 sm:w-5 animate-pulse" />
                 ) : (
-                  <Mic className="h-5 w-5" />
+                  <Mic className="h-4 w-4 sm:h-5 sm:w-5" />
                 )}
                 <span className="sr-only">{isRecording ? "Stop recording" : "Start recording"}</span>
             </Button>
@@ -244,11 +244,11 @@ export function PromptForm({
             <Button 
                 type="submit" 
                 size="icon" 
-                className="h-10 w-10 rounded-full bg-primary hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2" 
+                className="h-8 w-8 sm:h-10 sm:w-10 rounded-full bg-primary hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2" 
                 disabled={isSubmitDisabled}
                 aria-label={t('promptForm.send')}
             >
-                {disabled ? <Loader2 className="h-5 w-5 animate-spin" /> : <ArrowUp className="h-5 w-5" />}
+                {disabled ? <Loader2 className="h-4 w-4 sm:h-5 sm:w-5 animate-spin" /> : <ArrowUp className="h-4 w-4 sm:h-5 sm:w-5" />}
                 <span className="sr-only">{t('promptForm.send')}</span>
             </Button>
           </div>

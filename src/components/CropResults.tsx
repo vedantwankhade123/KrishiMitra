@@ -83,8 +83,8 @@ function ActionButtons({ messageText }: { messageText: string | null | undefined
   }, []);
 
 
-  const buttonClass = "h-7 w-7 rounded-full text-muted-foreground hover:bg-primary/10 hover:text-primary transition-all duration-200 hover:scale-110";
-  const iconClass = "h-4 w-4";
+  const buttonClass = "h-6 w-6 sm:h-7 sm:w-7 rounded-full text-muted-foreground hover:bg-primary/10 hover:text-primary transition-all duration-200 hover:scale-110";
+  const iconClass = "h-3 w-3 sm:h-4 sm:w-4";
   
   const renderPlaybackIcon = () => {
     switch (playbackState) {
@@ -124,19 +124,19 @@ function ActionButtons({ messageText }: { messageText: string | null | undefined
 
 function ChatBubble({ children, variant, showAvatar = true }: { children: React.ReactNode, variant: 'user' | 'bot', showAvatar?: boolean }) {
     const avatar = variant === 'user' ? (
-        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-muted text-muted-foreground flex-shrink-0" data-ai-hint="user avatar">
-            <User className="h-5 w-5" />
+        <div className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-muted text-muted-foreground flex-shrink-0" data-ai-hint="user avatar">
+            <User className="h-4 w-4 sm:h-5 sm:w-5" />
         </div>
     ) : (
-        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary flex-shrink-0">
-            <Sparkles className="h-5 w-5" />
+        <div className="flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full bg-primary/10 text-primary flex-shrink-0">
+            <Sparkles className="h-4 w-4 sm:h-5 sm:w-5" />
         </div>
     );
 
     return (
-        <div className={`flex items-start gap-4 ${variant === 'user' ? 'justify-end' : ''}`}>
+        <div className={`flex items-start gap-2 sm:gap-4 ${variant === 'user' ? 'justify-end' : ''}`}>
             {variant === 'bot' && showAvatar && avatar}
-            <div className={`max-w-[85%] w-full flex flex-col space-y-2 ${variant === 'user' ? 'items-end' : 'items-start'}`}>
+            <div className={`max-w-[90%] sm:max-w-[85%] w-full flex flex-col space-y-1 sm:space-y-2 ${variant === 'user' ? 'items-end' : 'items-start'}`}>
                 {children}
             </div>
             {variant === 'user' && showAvatar && avatar}
@@ -164,7 +164,7 @@ export function CropResults({ loading, conversation, onSuggestionClick }: CropRe
   const showWelcome = conversation.length === 0 && !loading;
 
   return (
-      <div className="space-y-8">
+      <div className="space-y-4 sm:space-y-6 md:space-y-8">
         {showWelcome && (
             <Welcome />
         )}
@@ -178,15 +178,15 @@ export function CropResults({ loading, conversation, onSuggestionClick }: CropRe
                 <ChatBubble key={message.id} variant={message.role} showAvatar={showAvatar}>
                     {message.role === 'user' && (
                         <div className={cn(
-                        "rounded-2xl rounded-br-none space-y-2 p-2",
+                        "rounded-2xl rounded-br-none space-y-2 p-2 sm:p-3",
                         message.attachment ? "bg-primary/5" : "bg-primary/20"
                         )}>
                             {message.attachment && (
-                                <Image src={message.attachment.url} alt="User attachment" width={200} height={200} className="rounded-lg" />
+                                <Image src={message.attachment.url} alt="User attachment" width={200} height={200} className="rounded-lg max-w-[150px] sm:max-w-[200px]" />
                             )}
                             {message.text && (
                             <p className={cn(
-                                "p-2",
+                                "p-1 sm:p-2 text-sm sm:text-base",
                                 !message.attachment && ""
                             )}>{message.text}</p>
                             )}
@@ -195,12 +195,12 @@ export function CropResults({ loading, conversation, onSuggestionClick }: CropRe
                     {message.role === 'bot' && (
                         <div className='w-full space-y-2'>
                             {message.text && (
-                                <div className="prose prose-sm dark:prose-invert prose-headings:font-semibold prose-p:text-muted-foreground prose-strong:text-foreground dark:text-white">
+                                <div className="prose prose-sm sm:prose-base dark:prose-invert prose-headings:font-semibold prose-p:text-muted-foreground prose-strong:text-foreground dark:text-white max-w-none">
                                     <ReactMarkdown>{message.text}</ReactMarkdown>
                                 </div>
                             )}
                             {message.recommendation && message.recommendation.crops.length > 0 && (
-                                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                                <div className="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
                                     {message.recommendation.crops.map(crop => (
                                         <CropCard key={crop.name} crop={crop} formInputs={message.inputs || null} />
                                     ))}
@@ -208,8 +208,8 @@ export function CropResults({ loading, conversation, onSuggestionClick }: CropRe
                             )}
                             {message.error && (
                                 <Alert variant="destructive" className="bg-destructive/10 border-destructive/30">
-                                    <AlertTitle className="font-bold text-lg">{t('errors.errorTitle')}</AlertTitle>
-                                    <AlertDescription>{message.error}</AlertDescription>
+                                    <AlertTitle className="font-bold text-base sm:text-lg">{t('errors.errorTitle')}</AlertTitle>
+                                    <AlertDescription className="text-sm sm:text-base">{message.error}</AlertDescription>
                                 </Alert>
                             )}
                              {message.text && (
@@ -223,13 +223,13 @@ export function CropResults({ loading, conversation, onSuggestionClick }: CropRe
 
         {loading && (
           <ChatBubble variant="bot">
-            <div className="bg-muted rounded-2xl p-4 w-full">
+            <div className="bg-muted rounded-2xl p-3 sm:p-4 w-full">
                 <div className="flex items-center space-x-2">
-                  <p className="text-muted-foreground text-sm">Thinking</p>
+                  <p className="text-muted-foreground text-xs sm:text-sm">Thinking</p>
                    <div className="flex space-x-1">
-                       <span className="h-1.5 w-1.5 bg-muted-foreground rounded-full animate-dot-pulse [animation-delay:0s]"></span>
-                       <span className="h-1.5 w-1.5 bg-muted-foreground rounded-full animate-dot-pulse [animation-delay:0.2s]"></span>
-                       <span className="h-1.5 w-1.5 bg-muted-foreground rounded-full animate-dot-pulse [animation-delay:0.4s]"></span>
+                       <span className="h-1 w-1 sm:h-1.5 sm:w-1.5 bg-muted-foreground rounded-full animate-dot-pulse [animation-delay:0s]"></span>
+                       <span className="h-1 w-1 sm:h-1.5 sm:w-1.5 bg-muted-foreground rounded-full animate-dot-pulse [animation-delay:0.2s]"></span>
+                       <span className="h-1 w-1 sm:h-1.5 sm:w-1.5 bg-muted-foreground rounded-full animate-dot-pulse [animation-delay:0.4s]"></span>
                    </div>
                </div>
             </div>

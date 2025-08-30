@@ -12,6 +12,7 @@ const poppins = Poppins({ subsets: ['latin'], weight: '700', variable: '--font-l
 export const metadata: Metadata = {
   title: 'KrishiMitra',
   description: 'AI-Based Crop Recommendation for Farmers',
+  viewport: 'width=device-width, initial-scale=1, maximum-scale=5',
 };
 
 export default function RootLayout({
@@ -23,7 +24,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
       </head>
-      <body className={cn('font-sans antialiased', inter.variable, poppins.variable, 'min-h-screen font-sans')} suppressHydrationWarning={true}>
+      <body className={cn('font-sans antialiased', inter.variable, poppins.variable, 'min-h-screen font-sans touch-manipulation')} suppressHydrationWarning={true}>
         <ThemeProvider
             attribute="class"
             defaultTheme="system"

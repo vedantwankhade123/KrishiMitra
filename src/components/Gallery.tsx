@@ -59,30 +59,30 @@ export function CropLibrary() {
           </Button>
       </DialogTrigger>
 
-      <DialogContent className="max-w-4xl h-[90vh] bg-card border-primary/20 flex flex-col">
+      <DialogContent className="max-w-xs sm:max-w-2xl lg:max-w-4xl h-[90vh] bg-card border-primary/20 flex flex-col mx-2 sm:mx-auto">
         <DialogHeader>
-          <DialogTitle className="font-bold text-3xl flex items-center gap-2">
-            <Sprout className="h-7 w-7 text-primary" />
+          <DialogTitle className="font-bold text-xl sm:text-2xl lg:text-3xl flex items-center gap-2">
+            <Sprout className="h-5 w-5 sm:h-6 sm:w-6 lg:h-7 lg:w-7 text-primary" />
             Crop Library
           </DialogTitle>
-          <DialogDescription>
+          <DialogDescription className="text-sm sm:text-base">
             Browse and learn about different crops, their characteristics, and typical yields.
           </DialogDescription>
         </DialogHeader>
-        <ScrollArea className="flex-1 -mx-6 px-6">
-            <div className="py-4 grid grid-cols-1 md:grid-cols-2 gap-6">
+        <ScrollArea className="flex-1 -mx-4 sm:-mx-6 px-4 sm:px-6">
+            <div className="py-4 grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
                 {cropData.map((crop) => (
-                    <div key={crop.name} className="bg-muted/50 rounded-lg p-4 flex flex-col sm:flex-row gap-4">
-                        <Image src={crop.image} alt={crop.name} width={150} height={150} className="rounded-md object-cover w-full sm:w-[150px] h-[150px]" data-ai-hint="crop image"/>
+                    <div key={crop.name} className="bg-muted/50 rounded-lg p-3 sm:p-4 flex flex-col gap-3 sm:gap-4">
+                        <Image src={crop.image} alt={crop.name} width={150} height={150} className="rounded-md object-cover w-full h-32 sm:h-40" data-ai-hint="crop image"/>
                         <div className="space-y-2 flex-1">
-                            <h3 className="text-xl font-bold text-primary">{crop.name}</h3>
-                            <p className="text-sm text-muted-foreground">{crop.description}</p>
+                            <h3 className="text-lg sm:text-xl font-bold text-primary">{crop.name}</h3>
+                            <p className="text-xs sm:text-sm text-muted-foreground">{crop.description}</p>
                             <div>
-                                <h4 className="font-semibold text-foreground">Planting</h4>
+                                <h4 className="font-semibold text-foreground text-sm sm:text-base">Planting</h4>
                                 <p className="text-xs text-muted-foreground">{crop.planting}</p>
                             </div>
                              <div>
-                                <h4 className="font-semibold text-foreground">Yield</h4>
+                                <h4 className="font-semibold text-foreground text-sm sm:text-base">Yield</h4>
                                 <p className="text-xs text-muted-foreground">{crop.yield}</p>
                             </div>
                         </div>
