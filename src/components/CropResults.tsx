@@ -56,24 +56,25 @@ function ActionButtons({ messageText }: { messageText: string | null | undefined
     }
   };
 
-  const iconStyle = "h-4 w-4 text-muted-foreground group-hover:text-primary";
+  const buttonClass = "h-7 w-7 rounded-full group hover:bg-primary/10 transition-all duration-200 hover:scale-110";
+  const iconClass = "h-4 w-4 text-muted-foreground group-hover:text-primary";
   
   return (
       <div className="flex items-center gap-2 mt-2">
-        <Button variant="ghost" size="icon" className="h-7 w-7 rounded-full group" onClick={handleCopy}>
-            <Copy className={iconStyle} />
+        <Button variant="ghost" size="icon" className={buttonClass} onClick={handleCopy}>
+            <Copy className={iconClass} />
         </Button>
-        <Button variant="ghost" size="icon" className="h-7 w-7 rounded-full group">
-            <ThumbsUp className={iconStyle} />
+        <Button variant="ghost" size="icon" className={buttonClass}>
+            <ThumbsUp className={iconClass} />
         </Button>
-        <Button variant="ghost" size="icon" className="h-7 w-7 rounded-full group">
-            <ThumbsDown className={iconStyle} />
+        <Button variant="ghost" size="icon" className={buttonClass}>
+            <ThumbsDown className={iconClass} />
         </Button>
-         <Button variant="ghost" size="icon" className="h-7 w-7 rounded-full group">
-            <Share2 className={iconStyle} />
+         <Button variant="ghost" size="icon" className={buttonClass}>
+            <Share2 className={iconClass} />
         </Button>
-        <Button variant="ghost" size="icon" className="h-7 w-7 rounded-full group" onClick={handleListen} disabled={isListening && !audio}>
-            {isListening ? <Loader2 className="h-4 w-4 animate-spin text-primary" /> : <Volume2 className={iconStyle} />}
+        <Button variant="ghost" size="icon" className={buttonClass} onClick={handleListen} disabled={isListening && !audio}>
+            {isListening ? <Loader2 className="h-4 w-4 animate-spin text-primary" /> : <Volume2 className={iconClass} />}
         </Button>
       </div>
   );
@@ -101,6 +102,13 @@ function ChatBubble({ children, variant, showAvatar = true }: { children: React.
         </div>
     );
 }
+
+type CropResultsProps = {
+    loading: boolean;
+    conversation: ChatMessage[];
+    onSuggestionClick: (prompt: string) => void;
+};
+
 
 export function CropResults({ loading, conversation, onSuggestionClick }: CropResultsProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
