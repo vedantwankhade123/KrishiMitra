@@ -71,3 +71,4 @@ This project requires running two separate processes concurrently: the Next.js f
     This starts the Genkit flows that the AI assistant relies on. You can view the Genkit developer UI at `http://localhost:4000`.
 
 Once both servers are running, you can open your browser to `http://localhost:9002` to see the application in action.
+# KrishiMitra
