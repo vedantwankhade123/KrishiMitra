@@ -6,7 +6,7 @@ import type { ChatMessage } from "@/lib/types";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Skeleton } from "@/components/ui/skeleton";
 import { CropCard } from "@/components/CropCard";
-import { Sparkles, User, Copy, ThumbsUp, ThumbsDown, Share2, Volume2, Loader2, Pause } from "lucide-react";
+import { Sparkles, User, Copy, ThumbsUp, ThumbsDown, Share2, Volume2, Loader2, Pause, Play } from "lucide-react";
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from '@/hooks/useTranslation';
 import { cn } from '@/lib/utils';
@@ -18,7 +18,7 @@ import { useToast } from '@/hooks/use-toast';
 
 
 function ActionButtons({ messageText }: { messageText: string | null | undefined }) {
-  const [playbackState, setPlaybackState] = useState<'idle' | 'loading' | 'playing'>('idle');
+  const [playbackState, setPlaybackState] = useState<'idle' | 'loading' | 'playing' | 'paused'>('idle');
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const { toast } = useToast();
 
@@ -32,16 +32,18 @@ function ActionButtons({ messageText }: { messageText: string | null | undefined
   const handleListen = async () => {
     if (!messageText) return;
 
-    // If playing, pause and reset
-    if (playbackState === 'playing' && audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current.currentTime = 0;
-        setPlaybackState('idle');
-        audioRef.current = null;
-        return;
+    if (playbackState === 'playing') {
+      audioRef.current?.pause();
+      setPlaybackState('paused');
+      return;
+    }
+
+    if (playbackState === 'paused') {
+      audioRef.current?.play();
+      setPlaybackState('playing');
+      return;
     }
     
-    // If idle, start loading and playing
     if (playbackState === 'idle') {
         setPlaybackState('loading');
         try {
@@ -84,6 +86,20 @@ function ActionButtons({ messageText }: { messageText: string | null | undefined
   const buttonClass = "h-7 w-7 rounded-full text-muted-foreground hover:bg-primary/10 hover:text-primary transition-all duration-200 hover:scale-110";
   const iconClass = "h-4 w-4";
   
+  const renderPlaybackIcon = () => {
+    switch (playbackState) {
+        case 'loading':
+            return <Loader2 className="h-4 w-4 animate-spin text-primary" />;
+        case 'playing':
+            return <Pause className={cn(iconClass, 'text-primary')} />;
+        case 'paused':
+            return <Play className={cn(iconClass, 'text-primary ml-0.5')} />;
+        case 'idle':
+        default:
+            return <Volume2 className={iconClass} />;
+    }
+  }
+
   return (
       <div className="flex items-center gap-2">
         <Button variant="ghost" size="icon" className={buttonClass} onClick={handleCopy}>
@@ -99,9 +115,7 @@ function ActionButtons({ messageText }: { messageText: string | null | undefined
             <Share2 className={iconClass} />
         </Button>
         <Button variant="ghost" size="icon" className={buttonClass} onClick={handleListen} disabled={playbackState === 'loading'}>
-            {playbackState === 'loading' && <Loader2 className="h-4 w-4 animate-spin text-primary" />}
-            {playbackState === 'playing' && <Pause className={cn(iconClass, 'text-primary')} />}
-            {playbackState === 'idle' && <Volume2 className={iconClass} />}
+            {renderPlaybackIcon()}
         </Button>
       </div>
   );
