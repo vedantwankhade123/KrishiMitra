@@ -22,7 +22,7 @@ export function SuggestionPrompts({ onSuggestionClick }: SuggestionPromptsProps)
     const suggestionPrompts = t('suggestions', { returnObjects: true }) as { title: string, prompt: string }[];
 
     return (
-        <div className="mb-4 w-full">
+        <div className="mb-3 sm:mb-4 w-full">
             <Carousel
               opts={{
                 align: "start",
@@ -35,7 +35,7 @@ export function SuggestionPrompts({ onSuggestionClick }: SuggestionPromptsProps)
                       <div className="p-1">
                         <Badge 
                             variant="outline" 
-                            className="font-normal border-primary/20 bg-background hover:bg-primary/10 transition-all text-foreground cursor-pointer"
+                            className="font-normal border-primary/20 bg-background hover:bg-primary/10 transition-all text-foreground cursor-pointer text-xs sm:text-sm py-1 sm:py-2 px-2 sm:px-3"
                             onClick={() => onSuggestionClick(prompt)}
                         >
                            <p className="whitespace-normal text-left">{prompt}</p>
@@ -44,8 +44,8 @@ export function SuggestionPrompts({ onSuggestionClick }: SuggestionPromptsProps)
                     </CarouselItem>
                 ))}
               </CarouselContent>
-              <CarouselPrevious className="hidden sm:flex -left-12"/>
-              <CarouselNext className="hidden sm:flex -right-12"/>
+              <CarouselPrevious className="hidden lg:flex -left-12 h-8 w-8"/>
+              <CarouselNext className="hidden lg:flex -right-12 h-8 w-8"/>
             </Carousel>
         </div>
     );

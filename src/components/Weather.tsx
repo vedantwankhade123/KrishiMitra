@@ -111,37 +111,37 @@ export default function WeatherPage() {
     : '';
 
   return (
-    <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 w-full">
-        <header className="mb-8">
-          <h1 className="font-bold text-3xl">Current Weather</h1>
-          <p className="text-muted-foreground">
+    <div className="max-w-7xl mx-auto p-2 sm:p-4 lg:p-6 xl:p-8 w-full">
+        <header className="mb-6 sm:mb-8">
+          <h1 className="font-bold text-2xl sm:text-3xl">Current Weather</h1>
+          <p className="text-muted-foreground text-sm sm:text-base">
             {error ? "Could not retrieve weather data." : "Live weather conditions for your current location."}
           </p>
         </header>
         <ScrollArea className="flex-1">
-            <div className="py-4 pr-6">
+            <div className="py-2 sm:py-4 pr-2 sm:pr-6">
               {loading && !error && (
-                 <div className="grid md:grid-cols-2 gap-8">
+                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
                     <div>
-                        <Skeleton className="h-64 w-full rounded-lg" />
+                        <Skeleton className="h-48 sm:h-64 w-full rounded-lg" />
                     </div>
-                    <div className="space-y-4">
+                    <div className="space-y-3 sm:space-y-4">
                         <div className="flex items-center justify-between">
-                           <Skeleton className="h-12 w-48" />
-                           <Skeleton className="h-6 w-24" />
+                           <Skeleton className="h-10 sm:h-12 w-32 sm:w-48" />
+                           <Skeleton className="h-5 sm:h-6 w-20 sm:w-24" />
                         </div>
-                        <div className="grid grid-cols-3 gap-4">
-                            <Skeleton className="h-24 w-full rounded-lg" />
-                            <Skeleton className="h-24 w-full rounded-lg" />
-                            <Skeleton className="h-24 w-full rounded-lg" />
+                        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4">
+                            <Skeleton className="h-20 sm:h-24 w-full rounded-lg" />
+                            <Skeleton className="h-20 sm:h-24 w-full rounded-lg" />
+                            <Skeleton className="h-20 sm:h-24 w-full rounded-lg col-span-2 sm:col-span-1" />
                         </div>
                     </div>
                  </div>
               )}
               {weather && location && !error && (
-                <div className="grid md:grid-cols-2 gap-8">
-                    <div className="flex flex-col gap-4">
-                        <div className="rounded-lg border min-h-[300px] overflow-hidden">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
+                    <div className="flex flex-col gap-3 sm:gap-4 order-2 lg:order-1">
+                        <div className="rounded-lg border min-h-[250px] sm:min-h-[300px] overflow-hidden">
                             <iframe
                                 width="100%"
                                 height="100%"
@@ -156,70 +156,73 @@ export default function WeatherPage() {
                                 type="single" 
                                 value={mapLayer} 
                                 onValueChange={(value) => value && setMapLayer(value)}
-                                className="justify-center flex-wrap"
+                                className="justify-center flex-wrap gap-1 sm:gap-2"
                             >
-                                <ToggleGroupItem value="mapnik" aria-label="Standard map view" className="gap-2 rounded-full border border-primary/20 bg-transparent text-muted-foreground hover:bg-primary/10 hover:text-primary data-[state=on]:bg-primary/10 data-[state=on]:text-primary">
-                                    <Map className="h-4 w-4"/>
-                                    Standard
+                                <ToggleGroupItem value="mapnik" aria-label="Standard map view" className="gap-1 sm:gap-2 rounded-full border border-primary/20 bg-transparent text-muted-foreground hover:bg-primary/10 hover:text-primary data-[state=on]:bg-primary/10 data-[state=on]:text-primary text-xs sm:text-sm px-2 sm:px-3">
+                                    <Map className="h-3 w-3 sm:h-4 sm:w-4"/>
+                                    <span className="hidden sm:inline">Standard</span>
+                                    <span className="sm:hidden">Std</span>
                                 </ToggleGroupItem>
-                                <ToggleGroupItem value="cyclemap" aria-label="Cycle map view" className="gap-2 rounded-full border border-primary/20 bg-transparent text-muted-foreground hover:bg-primary/10 hover:text-primary data-[state=on]:bg-primary/10 data-[state=on]:text-primary">
-                                    <Bike className="h-4 w-4"/>
+                                <ToggleGroupItem value="cyclemap" aria-label="Cycle map view" className="gap-1 sm:gap-2 rounded-full border border-primary/20 bg-transparent text-muted-foreground hover:bg-primary/10 hover:text-primary data-[state=on]:bg-primary/10 data-[state=on]:text-primary text-xs sm:text-sm px-2 sm:px-3">
+                                    <Bike className="h-3 w-3 sm:h-4 sm:w-4"/>
                                     Cycle
                                 </ToggleGroupItem>
-                                <ToggleGroupItem value="transportmap" aria-label="Transport map view" className="gap-2 rounded-full border border-primary/20 bg-transparent text-muted-foreground hover:bg-primary/10 hover:text-primary data-[state=on]:bg-primary/10 data-[state=on]:text-primary">
-                                    <Waypoints className="h-4 w-4"/>
-                                    Transport
+                                <ToggleGroupItem value="transportmap" aria-label="Transport map view" className="gap-1 sm:gap-2 rounded-full border border-primary/20 bg-transparent text-muted-foreground hover:bg-primary/10 hover:text-primary data-[state=on]:bg-primary/10 data-[state=on]:text-primary text-xs sm:text-sm px-2 sm:px-3">
+                                    <Waypoints className="h-3 w-3 sm:h-4 sm:w-4"/>
+                                    <span className="hidden sm:inline">Transport</span>
+                                    <span className="sm:hidden">Trans</span>
                                 </ToggleGroupItem>
                             </ToggleGroup>
-                             <Button asChild variant="outline" size="sm" className="w-full rounded-full border-primary/20 text-muted-foreground hover:bg-primary/10 hover:text-primary">
+                             <Button asChild variant="outline" size="sm" className="w-full rounded-full border-primary/20 text-muted-foreground hover:bg-primary/10 hover:text-primary text-xs sm:text-sm h-8 sm:h-9">
                                 <a href={openStreetMapUrl} target="_blank" rel="noopener noreferrer">
-                                   <MapPin className="h-4 w-4 mr-2" />
-                                    View on OpenStreetMap
+                                   <MapPin className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
+                                    <span className="hidden sm:inline">View on OpenStreetMap</span>
+                                    <span className="sm:hidden">View on Map</span>
                                 </a>
                             </Button>
                          </div>
                     </div>
 
-                    <div className="space-y-6">
+                    <div className="space-y-4 sm:space-y-6 order-1 lg:order-2">
                         <div className="flex items-start justify-between">
                             <div>
-                                <div className="flex items-center gap-4">
-                                     {getWeatherIcon(weather.weathercode, "h-16 w-16")}
+                                <div className="flex items-center gap-3 sm:gap-4">
+                                     {getWeatherIcon(weather.weathercode, "h-12 w-12 sm:h-16 sm:w-16")}
                                      <div>
-                                        <p className="text-5xl font-bold">{weather.temperature}°F</p>
-                                        <p className="text-muted-foreground">Feels Like {weather.feelsLike}°F</p>
+                                        <p className="text-3xl sm:text-4xl md:text-5xl font-bold">{weather.temperature}°F</p>
+                                        <p className="text-muted-foreground text-sm sm:text-base">Feels Like {weather.feelsLike}°F</p>
                                      </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left">
-                            <div className="bg-primary/5 p-4 rounded-lg flex items-center gap-4">
-                                <Droplets className="h-8 w-8 text-primary flex-shrink-0" />
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 text-left">
+                            <div className="bg-primary/5 p-3 sm:p-4 rounded-lg flex items-center gap-3 sm:gap-4">
+                                <Droplets className="h-6 w-6 sm:h-8 sm:w-8 text-primary flex-shrink-0" />
                                 <div>
-                                    <p className="text-sm text-muted-foreground">Precipitation</p>
-                                    <p className="font-bold text-lg">{weather.precipitation_probability}%</p>
+                                    <p className="text-xs sm:text-sm text-muted-foreground">Precipitation</p>
+                                    <p className="font-bold text-base sm:text-lg">{weather.precipitation_probability}%</p>
                                 </div>
                             </div>
-                             <div className="bg-primary/5 p-4 rounded-lg flex items-center gap-4">
-                                <Wind className="h-8 w-8 text-primary flex-shrink-0" />
+                             <div className="bg-primary/5 p-3 sm:p-4 rounded-lg flex items-center gap-3 sm:gap-4">
+                                <Wind className="h-6 w-6 sm:h-8 sm:w-8 text-primary flex-shrink-0" />
                                 <div>
-                                    <p className="text-sm text-muted-foreground">Wind</p>
-                                    <p className="font-bold text-lg">{weather.windspeed} mph</p>
+                                    <p className="text-xs sm:text-sm text-muted-foreground">Wind</p>
+                                    <p className="font-bold text-base sm:text-lg">{weather.windspeed} mph</p>
                                 </div>
                             </div>
                         </div>
-                        <p className="text-xs text-muted-foreground">
+                        <p className="text-xs text-muted-foreground px-2 sm:px-0">
                             Location data is based on your browser's location services. Weather data is provided by Open-Meteo. Map tiles by OpenStreetMap.
                         </p>
                     </div>
                 </div>
               )}
               {error && (
-                <div className="text-center py-10 flex flex-col items-center gap-4">
-                  <LocateFixed className="h-12 w-12 text-destructive" />
-                  <p className="text-destructive max-w-sm">{error}</p>
-                  <Button onClick={requestLocation} className="mt-4">
+                <div className="text-center py-8 sm:py-10 flex flex-col items-center gap-3 sm:gap-4 px-4">
+                  <LocateFixed className="h-10 w-10 sm:h-12 sm:w-12 text-destructive" />
+                  <p className="text-destructive max-w-sm text-sm sm:text-base">{error}</p>
+                  <Button onClick={requestLocation} className="mt-2 sm:mt-4 w-full sm:w-auto">
                     Retry Location Access
                   </Button>
                 </div>

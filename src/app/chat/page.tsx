@@ -134,7 +134,7 @@ export default function ChatPage() {
   return (
     <div className='flex flex-col h-full flex-1'>
       <main className="flex-1 overflow-y-auto">
-        <div className="container mx-auto max-w-4xl py-8">
+        <div className="container mx-auto max-w-4xl py-4 sm:py-6 md:py-8 px-2 sm:px-4">
             <CropResults
                 loading={loading}
                 conversation={conversation}
@@ -143,7 +143,7 @@ export default function ChatPage() {
         </div>
       </main>
       <div className="bg-gradient-to-t from-background to-transparent">
-        <div className="container mx-auto max-w-4xl p-4 flex flex-col items-center">
+        <div className="container mx-auto max-w-4xl p-2 sm:p-4 flex flex-col items-center">
             <SuggestionPrompts onSuggestionClick={handleSuggestionClick} />
             <PromptForm
             onSubmit={handlePromptSubmit}

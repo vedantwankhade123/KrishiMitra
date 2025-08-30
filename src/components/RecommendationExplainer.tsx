@@ -68,32 +68,32 @@ export function RecommendationExplainer({
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="sm:max-w-[525px] bg-card border-primary/20">
+      <DialogContent className="max-w-[95vw] sm:max-w-[525px] bg-card border-primary/20 mx-2 sm:mx-auto">
         <DialogHeader>
-          <DialogTitle className="font-bold text-2xl">{t('explainer.title', { cropName })}</DialogTitle>
-          <DialogDescription>
+          <DialogTitle className="font-bold text-lg sm:text-xl md:text-2xl">{t('explainer.title', { cropName })}</DialogTitle>
+          <DialogDescription className="text-sm sm:text-base">
             {t('explainer.description')}
           </DialogDescription>
         </DialogHeader>
-        <div className="py-4 text-sm max-h-[60vh] overflow-y-auto">
+        <div className="py-3 sm:py-4 text-xs sm:text-sm max-h-[60vh] overflow-y-auto">
           {loading && (
             <div className="space-y-2">
-              <Skeleton className="h-4 w-full" />
-              <Skeleton className="h-4 w-full" />
-              <Skeleton className="h-4 w-4/5" />
+              <Skeleton className="h-3 sm:h-4 w-full" />
+              <Skeleton className="h-3 sm:h-4 w-full" />
+              <Skeleton className="h-3 sm:h-4 w-4/5" />
             </div>
           )}
           {error && (
             <Alert variant="destructive">
-              <AlertTitle>{t('errors.errorTitle')}</AlertTitle>
-              <AlertDescription>{error}</AlertDescription>
+              <AlertTitle className="text-sm sm:text-base">{t('errors.errorTitle')}</AlertTitle>
+              <AlertDescription className="text-xs sm:text-sm">{error}</AlertDescription>
             </Alert>
           )}
           {explanation && <p className="text-muted-foreground leading-relaxed">{explanation}</p>}
         </div>
         <DialogFooter>
             <DialogClose asChild>
-                <Button type="button" variant="secondary">
+                <Button type="button" variant="secondary" className="w-full sm:w-auto text-sm">
                 {t('explainer.close')}
                 </Button>
             </DialogClose>

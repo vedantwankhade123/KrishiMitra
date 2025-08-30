@@ -77,36 +77,36 @@ export default function CropLibraryPage() {
             </Button>
             <Image src={crop.image} alt={crop.name} width={800} height={300} className="rounded-xl object-cover w-full h-48 md:h-64" data-ai-hint="crop image"/>
         </header>
-        <ScrollArea className="flex-1 -mx-6 px-6">
-            <div className="py-4 space-y-6">
-                <h2 className="text-3xl font-bold text-primary">{crop.name}</h2>
-                <p className="text-muted-foreground">{crop.description}</p>
+        <ScrollArea className="flex-1 -mx-4 sm:-mx-6 px-4 sm:px-6">
+            <div className="py-4 space-y-4 sm:space-y-6">
+                <h2 className="text-2xl sm:text-3xl font-bold text-primary">{crop.name}</h2>
+                <p className="text-muted-foreground text-sm sm:text-base">{crop.description}</p>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-4">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+                    <div className="space-y-3 sm:space-y-4">
                          <div>
-                            <h4 className="font-semibold text-foreground text-lg mb-1">Climate</h4>
-                            <p className="text-sm text-muted-foreground">{crop.climate}</p>
+                            <h4 className="font-semibold text-foreground text-base sm:text-lg mb-1">Climate</h4>
+                            <p className="text-xs sm:text-sm text-muted-foreground">{crop.climate}</p>
                         </div>
                         <div>
-                            <h4 className="font-semibold text-foreground text-lg mb-1">Soil Type</h4>
-                            <p className="text-sm text-muted-foreground">{crop.soil}</p>
+                            <h4 className="font-semibold text-foreground text-base sm:text-lg mb-1">Soil Type</h4>
+                            <p className="text-xs sm:text-sm text-muted-foreground">{crop.soil}</p>
                         </div>
                          <div>
-                            <h4 className="font-semibold text-foreground text-lg mb-1">Common Varieties</h4>
-                            <div className="flex flex-wrap gap-2">
-                                {crop.varieties.map(v => <Badge key={v} variant="secondary">{v}</Badge>)}
+                            <h4 className="font-semibold text-foreground text-base sm:text-lg mb-1">Common Varieties</h4>
+                            <div className="flex flex-wrap gap-1 sm:gap-2">
+                                {crop.varieties.map(v => <Badge key={v} variant="secondary" className="text-xs">{v}</Badge>)}
                             </div>
                         </div>
                     </div>
-                    <div className="space-y-4">
+                    <div className="space-y-3 sm:space-y-4">
                         <div>
-                            <h4 className="font-semibold text-foreground text-lg mb-1">Planting</h4>
-                            <p className="text-sm text-muted-foreground">{crop.planting}</p>
+                            <h4 className="font-semibold text-foreground text-base sm:text-lg mb-1">Planting</h4>
+                            <p className="text-xs sm:text-sm text-muted-foreground">{crop.planting}</p>
                         </div>
                         <div>
-                            <h4 className="font-semibold text-foreground text-lg mb-1">Expected Yield</h4>
-                            <p className="text-sm text-muted-foreground">{crop.yield}</p>
+                            <h4 className="font-semibold text-foreground text-base sm:text-lg mb-1">Expected Yield</h4>
+                            <p className="text-xs sm:text-sm text-muted-foreground">{crop.yield}</p>
                         </div>
                     </div>
                 </div>
@@ -119,51 +119,51 @@ export default function CropLibraryPage() {
     <>
       <div className="flex flex-col sm:flex-row sm:items-center gap-4">
         <div className="flex items-center gap-2">
-            <Sprout className="h-7 w-7 text-primary" />
+            <Sprout className="h-6 w-6 sm:h-7 sm:w-7 text-primary" />
             <div>
-                <h1 className="font-bold text-3xl">
+                <h1 className="font-bold text-2xl sm:text-3xl">
                     Crop Library
                 </h1>
-                <p className="text-muted-foreground">
+                <p className="text-muted-foreground text-sm sm:text-base">
                     Browse and learn about different crops.
                 </p>
             </div>
         </div>
-          <div className="relative sm:ml-auto">
+          <div className="relative sm:ml-auto w-full sm:w-auto">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
                 placeholder="Search crops..."
-                className="pl-9 h-9 rounded-full bg-primary/5 border-primary/10"
+                className="pl-9 h-9 sm:h-10 rounded-full bg-primary/5 border-primary/10 w-full sm:w-64"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
             />
         </div>
       </div>
       <ScrollArea className="flex-1 -mx-6 px-6">
-          <div className="py-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="py-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {initialLoading ? (
                   Array.from({ length: 9 }).map((_, i) => (
-                      <div key={i} className="bg-muted/50 rounded-xl p-4 flex flex-col gap-4">
-                          <Skeleton className="w-full h-40 rounded-lg" />
+                      <div key={i} className="bg-muted/50 rounded-xl p-3 sm:p-4 flex flex-col gap-3 sm:gap-4">
+                          <Skeleton className="w-full h-32 sm:h-40 rounded-lg" />
                           <div className="space-y-2">
-                              <Skeleton className="h-6 w-1/2" />
-                              <Skeleton className="h-4 w-full" />
-                              <Skeleton className="h-4 w-4/5" />
-                              <Skeleton className="h-9 w-full rounded-full mt-4" />
+                              <Skeleton className="h-5 sm:h-6 w-1/2" />
+                              <Skeleton className="h-3 sm:h-4 w-full" />
+                              <Skeleton className="h-3 sm:h-4 w-4/5" />
+                              <Skeleton className="h-8 sm:h-9 w-full rounded-full mt-3 sm:mt-4" />
                           </div>
                       </div>
                   ))
               ) : crops.length > 0 ? (
                   crops.map((crop) => (
-                      <div key={crop.name} className="bg-muted/50 rounded-xl p-4 flex flex-col gap-4">
-                          <Image src={crop.image} alt={crop.name} width={400} height={200} className="rounded-lg object-cover w-full h-40" data-ai-hint="crop image"/>
+                      <div key={crop.name} className="bg-muted/50 rounded-xl p-3 sm:p-4 flex flex-col gap-3 sm:gap-4">
+                          <Image src={crop.image} alt={crop.name} width={400} height={200} className="rounded-lg object-cover w-full h-32 sm:h-40" data-ai-hint="crop image"/>
                           <div className="space-y-2 flex-1 flex flex-col">
-                              <h3 className="text-xl font-bold text-primary">{crop.name}</h3>
-                              <p className="text-sm text-muted-foreground line-clamp-2 flex-grow">{crop.description}</p>
-                              <div className="mt-4 flex flex-col items-center gap-2">
+                              <h3 className="text-lg sm:text-xl font-bold text-primary">{crop.name}</h3>
+                              <p className="text-xs sm:text-sm text-muted-foreground line-clamp-2 flex-grow">{crop.description}</p>
+                              <div className="mt-3 sm:mt-4 flex flex-col items-center gap-2">
                                   <Button 
                                       variant="outline"
-                                      className="w-full rounded-full text-muted-foreground border-primary/20 hover:bg-primary/10 hover:text-primary"
+                                      className="w-full rounded-full text-muted-foreground border-primary/20 hover:bg-primary/10 hover:text-primary text-xs sm:text-sm h-8 sm:h-9"
                                       onClick={() => setSelectedCrop(crop)}
                                       aria-label={`View details for ${crop.name}`}
                                   >
@@ -171,10 +171,10 @@ export default function CropLibraryPage() {
                                   </Button>
                                    <Button
                                       variant="outline"
-                                      className="w-full rounded-full text-muted-foreground border-primary/20 hover:bg-primary/10 hover:text-primary"
+                                      className="w-full rounded-full text-muted-foreground border-primary/20 hover:bg-primary/10 hover:text-primary text-xs sm:text-sm h-8 sm:h-9"
                                       aria-label={`Share ${crop.name}`}
                                   >
-                                      <Share2 className="mr-2 h-4 w-4" />
+                                      <Share2 className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
                                       Share
                                   </Button>
                                   <Button

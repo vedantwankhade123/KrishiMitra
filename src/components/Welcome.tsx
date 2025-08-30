@@ -22,11 +22,11 @@ export function Welcome() {
     }, [textOptions.length]);
 
     return (
-        <div className="text-center pt-24 animate-fade-in-up">
-            <h1 key={animationKey} className="text-5xl font-bold tracking-tighter mb-4 min-h-[60px] animate-fade-in-out">
+        <div className="text-center pt-16 sm:pt-20 md:pt-24 animate-fade-in-up px-4">
+            <h1 key={animationKey} className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tighter mb-4 min-h-[45px] sm:min-h-[50px] md:min-h-[60px] animate-fade-in-out">
                 {textOptions[index]}
             </h1>
-            <p className="text-lg text-muted-foreground mb-10">{t('welcome.subtitle')}</p>
+            <p className="text-base sm:text-lg text-muted-foreground mb-8 sm:mb-10 max-w-2xl mx-auto">{t('welcome.subtitle')}</p>
         </div>
     );
 }
