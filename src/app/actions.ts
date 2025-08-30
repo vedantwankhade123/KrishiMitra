@@ -23,6 +23,7 @@ import {
   type GenerateTitleInput,
   type GenerateTitleOutput,
 } from '@/ai/flows/generate-title';
+import { textToSpeech, type TextToSpeechOutput } from '@/ai/flows/text-to-speech';
 import { parseRecommendations } from '@/lib/parsers';
 import type { ChatMessage, Part, RecommendationResult } from '@/lib/types';
 import cropData from '@/lib/crop-data.json';
@@ -91,4 +92,8 @@ export async function getCropsFromLibrary({ page = 1, limit = 8, searchTerm = ''
     crops: paginatedCrops,
     hasMore: end < filteredCrops.length,
   };
+}
+
+export async function getAudioForText(text: string): Promise<TextToSpeechOutput> {
+  return await textToSpeech({ text });
 }

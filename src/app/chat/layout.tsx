@@ -2,7 +2,6 @@
 'use client';
 
 import { Toaster } from '@/components/ui/toaster';
-import { cn } from '@/lib/utils';
 import { LanguageProvider } from '@/context/LanguageContext';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarTrigger, SidebarInset, SidebarSeparator } from '@/components/ui/sidebar';
@@ -20,7 +19,7 @@ export default function ChatLayout({
 }>) {
   return (
     <ChatHistoryProvider>
-        <SidebarProvider defaultOpen={false} variant="inset">
+        <SidebarProvider defaultOpen={true} variant="sidebar">
           <Sidebar>
             <SidebarContent>
               <SidebarHeader>
@@ -43,8 +42,10 @@ export default function ChatLayout({
               <ChatHistory />
             </SidebarContent>
           </Sidebar>
-          <SidebarInset>
-            {children}
+          <SidebarInset className='h-screen'>
+            <div className='h-full flex flex-col'>
+                {children}
+            </div>
           </SidebarInset>
           <Toaster />
         </SidebarProvider>

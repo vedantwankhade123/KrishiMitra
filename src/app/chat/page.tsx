@@ -11,8 +11,6 @@ import { useToast } from '@/hooks/use-toast';
 import { SuggestionPrompts } from '@/components/SuggestionPrompts';
 import { useLanguage } from '@/context/LanguageContext';
 import { useTranslation } from '@/hooks/useTranslation';
-import { SidebarInset, useSidebar } from '@/components/ui/sidebar';
-import { cn } from '@/lib/utils';
 import { useChatHistory } from '@/context/ChatHistoryContext';
 
 export default function ChatPage() {
@@ -20,7 +18,6 @@ export default function ChatPage() {
   const { language } = useLanguage();
   const { t } = useTranslation();
   const { toast } = useToast();
-  const { open: sidebarOpen, isMobile } = useSidebar();
   const { activeChat, updateActiveChat } = useChatHistory();
   const [conversation, setConversation] = useState<ChatMessage[]>([]);
   
@@ -135,34 +132,26 @@ export default function ChatPage() {
   }
 
   return (
-    <>
-      <SidebarInset>
-        <div className="flex flex-col min-h-screen">
-          <Header />
-          <main className="flex-1 flex flex-col container mx-auto w-full max-w-2xl py-8 z-10">
-            <div className="flex-1 pb-48">
-              <CropResults
+    <div className='flex flex-col h-full'>
+      <Header />
+      <main className="flex-1 overflow-y-auto">
+        <div className="container mx-auto max-w-4xl py-8">
+            <CropResults
                 loading={loading}
                 conversation={conversation}
                 onSuggestionClick={handleSuggestionClick}
-              />
-            </div>
-            <div className={cn(
-                "fixed bottom-0 right-0 bg-gradient-to-t from-background to-transparent",
-                "transition-[left] duration-200 ease-linear",
-                sidebarOpen && !isMobile ? "left-[16rem]" : "left-0"
-              )}>
-              <div className="container mx-auto max-w-2xl px-4 pt-8 pb-4 flex flex-col items-center">
-                <SuggestionPrompts onSuggestionClick={handleSuggestionClick} />
-                <PromptForm
-                  onSubmit={handlePromptSubmit}
-                  disabled={loading || !activeChat}
-                />
-              </div>
-            </div>
-          </main>
+            />
         </div>
-      </SidebarInset>
-    </>
+      </main>
+      <div className="bg-gradient-to-t from-background to-transparent">
+        <div className="container mx-auto max-w-4xl p-4 flex flex-col items-center">
+            <SuggestionPrompts onSuggestionClick={handleSuggestionClick} />
+            <PromptForm
+            onSubmit={handlePromptSubmit}
+            disabled={loading || !activeChat}
+            />
+        </div>
+      </div>
+    </div>
   );
 }

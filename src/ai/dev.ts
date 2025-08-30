@@ -7,4 +7,5 @@ import '@/ai/flows/extract-farm-data.ts';
 import '@/ai/flows/menu.ts';
 import '@/ai/flows/transcribe-audio.ts';
 import '@/ai/flows/generate-title.ts';
+import '@/ai/flows/text-to-speech.ts';
 import '@/ai/schemas.ts';
