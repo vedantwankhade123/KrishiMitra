@@ -48,12 +48,14 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full p-2 sm:p-4">
-      <div className="container relative flex h-16 items-center justify-between mx-auto max-w-4xl">
+      <div className="container relative flex h-16 items-center justify-center mx-auto max-w-4xl">
         {/* Mobile Menu */}
         {isMobile ? (
           <>
-            <Logo />
-            <div className="flex items-center gap-2">
+            <div className="absolute left-0 flex items-center">
+              <Logo />
+            </div>
+            <div className="absolute right-0 flex items-center gap-2">
               <LanguageSwitcher />
               <ThemeToggle />
               <ProfileButton />
@@ -107,12 +109,12 @@ export function Header() {
           </>
         ) : (
           <>
-            {/* Desktop Navigation */}
+            {/* Desktop Navigation - Centered */}
             <div className="flex items-center gap-2 bg-card/50 backdrop-blur-sm border border-primary/10 rounded-full p-2">
               <NavLinks />
               <LanguageSwitcher />
             </div>
-            <div className="absolute top-4 right-4 flex items-center gap-2 h-16">
+            <div className="absolute right-0 flex items-center gap-2">
               <ThemeToggle />
               <ProfileButton />
             </div>
