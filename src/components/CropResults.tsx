@@ -6,7 +6,7 @@ import type { ChatMessage } from "@/lib/types";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Skeleton } from "@/components/ui/skeleton";
 import { CropCard } from "@/components/CropCard";
-import { Sparkles, User, Copy, ThumbsUp, ThumbsDown, Share2, Volume2, Loader2 } from "lucide-react";
+import { Sparkles, User, Copy, ThumbsUp, ThumbsDown, Share2, Volume2, Loader2, Pause } from "lucide-react";
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from '@/hooks/useTranslation';
 import { cn } from '@/lib/utils';
@@ -18,8 +18,8 @@ import { useToast } from '@/hooks/use-toast';
 
 
 function ActionButtons({ messageText }: { messageText: string | null | undefined }) {
-  const [isListening, setIsListening] = useState(false);
-  const [audio, setAudio] = useState<HTMLAudioElement | null>(null);
+  const [playbackState, setPlaybackState] = useState<'idle' | 'loading' | 'playing'>('idle');
+  const audioRef = useRef<HTMLAudioElement | null>(null);
   const { toast } = useToast();
 
   const handleCopy = () => {
@@ -31,30 +31,55 @@ function ActionButtons({ messageText }: { messageText: string | null | undefined
 
   const handleListen = async () => {
     if (!messageText) return;
-    if (isListening && audio) {
-        audio.pause();
-        audio.currentTime = 0;
-        setIsListening(false);
-        setAudio(null);
+
+    // If playing, pause and reset
+    if (playbackState === 'playing' && audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+        setPlaybackState('idle');
+        audioRef.current = null;
         return;
     }
+    
+    // If idle, start loading and playing
+    if (playbackState === 'idle') {
+        setPlaybackState('loading');
+        try {
+          const result = await getAudioForText(messageText);
+          const newAudio = new Audio(result.audioDataUri);
+          audioRef.current = newAudio;
+          
+          newAudio.play();
+          setPlaybackState('playing');
 
-    setIsListening(true);
-    try {
-      const result = await getAudioForText(messageText);
-      const newAudio = new Audio(result.audioDataUri);
-      setAudio(newAudio);
-      newAudio.play();
-      newAudio.onended = () => {
-        setIsListening(false);
-        setAudio(null);
-      };
-    } catch (error) {
-      console.error("Failed to get audio for text", error);
-      toast({ variant: "destructive", title: "Error", description: "Could not play audio." });
-      setIsListening(false);
+          newAudio.onended = () => {
+            setPlaybackState('idle');
+            audioRef.current = null;
+          };
+          newAudio.onerror = () => {
+            toast({ variant: "destructive", title: "Error", description: "Could not play audio." });
+            setPlaybackState('idle');
+            audioRef.current = null;
+          }
+
+        } catch (error) {
+          console.error("Failed to get audio for text", error);
+          toast({ variant: "destructive", title: "Error", description: "Could not play audio." });
+          setPlaybackState('idle');
+        }
     }
   };
+
+  // Cleanup audio on component unmount
+  useEffect(() => {
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, []);
+
 
   const buttonClass = "h-7 w-7 rounded-full text-muted-foreground hover:bg-primary/10 hover:text-primary transition-all duration-200 hover:scale-110";
   const iconClass = "h-4 w-4";
@@ -73,8 +98,10 @@ function ActionButtons({ messageText }: { messageText: string | null | undefined
          <Button variant="ghost" size="icon" className={buttonClass}>
             <Share2 className={iconClass} />
         </Button>
-        <Button variant="ghost" size="icon" className={buttonClass} onClick={handleListen} disabled={isListening && !audio}>
-            {isListening ? <Loader2 className="h-4 w-4 animate-spin text-primary" /> : <Volume2 className={iconClass} />}
+        <Button variant="ghost" size="icon" className={buttonClass} onClick={handleListen} disabled={playbackState === 'loading'}>
+            {playbackState === 'loading' && <Loader2 className="h-4 w-4 animate-spin text-primary" />}
+            {playbackState === 'playing' && <Pause className={cn(iconClass, 'text-primary')} />}
+            {playbackState === 'idle' && <Volume2 className={iconClass} />}
         </Button>
       </div>
   );
