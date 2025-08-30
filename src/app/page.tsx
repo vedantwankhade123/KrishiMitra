@@ -17,19 +17,7 @@ import { useEffect, useState } from 'react';
 import { AnimatedButton } from '@/components/AnimatedButton';
 
 export default function LandingPage() {
-  const [headlineIndex, setHeadlineIndex] = useState(0);
-  const headlines = [
-    "Your <span class='text-primary'>AI Farming Assistant</span>",
-    "Explore Our <span class='text-primary'>Crop Library</span>"
-  ];
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setHeadlineIndex(prevIndex => (prevIndex + 1) % headlines.length);
-    }, 4000); // Change text every 4 seconds
-
-    return () => clearInterval(interval);
-  }, [headlines.length]);
+  const staticHeadline = "Your <span class='text-primary'>AI Farming Assistant</span>";
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground overflow-x-hidden">
@@ -49,9 +37,8 @@ export default function LandingPage() {
               <div className="space-y-4 text-white max-w-3xl mx-auto flex flex-col items-center">
                 <div className="min-h-[160px] md:min-h-[180px] flex items-center justify-center">
                     <h1 
-                        key={headlineIndex} 
-                        className="text-5xl md:text-7xl font-bold tracking-tighter animate-fade-in-out"
-                        dangerouslySetInnerHTML={{ __html: headlines[headlineIndex] }}
+                        className="text-5xl md:text-7xl font-bold tracking-tighter"
+                        dangerouslySetInnerHTML={{ __html: staticHeadline }}
                     />
                 </div>
                 <p className="text-lg md:text-xl text-white/80">
