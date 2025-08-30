@@ -20,7 +20,6 @@ export default function LandingPage() {
   const [headlineIndex, setHeadlineIndex] = useState(0);
   const headlines = [
     "Your <span class='text-primary'>AI Farming Assistant</span>",
-    "Instant <span class='text-primary'>Crop Recommendations</span>",
     "Explore Our <span class='text-primary'>Crop Library</span>"
   ];
 
