@@ -95,15 +95,23 @@ const SidebarProvider = React.forwardRef<
     const toggleSidebar = React.useCallback(() => {
       return isMobile
         ? setOpenMobile((open) => !open)
-        : setOpen((open) => !open)
-    }, [isMobile, setOpen, setOpenMobile])
+        : null // Don't allow toggle on desktop - sidebar stays open
+    }, [isMobile, setOpenMobile])
 
-    // Adds a keyboard shortcut to toggle the sidebar.
+    // Ensure desktop sidebar stays open when switching from mobile to desktop
+    React.useEffect(() => {
+      if (!isMobile && !open) {
+        setOpen(true)
+      }
+    }, [isMobile, open, setOpen])
+
+    // Adds a keyboard shortcut to toggle the sidebar (mobile only).
     React.useEffect(() => {
       const handleKeyDown = (event: KeyboardEvent) => {
         if (
           event.key === SIDEBAR_KEYBOARD_SHORTCUT &&
-          (event.metaKey || event.ctrlKey)
+          (event.metaKey || event.ctrlKey) &&
+          isMobile
         ) {
           event.preventDefault()
           toggleSidebar()
@@ -112,16 +120,17 @@ const SidebarProvider = React.forwardRef<
 
       window.addEventListener("keydown", handleKeyDown)
       return () => window.removeEventListener("keydown", handleKeyDown)
-    }, [toggleSidebar])
+    }, [toggleSidebar, isMobile])
 
     // We add a state so that we can do data-state="expanded" or "collapsed".
     // This makes it easier to style the sidebar with Tailwind classes.
-    const state = open ? "expanded" : "collapsed"
+    // On desktop, sidebar is always expanded
+    const state = (isMobile ? open : true) ? "expanded" : "collapsed"
 
     const contextValue = React.useMemo<SidebarContext>(
       () => ({
         state,
-        open,
+        open: isMobile ? open : true, // Always open on desktop
         setOpen,
         isMobile,
         openMobile,
