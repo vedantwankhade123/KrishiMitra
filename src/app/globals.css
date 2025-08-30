@@ -250,4 +250,12 @@
       min-width: 44px;
     }
   }
+  
+  /* Sidebar desktop behavior */
+  @media (min-width: 768px) {
+    .sidebar-desktop-open {
+      transform: translateX(0) !important;
+      opacity: 1 !important;
+    }
+  }
 }
