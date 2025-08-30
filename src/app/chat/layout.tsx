@@ -1,8 +1,8 @@
 
+
 'use client';
 
 import { Toaster } from '@/components/ui/toaster';
-import { LanguageProvider } from '@/context/LanguageContext';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarTrigger, SidebarInset, SidebarSeparator } from '@/components/ui/sidebar';
 import { NewChatButton } from '@/components/NewChatButton';
@@ -11,6 +11,7 @@ import { Menu } from 'lucide-react';
 import { ChatHistory } from '@/components/ChatHistory';
 import { ChatHistoryProvider } from '@/context/ChatHistoryContext';
 import { Logo } from '@/components/Logo';
+import { RightSidebar } from '@/components/RightSidebar';
 
 export default function ChatLayout({
   children,
@@ -23,7 +24,8 @@ export default function ChatLayout({
           <Sidebar>
             <SidebarContent>
               <SidebarHeader>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center justify-between w-full">
+                  <Logo />
                   <SidebarTrigger asChild>
                     <Button
                       variant="ghost"
@@ -34,18 +36,16 @@ export default function ChatLayout({
                       <span className="sr-only">Open menu</span>
                     </Button>
                   </SidebarTrigger>
-                  <Logo />
                 </div>
               </SidebarHeader>
-              <NewChatButton />
-              <SidebarSeparator />
               <ChatHistory />
+              <SidebarSeparator />
+              <NewChatButton />
             </SidebarContent>
           </Sidebar>
-          <SidebarInset className='h-screen'>
-            <div className='h-full flex flex-col'>
-                {children}
-            </div>
+          <SidebarInset className='flex overflow-hidden'>
+            {children}
+            <RightSidebar />
           </SidebarInset>
           <Toaster />
         </SidebarProvider>

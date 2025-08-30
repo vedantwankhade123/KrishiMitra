@@ -1,16 +1,14 @@
 
 'use client';
 
-import { Weather } from './Weather';
-import { CropLibrary } from './CropLibrary';
+import Link from 'next/link';
+import { Button } from './ui/button';
+import { Home, Library, Map, Menu, Sun } from 'lucide-react';
+import { Logo } from './Logo';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { ThemeToggle } from './ThemeToggle';
 import { ProfileButton } from './ProfileButton';
-import { Button } from './ui/button';
-import { Menu, Home } from 'lucide-react';
 import { SidebarTrigger, useSidebar } from './ui/sidebar';
-import { Logo } from './Logo';
-import Link from 'next/link';
 
 export function Header() {
   const { open } = useSidebar();
@@ -35,7 +33,6 @@ export function Header() {
           )}
         </div>
         <div className="container relative flex h-16 items-center justify-center mx-auto max-w-4xl">
-            {/* Middle Group */}
             <div className="flex items-center gap-2 bg-card/50 backdrop-blur-sm border border-primary/10 rounded-full p-2">
                 <Button variant="ghost" className="h-9 rounded-full text-foreground hover:bg-primary/10 hover:text-primary px-4" asChild>
                   <Link href="/">
@@ -43,8 +40,18 @@ export function Header() {
                     <span className="ml-2">Home</span>
                   </Link>
                 </Button>
-                <Weather />
-                <CropLibrary />
+                <Button variant="ghost" className="h-9 rounded-full text-foreground hover:bg-primary/10 hover:text-primary px-4" asChild>
+                    <Link href="/weather">
+                        <Sun className="h-5 w-5" />
+                        <span className="ml-2">Weather</span>
+                    </Link>
+                </Button>
+                <Button variant="ghost" className="h-9 rounded-full text-foreground hover:bg-primary/10 hover:text-primary px-4" asChild>
+                    <Link href="/crop-library">
+                        <Library className="h-5 w-5" />
+                        <span className="ml-2">Crop Library</span>
+                    </Link>
+                </Button>
                  <Button variant="ghost" className="h-9 rounded-full text-foreground hover:bg-primary/10 hover:text-primary px-4" asChild>
                   <Link href="#">
                     Marketplace
@@ -53,7 +60,6 @@ export function Header() {
                 <LanguageSwitcher />
             </div>
         </div>
-         {/* Right Group - Positioned absolutely to the viewport edge */}
         <div className="absolute top-4 right-4 flex items-center gap-2 h-16">
             <ThemeToggle />
             <ProfileButton />

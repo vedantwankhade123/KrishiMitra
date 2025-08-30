@@ -1,15 +1,8 @@
 
+
 'use client';
 
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Thermometer, Wind, Droplets, Sun, Cloud, CloudRain, CloudSnow, MapPin, LocateFixed, Map, Waypoints, Bike } from "lucide-react";
 import { useEffect, useState, useCallback } from "react";
@@ -39,12 +32,11 @@ function getWeatherIcon(code: number, className: string = "h-6 w-6") {
 }
 
 
-export function Weather() {
+export default function WeatherPage() {
   const [weather, setWeather] = useState<WeatherData | null>(null);
   const [location, setLocation] = useState<Location | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const [isOpen, setIsOpen] = useState(false);
   const [mapLayer, setMapLayer] = useState('mapnik');
 
   const fetchWeatherForLocation = useCallback(async (lat: number, lon: number) => {
@@ -119,36 +111,13 @@ export function Weather() {
     : '';
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
-          <Button variant="ghost" className="h-9 rounded-full text-foreground hover:bg-primary/10 hover:text-primary px-4">
-              {loading ? (
-                 <>
-                    <Skeleton className="h-5 w-5 rounded-full" />
-                    <Skeleton className="h-4 w-12 ml-2" />
-                 </>
-              ) : weather ? (
-                  <>
-                      {getWeatherIcon(weather.weathercode, "h-5 w-5")}
-                      <span className="ml-2 font-semibold">{weather.temperature}°F</span>
-                  </>
-              ) : (
-                  <>
-                      <LocateFixed className="h-5 w-5" />
-                      <span className="ml-2">Weather</span>
-                  </>
-              )}
-              <span className="sr-only">View Weather</span>
-          </Button>
-      </DialogTrigger>
-
-      <DialogContent className="sm:max-w-3xl border-primary/20 flex flex-col max-h-[90vh]">
-        <DialogHeader>
-          <DialogTitle className="font-bold text-2xl">Current Weather</DialogTitle>
-          <DialogDescription>
+    <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 w-full">
+        <header className="mb-8">
+          <h1 className="font-bold text-3xl">Current Weather</h1>
+          <p className="text-muted-foreground">
             {error ? "Could not retrieve weather data." : "Live weather conditions for your current location."}
-          </DialogDescription>
-        </DialogHeader>
+          </p>
+        </header>
         <ScrollArea className="flex-1">
             <div className="py-4 pr-6">
               {loading && !error && (
@@ -257,7 +226,6 @@ export function Weather() {
               )}
             </div>
         </ScrollArea>
-      </DialogContent>
-    </Dialog>
+      </div>
   );
 }

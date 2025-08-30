@@ -2,7 +2,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Header } from '@/components/Header';
 import { PromptForm } from '@/components/PromptForm';
 import { CropResults } from '@/components/CropResults';
 import type { ChatMessage, Attachment } from '@/lib/types';
@@ -12,6 +11,7 @@ import { SuggestionPrompts } from '@/components/SuggestionPrompts';
 import { useLanguage } from '@/context/LanguageContext';
 import { useTranslation } from '@/hooks/useTranslation';
 import { useChatHistory } from '@/context/ChatHistoryContext';
+import { Button } from '@/components/ui/button';
 
 export default function ChatPage() {
   const [loading, setLoading] = useState(false);
@@ -132,8 +132,10 @@ export default function ChatPage() {
   }
 
   return (
-    <div className='flex flex-col h-full'>
-      <Header />
+    <div className='flex flex-col h-full flex-1'>
+      <header className='p-4 border-b'>
+        <h2 className='font-semibold text-lg'>{activeChat?.title || 'Chat'}</h2>
+      </header>
       <main className="flex-1 overflow-y-auto">
         <div className="container mx-auto max-w-4xl py-8">
             <CropResults

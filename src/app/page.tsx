@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { LandingHeader } from '@/components/LandingHeader';
@@ -13,7 +14,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
-import { useEffect, useState } from 'react';
 import { AnimatedButton } from '@/components/AnimatedButton';
 
 export default function LandingPage() {

@@ -1,4 +1,5 @@
 
+
 'use client';
 
 import { ThemeToggle } from './ThemeToggle';
@@ -7,7 +8,6 @@ import { Button } from './ui/button';
 import { Logo } from './Logo';
 import Link from 'next/link';
 import { Search } from 'lucide-react';
-import { CropLibrary } from './CropLibrary';
 
 export function LandingHeader() {
   return (
@@ -22,11 +22,9 @@ export function LandingHeader() {
                  <Button variant="pill" visual="ghost" asChild>
                     <Link href="#">Marketplace</Link>
                 </Button>
-                <CropLibrary trigger={
-                    <Button variant="pill" visual="ghost">
-                        Crop Library
-                    </Button>
-                } />
+                <Button variant="pill" visual="ghost" asChild>
+                  <Link href="/crop-library">Crop Library</Link>
+                </Button>
                  <Button variant="pill" visual="ghost" asChild>
                     <Link href="#">About Us</Link>
                 </Button>

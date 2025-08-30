@@ -3,25 +3,15 @@
 'use client';
 
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Sprout, ArrowLeft, Search, Loader2, Share2, Download, Library } from "lucide-react";
+import { Sprout, ArrowLeft, Search, Loader2, Share2, Download } from "lucide-react";
 import Image from "next/image";
-import { useState, useMemo, useEffect, useCallback, ReactNode } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Badge } from "./ui/badge";
 import { getCropsFromLibrary } from "@/app/actions";
 import { useDebounce } from "@/hooks/use-debounce";
 import { Skeleton } from "./ui/skeleton";
-import { cn } from "@/lib/utils";
-import { DropdownMenuItem } from "./ui/dropdown-menu";
 
 type Crop = {
     name: string;
@@ -34,13 +24,7 @@ type Crop = {
     soil: string;
 };
 
-type CropLibraryProps = {
-    trigger?: ReactNode;
-}
-
-
-export function CropLibrary({ trigger }: CropLibraryProps) {
-  const [isOpen, setIsOpen] = useState(false);
+export default function CropLibraryPage() {
   const [selectedCrop, setSelectedCrop] = useState<Crop | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const debouncedSearchTerm = useDebounce(searchTerm, 300);
@@ -50,7 +34,6 @@ export function CropLibrary({ trigger }: CropLibraryProps) {
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
-
 
   const fetchCrops = useCallback(async (term: string, pageNum: number) => {
     if (pageNum === 1) {
@@ -72,17 +55,9 @@ export function CropLibrary({ trigger }: CropLibraryProps) {
   }, []);
 
   useEffect(() => {
-    if (isOpen) {
-        setPage(1);
-        fetchCrops(debouncedSearchTerm, 1);
-    } else {
-        // Reset state when dialog is closed
-        setCrops([]);
-        setPage(1);
-        setSearchTerm('');
-        setSelectedCrop(null);
-    }
-  }, [debouncedSearchTerm, isOpen, fetchCrops]);
+    setPage(1);
+    fetchCrops(debouncedSearchTerm, 1);
+  }, [debouncedSearchTerm, fetchCrops]);
 
 
   const handleLoadMore = () => {
@@ -91,10 +66,6 @@ export function CropLibrary({ trigger }: CropLibraryProps) {
       setPage(nextPage);
       fetchCrops(debouncedSearchTerm, nextPage);
     }
-  }
-  
-  const handleOpenChange = (open: boolean) => {
-    setIsOpen(open);
   }
 
   const renderDetailView = (crop: Crop) => (
@@ -146,121 +117,105 @@ export function CropLibrary({ trigger }: CropLibraryProps) {
 
   const renderListView = () => (
     <>
-        <DialogHeader>
-          <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-            <div className="flex items-center gap-2">
-                <Sprout className="h-7 w-7 text-primary" />
-                <div>
-                    <DialogTitle className="font-bold text-3xl">
-                        Crop Library
-                    </DialogTitle>
-                    <DialogDescription>
-                        Browse and learn about different crops.
-                    </DialogDescription>
-                </div>
+      <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+        <div className="flex items-center gap-2">
+            <Sprout className="h-7 w-7 text-primary" />
+            <div>
+                <h1 className="font-bold text-3xl">
+                    Crop Library
+                </h1>
+                <p className="text-muted-foreground">
+                    Browse and learn about different crops.
+                </p>
             </div>
-             <div className="relative sm:ml-auto">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                    placeholder="Search crops..."
-                    className="pl-9 h-9 rounded-full bg-primary/5 border-primary/10"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                />
-            </div>
+        </div>
+          <div className="relative sm:ml-auto">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+                placeholder="Search crops..."
+                className="pl-9 h-9 rounded-full bg-primary/5 border-primary/10"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+            />
+        </div>
+      </div>
+      <ScrollArea className="flex-1 -mx-6 px-6">
+          <div className="py-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {initialLoading ? (
+                  Array.from({ length: 9 }).map((_, i) => (
+                      <div key={i} className="bg-muted/50 rounded-xl p-4 flex flex-col gap-4">
+                          <Skeleton className="w-full h-40 rounded-lg" />
+                          <div className="space-y-2">
+                              <Skeleton className="h-6 w-1/2" />
+                              <Skeleton className="h-4 w-full" />
+                              <Skeleton className="h-4 w-4/5" />
+                              <Skeleton className="h-9 w-full rounded-full mt-4" />
+                          </div>
+                      </div>
+                  ))
+              ) : crops.length > 0 ? (
+                  crops.map((crop) => (
+                      <div key={crop.name} className="bg-muted/50 rounded-xl p-4 flex flex-col gap-4">
+                          <Image src={crop.image} alt={crop.name} width={400} height={200} className="rounded-lg object-cover w-full h-40" data-ai-hint="crop image"/>
+                          <div className="space-y-2 flex-1 flex flex-col">
+                              <h3 className="text-xl font-bold text-primary">{crop.name}</h3>
+                              <p className="text-sm text-muted-foreground line-clamp-2 flex-grow">{crop.description}</p>
+                              <div className="mt-4 flex flex-col sm:flex-row items-center gap-2">
+                                  <Button 
+                                      variant="outline"
+                                      className="w-full rounded-full text-muted-foreground border-primary/20 hover:bg-primary/10 hover:text-primary"
+                                      onClick={() => setSelectedCrop(crop)}
+                                      aria-label={`View details for ${crop.name}`}
+                                  >
+                                      View Details
+                                  </Button>
+                                  <div className="flex w-full sm:w-auto items-center gap-2">
+                                      <Button
+                                          variant="outline"
+                                          size="icon"
+                                          className="rounded-full text-muted-foreground border-primary/20 hover:bg-primary/10 hover:text-primary flex-shrink-0 w-full sm:w-auto"
+                                          aria-label={`Share ${crop.name}`}
+                                      >
+                                          <Share2 className="h-4 w-4" />
+                                      </Button>
+                                      <Button
+                                          variant="outline"
+                                          size="icon"
+                                          className="rounded-full text-muted-foreground border-primary/20 hover:bg-primary/10 hover:text-primary flex-shrink-0 w-full sm:w-auto"
+                                          aria-label={`Download details for ${crop.name}`}
+                                      >
+                                          <Download className="h-4 w-4" />
+                                      </Button>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  ))
+              ) : (
+                  <div className="text-center text-muted-foreground col-span-full py-10">
+                      <p>No crops found for "{debouncedSearchTerm}"</p>
+                  </div>
+              )}
           </div>
-        </DialogHeader>
-        <ScrollArea className="flex-1 -mx-6 px-6">
-            <div className="py-4 grid grid-cols-1 md:grid-cols-2 gap-6">
-                {initialLoading ? (
-                    Array.from({ length: 8 }).map((_, i) => (
-                        <div key={i} className="bg-muted/50 rounded-xl p-4 flex flex-col gap-4">
-                           <Skeleton className="w-full h-40 rounded-lg" />
-                           <div className="space-y-2">
-                                <Skeleton className="h-6 w-1/2" />
-                                <Skeleton className="h-4 w-full" />
-                                <Skeleton className="h-4 w-4/5" />
-                                <Skeleton className="h-9 w-full rounded-full mt-4" />
-                           </div>
-                        </div>
-                    ))
-                ) : crops.length > 0 ? (
-                    crops.map((crop) => (
-                        <div key={crop.name} className="bg-muted/50 rounded-xl p-4 flex flex-col gap-4">
-                            <Image src={crop.image} alt={crop.name} width={400} height={200} className="rounded-lg object-cover w-full h-40" data-ai-hint="crop image"/>
-                            <div className="space-y-2 flex-1 flex flex-col">
-                                <h3 className="text-xl font-bold text-primary">{crop.name}</h3>
-                                <p className="text-sm text-muted-foreground line-clamp-2 flex-grow">{crop.description}</p>
-                                <div className="mt-4 flex flex-col sm:flex-row items-center gap-2">
-                                    <Button 
-                                        variant="outline"
-                                        className="w-full rounded-full text-muted-foreground border-primary/20 hover:bg-primary/10 hover:text-primary"
-                                        onClick={() => setSelectedCrop(crop)}
-                                        aria-label={`View details for ${crop.name}`}
-                                    >
-                                        View Details
-                                    </Button>
-                                    <div className="flex w-full sm:w-auto items-center gap-2">
-                                        <Button
-                                            variant="outline"
-                                            size="icon"
-                                            className="rounded-full text-muted-foreground border-primary/20 hover:bg-primary/10 hover:text-primary flex-shrink-0 w-full sm:w-auto"
-                                            aria-label={`Share ${crop.name}`}
-                                        >
-                                            <Share2 className="h-4 w-4" />
-                                        </Button>
-                                        <Button
-                                            variant="outline"
-                                            size="icon"
-                                            className="rounded-full text-muted-foreground border-primary/20 hover:bg-primary/10 hover:text-primary flex-shrink-0 w-full sm:w-auto"
-                                            aria-label={`Download details for ${crop.name}`}
-                                        >
-                                            <Download className="h-4 w-4" />
-                                        </Button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    ))
-                ) : (
-                    <div className="text-center text-muted-foreground col-span-2 py-10">
-                        <p>No crops found for "{debouncedSearchTerm}"</p>
-                    </div>
-                )}
-            </div>
-             {hasMore && (
-                <div className="flex justify-center py-4">
-                    <Button 
-                        variant="outline" 
-                        onClick={handleLoadMore} 
-                        disabled={loading}
-                        className="rounded-full text-muted-foreground border-primary/20 hover:bg-primary/10 hover:text-primary"
-                    >
-                        {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : "Load More"}
-                    </Button>
-                </div>
-            )}
-        </ScrollArea>
+            {hasMore && (
+              <div className="flex justify-center py-4">
+                  <Button 
+                      variant="outline" 
+                      onClick={handleLoadMore} 
+                      disabled={loading}
+                      className="rounded-full text-muted-foreground border-primary/20 hover:bg-primary/10 hover:text-primary"
+                  >
+                      {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : "Load More"}
+                  </Button>
+              </div>
+          )}
+      </ScrollArea>
     </>
   )
 
-  const defaultTrigger = (
-     <Button variant="ghost" className="h-9 rounded-full text-foreground hover:bg-primary/10 hover:text-primary px-4">
-        <Library className="h-5 w-5" />
-        <span className="ml-2">Crop Library</span>
-        <span className="sr-only">View Crop Library</span>
-    </Button>
-  )
-
   return (
-    <Dialog open={isOpen} onOpenChange={handleOpenChange}>
-      <DialogTrigger asChild>
-        { trigger || defaultTrigger }
-      </DialogTrigger>
-
-      <DialogContent className="max-w-4xl h-[90vh] border-primary/20 flex flex-col">
+    <div className="max-w-7xl mx-auto p-4 sm:p-6 lg:p-8 flex flex-col h-full">
         {selectedCrop ? renderDetailView(selectedCrop) : renderListView()}
-      </DialogContent>
-    </Dialog>
+    </div>
   );
 }
